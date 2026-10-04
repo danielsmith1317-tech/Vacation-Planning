@@ -1,0 +1,767 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Paris & London Family Hotel Planner — Final</title>
+<style>
+:root{--bg:#f4f7fb;--card:#fff;--ink:#172033;--muted:#687386;--line:#dce3ec;--nav:#173b62;--mar:#4d61d6;--hil:#1380c5;--sight:#e34b38;--food:#d18a00;--saved:#278369;--good:#237a52;--warn:#9a6c00;--bad:#a33a3a}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,Segoe UI,Arial,sans-serif}button,select,input,textarea{font:inherit}
+header{background:linear-gradient(135deg,#14365a,#316b9d);color:#fff;padding:24px 18px}.wrap{max-width:1540px;margin:auto}h1{margin:0 0 7px;font-size:30px}.sub{opacity:.9}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}.tab{border:1px solid #ffffff70;background:transparent;color:#fff;border-radius:999px;padding:9px 15px;font-weight:800;cursor:pointer}.tab.active{background:#fff;color:#17395e}
+main{padding:18px 14px 42px}.card,.toolbar,.summary,.panel{background:#fff;border:1px solid var(--line);border-radius:15px;box-shadow:0 5px 18px #22344a0c}
+.setup{padding:14px;margin-bottom:14px;background:#fffdf3;border-color:#eadf9e}.setup h2{margin:0 0 7px;font-size:17px}.setup p{margin:5px 0;font-size:12px;color:#5f6570}.keyrow{display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:9px}.keyrow input{padding:10px;border:1px solid var(--line);border-radius:9px}.btn{border:1px solid var(--line);background:#fff;color:#17395e;font-weight:850;border-radius:9px;padding:8px 10px;cursor:pointer;text-decoration:none;display:inline-block}.btn.primary{background:#17395e;color:#fff;border-color:#17395e}.btn.teal{background:#0f6d8f;color:#fff;border-color:#0f6d8f}.btn.danger{color:#9a3333}.btn.small{font-size:11px;padding:6px 8px}
+.apistatus{display:flex;gap:8px;flex-wrap:wrap;margin-top:9px}.pill{border-radius:999px;padding:5px 8px;font-size:10px;font-weight:900;background:#eef1f5;color:#536073}.pill.ok{background:#e6f5ed;color:#237a52}.pill.warn{background:#fff3d9;color:#8a6200}
+.toolbar{display:grid;grid-template-columns:1.35fr .7fr .7fr 1fr 1fr .8fr;gap:9px;padding:12px;margin-bottom:14px}label{display:block;font-size:11px;font-weight:850;color:var(--muted);margin-bottom:5px}select,input,textarea{width:100%;border:1px solid var(--line);border-radius:9px;background:#fff;padding:9px;color:var(--ink)}
+.summary{display:grid;grid-template-columns:repeat(5,1fr);overflow:hidden;margin-bottom:14px}.metric{padding:13px;border-right:1px solid #e7ebf0}.metric:last-child{border-right:0}.small{font-size:10px;color:var(--muted)}.big{font-size:18px;font-weight:900;margin-top:4px}
+.grid{display:grid;grid-template-columns:1.55fr .8fr;gap:14px}.panel{padding:14px}.panel h2{margin:0 0 10px;font-size:18px}
+#map{height:650px;border:1px solid var(--line);border-radius:12px;background:#e9eef4;overflow:hidden}
+.focusHero{width:100%;height:360px;border-radius:12px;overflow:hidden;background:#edf1f5;display:flex;align-items:center;justify-content:center;color:#6e7886;margin-bottom:10px;position:relative}.focusHero img{width:100%;height:100%;object-fit:contain;background:#111;cursor:zoom-in}.attr{position:absolute;bottom:5px;left:5px;background:#0009;color:#fff;font-size:9px;padding:3px 5px;border-radius:5px;max-width:95%}
+.focus{border:1px solid var(--line);border-radius:12px;padding:12px;background:#fbfdff}.focus h3{margin:0 0 8px;font-size:17px}.row{display:flex;justify-content:space-between;gap:10px;padding:5px 0;border-bottom:1px solid #edf0f4;font-size:12px}.row:last-child{border:0}.row span:first-child{color:var(--muted)}.row b{text-align:right}
+.badge{display:inline-block;padding:4px 7px;border-radius:999px;font-size:10px;font-weight:900}.marriott{background:#eaedff;color:#4254b4}.hilton{background:#e4f3fb;color:#0e679e}.good{background:#e7f5ed;color:#237a52}.warning{background:#fff7e6;border:1px solid #efd39b;border-radius:9px;padding:8px;font-size:11px;color:#71531a;margin-top:7px}.note{font-size:11px;line-height:1.5;color:var(--muted);margin-top:7px}
+.actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}.notesbox{margin-top:10px}.notesbox textarea{min-height:75px;resize:vertical}
+.places{display:grid;grid-template-columns:1fr 1fr;gap:7px;max-height:520px;overflow:auto}.place{border:1px solid #e7ebf0;border-radius:10px;padding:8px;background:#fff}.place.active{background:#eef6ff;border-color:#7aa8d1}.place b{display:block;font-size:12px}.place small{color:#778291}.placeActions{display:flex;gap:5px;margin-top:6px;flex-wrap:wrap}
+.tableWrap{overflow:auto;max-height:660px;border:1px solid var(--line);border-radius:11px}table{border-collapse:collapse;width:100%;font-size:11px;background:#fff}th{position:sticky;top:0;z-index:2;background:#17395e;color:#fff;padding:8px;text-align:left;white-space:nowrap} th.sortable{cursor:pointer;user-select:none} th.sortable:hover{background:#214b78}.sortMark{font-size:9px;opacity:.8;margin-left:4px}td{padding:8px;border-bottom:1px solid #edf0f4;vertical-align:top;white-space:nowrap}.hotelname{min-width:230px;white-space:normal}.priceSub{font-size:9px;color:#6d7786;margin-top:2px}.muted{color:#7b8491}.strike{opacity:.5}
+.compareGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.compareCard{border:1px solid var(--line);border-radius:12px;padding:12px}.compareCard h3{margin:0 0 8px}.comparePhoto{height:140px;border-radius:10px;background:#edf1f5;overflow:hidden;margin-bottom:8px}.comparePhoto img{width:100%;height:100%;object-fit:contain;background:#111;cursor:zoom-in}
+.matrix{margin-top:10px}.matrix table{font-size:11px}.matrix th{position:static}.spinner{display:inline-block;width:12px;height:12px;border:2px solid #ccc;border-top-color:#17395e;border-radius:50%;animation:spin 1s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
+.twoCols{display:grid;grid-template-columns:1fr 1fr;gap:10px}.hide{display:none!important}
+
+
+.photoCarousel{position:relative;width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:#111;overflow:hidden;border-radius:12px}
+.photoCarousel img{width:100%;height:100%;object-fit:contain;background:#111;cursor:zoom-in}
+.photoNav{position:absolute;top:50%;transform:translateY(-50%);z-index:20;width:44px;height:44px;border-radius:999px;border:1px solid #ffffff66;background:#0009;color:#fff;font-size:24px;line-height:1;cursor:pointer}
+.photoPrev{left:10px}.photoNext{right:10px}
+.photoCount{position:absolute;top:10px;right:10px;background:#000a;color:#fff;padding:4px 7px;border-radius:999px;font-size:10px;font-weight:800}
+.photoThumbs{display:flex;gap:6px;overflow-x:auto;margin-top:7px;padding-bottom:2px}
+.photoThumb{width:64px;height:48px;border-radius:7px;overflow:hidden;border:2px solid transparent;flex:0 0 auto;cursor:pointer;background:#111}
+.photoThumb.active{border-color:#fff;outline:2px solid #17395e}
+.photoThumb img{width:100%;height:100%;object-fit:cover}
+
+.photoModal{display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.92);align-items:center;justify-content:center;padding:24px}
+.photoModal.open{display:flex}
+.photoModal img{max-width:95vw;max-height:90vh;object-fit:contain;box-shadow:0 15px 50px #000}
+.photoModalClose{position:fixed;top:18px;right:22px;border:1px solid #ffffff55;background:#111;color:#fff;border-radius:999px;width:42px;height:42px;font-size:24px;line-height:1;cursor:pointer;z-index:10001}.photoModalNav{position:fixed;top:50%;transform:translateY(-50%);z-index:10001;width:48px;height:48px;border-radius:999px;border:1px solid #ffffff55;background:#000b;color:#fff;font-size:30px;line-height:1;cursor:pointer}.photoModalPrev{left:18px}.photoModalNext{right:18px}.photoModalCount{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);z-index:10001;background:#000b;color:#fff;padding:6px 10px;border-radius:999px;font-size:12px;font-weight:800}
+.photoHint{position:absolute;bottom:12px;right:12px;background:#000a;color:#fff;padding:5px 8px;border-radius:7px;font-size:10px;pointer-events:none}
+@media(max-width:1100px){.grid{grid-template-columns:1fr}.toolbar{grid-template-columns:1fr 1fr}.summary{grid-template-columns:1fr 1fr}.compareGrid{grid-template-columns:1fr}}@media(max-width:650px){.toolbar{grid-template-columns:1fr}.summary{grid-template-columns:1fr}.places,.twoCols{grid-template-columns:1fr}}
+
+.badge.airbnb{background:#ffe7ec;color:#b4234b}.badge.vrbo{background:#e8f4ee;color:#17603a}
+.accessTag{display:inline-block;padding:3px 7px;border-radius:999px;font-size:10px;font-weight:800;white-space:nowrap}
+.access-good{background:#e7f6ec;color:#17653a}.access-caution{background:#fff4d8;color:#875a00}
+.access-unknown{background:#eef1f5;color:#4a5563}.access-avoid{background:#fde7e7;color:#9b1c1c}
+.rentalBox{border:1px solid #dde3ea;border-radius:10px;padding:12px;background:#f8fafc}
+
+.activityToolbar{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0 12px}.activityToolbar>div{min-width:160px}
+.activityTable td,.activityTable th{vertical-align:top}
+.priorityTag{display:inline-block;padding:3px 8px;border-radius:999px;font-size:10px;font-weight:800;white-space:nowrap}
+.priority-must{background:#e7f6ec;color:#17653a}.priority-strong{background:#e8f0ff;color:#214d9a}
+.priority-nearby{background:#fff4d8;color:#875a00}.priority-optional{background:#eef1f5;color:#4a5563}
+.priority-low{background:#fde7e7;color:#9b1c1c}
+</style>
+</head>
+<body>
+<header><div class="wrap"><h1>Paris & London Family Vacation Planner</h1><div class="sub">Lodging + activities • live Google map • family fit • photos • routes • compare mode • Viator booking</div><div class="tabs"><button class="tab active" data-city="Paris">Paris • Jun 2–5</button><button class="tab" data-city="London">London • Jun 5–9</button></div></div></header>
+
+<main class="wrap">
+<section class="card setup" id="apiSetup" style="display:none">
+<h2>Google Maps connection</h2>
+<p><b>Maps JavaScript API</b> powers the map. <b>Places API (New)</b> adds hotel/sight photos. <b>Routes API</b> adds live walking/transit calculations. The planner still works with partial features if only Maps JavaScript is enabled.</p>
+<div class="keyrow"><input id="apiKey" type="password" value="AIzaSyBEJvqRr9U1w1W-amyUAK_P2grJJZSwyXE" placeholder="Google Maps API key"><button class="btn primary" id="loadGoogle">Load Google features</button></div>
+<label style="margin-top:7px"><input id="saveKey" type="checkbox" style="width:auto"> Save key in this browser</label>
+<div class="apistatus"><span class="pill" id="mapStatus">Map: waiting</span><span class="pill" id="placesStatus">Photos: waiting</span><span class="pill" id="routesStatus">Routes: waiting</span></div>
+<div class="note">To use all features, allow the same key to access Maps JavaScript API, Places API (New), and Routes API.</div>
+</section>
+
+<div class="toolbar">
+<div><label>Focus lodging</label><select id="hotelFocus"><option value="">Show all lodgings</option></select></div>
+<div><label>Type / brand</label><select id="brand"><option value="">All lodging</option><option>Marriott</option><option>Hilton</option><option>Airbnb</option><option>Vrbo</option></select></div>
+<div><label>Max avg nightly</label><select id="cap"><option value="9999" selected>No cap</option><option value="800">$800</option><option value="700">$700</option><option value="600">$600</option><option value="500">$500</option><option value="400">$400</option><option value="300">$300</option></select></div>
+<div><label>Focus sightseeing / saved place</label><select id="destination"><option value="">No place selected</option></select></div>
+<div><label>Route to</label><select id="routeTo"><option value="">Choose route destination</option></select></div>
+<div><label>Lodging visibility</label><select id="visibility"><option value="all">All</option><option value="favorites">Favorites only</option><option value="visible">Exclude hidden</option></select></div><div><label>Access</label><select id="accessFilter"><option value="all">All access</option><option value="easy">Easy/verified only</option><option value="excludeAvoid">Exclude avoid</option></select></div>
+</div>
+
+<div class="summary">
+<div class="metric"><div class="small">Lodgings shown</div><div class="big" id="count">—</div></div>
+<div class="metric"><div class="small">Lowest full-group stay</div><div class="big" id="lowest">—</div></div>
+<div class="metric"><div class="small">Reference</div><div class="big" id="refName" style="font-size:14px">—</div></div>
+<div class="metric"><div class="small">Marriott search occupancy</div><div class="big" style="font-size:14px">2 adults + 1 child</div></div>
+<div class="metric"><div class="small">Hilton direct occupancy</div><div class="big" style="font-size:14px">2 adults*</div></div>
+</div>
+
+<div class="grid">
+<section class="panel">
+<h2>Live Map</h2>
+<div id="map"><div style="height:100%;display:flex;align-items:center;justify-content:center;text-align:center;padding:30px;color:#687386">Load your API key above to activate Google Maps.</div></div>
+<div class="actions" style="margin-top:8px">
+<button class="btn small" id="clearSelection" type="button">Clear selection</button>
+<button class="btn small" id="resetMapView" type="button">Reset map view</button>
+</div>
+<div class="note">Clear selection deselects the current lodging/place. You can also click the selected sight again or use “✕ Unselect” in the Focus panel. “Route to” works from either a lodging or a sightseeing place. Reset map view only returns the map to the normal city view. None of these change your API key, filters, favorites, hidden lodgings, or notes.</div>
+</section>
+
+<section class="panel">
+<h2>Lodging / Place Focus</h2>
+<div class="focusHero" id="focusHero"><span>Select a lodging or place to load a photo.</span></div>
+<div id="focusPanel"></div>
+<h2 style="margin-top:16px">Planned & Saved Places</h2>
+<div class="places" id="placesList"></div>
+</section>
+</div>
+
+
+<section class="panel" style="margin-top:14px" id="thingsToDoSection">
+<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
+  <h2>Things to Do</h2>
+  <span class="note">Built around landmarks, views, historic sites, cruises, neighborhoods and family-friendly experiences — museums are de-emphasized.</span>
+</div>
+<div class="activityToolbar">
+  <div><label>Priority</label><select id="activityPriority"><option value="">All priorities</option><option>Must Do</option><option>Strong Option</option><option>Good If Nearby</option><option>Optional</option><option>Low Priority</option></select></div>
+  <div><label>Museum-heavy</label><select id="activityMuseum"><option value="">All</option><option value="No">No</option><option value="Yes">Yes</option></select></div>
+  <div><label>Reservation</label><select id="activityReserve"><option value="">All</option><option value="Yes">Yes</option><option value="Recommended">Recommended</option><option value="No">No</option></select></div>
+</div>
+<div class="tableWrap">
+<table class="activityTable">
+<thead><tr>
+<th>Priority</th><th>Activity / Sight</th><th>Area</th><th>Kid-friendly</th><th>Museum-heavy?</th>
+<th>Typical time</th><th>Cost</th><th>Reservation</th><th>Planned day</th><th>Map</th><th>Viator</th>
+</tr></thead>
+<tbody id="activityBody"></tbody>
+</table>
+</div>
+<div class="note" style="margin-top:8px">Viator buttons use your preferred Viator booking link. Prices and availability can change, so the planner treats them as book/check links rather than fixed quotes.</div>
+</section>
+
+<section class="panel" style="margin-top:14px">
+<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><h2>Lodging Comparison</h2><span class="note">Click any column header to sort ▲/▼ · ★ favorites and hidden lodgings are saved in this browser</span></div>
+<div class="tableWrap"><table><thead><tr>
+<th></th>
+<th class="sortable" data-sort="name">Property<span class="sortMark"></span></th>
+<th class="sortable" data-sort="brand">Type / Brand<span class="sortMark"></span></th>
+<th class="sortable" data-sort="distance">Ref dist.<span class="sortMark"></span></th>
+<th class="sortable" data-sort="family">Group fit<span class="sortMark"></span></th>
+<th class="sortable" data-sort="directNight">Avg cash/night<span class="sortMark"></span></th>
+<th class="sortable" data-sort="directStay">1 room / rental stay<span class="sortMark"></span></th>
+<th class="sortable" data-sort="fullGroupCash">Est. full-group cash<span class="sortMark"></span></th>
+<th class="sortable" data-sort="bedrooms">Bedrooms<span class="sortMark"></span></th>
+<th class="sortable" data-sort="bathrooms">Bathrooms<span class="sortMark"></span></th>
+<th class="sortable" data-sort="access">Access<span class="sortMark"></span></th>
+<th class="sortable" data-sort="ac">AC<span class="sortMark"></span></th>
+<th class="sortable" data-sort="washer">Washer/Dryer<span class="sortMark"></span></th>
+<th class="sortable" data-sort="cancellation">Cancellation<span class="sortMark"></span></th>
+<th class="sortable" data-sort="rating">Rating<span class="sortMark"></span></th>
+<th class="sortable" data-sort="points">Points/stay<span class="sortMark"></span></th>
+<th class="sortable" data-sort="mmp">MMP/night<span class="sortMark"></span></th>
+<th class="sortable" data-sort="mma">MMA/night<span class="sortMark"></span></th>
+<th class="sortable" data-sort="expedia">Expedia/night<span class="sortMark"></span></th>
+<th class="sortable" data-sort="station">Station / Area<span class="sortMark"></span></th>
+<th class="sortable" data-sort="checked">Checked<span class="sortMark"></span></th>
+</tr></thead><tbody id="hotelBody"></tbody></table></div>
+<div class="note"><b>Full-group cash</b> estimates hotels as two rooms using the lowest known nightly rate in the table; rentals use the quoted whole-property total for the full group. Marriott searches were 2 adults + 1 child per room; Hilton direct quotes were 2 adults and still need family-room confirmation. Airbnb/Vrbo totals are the group searches you supplied and include the listing notes shown in Focus.</div>
+</section>
+
+<section class="panel" style="margin-top:14px">
+<h2>Compare Two Lodgings</h2>
+<div class="twoCols"><div><label>Hotel A</label><select id="compareA"></select></div><div><label>Hotel B</label><select id="compareB"></select></div></div>
+<div class="compareGrid" id="compareGrid" style="margin-top:12px"></div>
+</section>
+
+<section class="panel" style="margin-top:14px">
+<h2>Lodging-to-Sight Travel Matrix</h2>
+<p class="note">Select a lodging above, then load the matrix. Walking and transit times are live/current-network estimates, not a June 2027 timetable. Google only supports transit schedule queries within a limited future window.</p>
+<button class="btn teal" id="loadMatrix">Load walking & transit times</button>
+<div class="matrix" id="matrix"></div>
+</section>
+</main>
+
+
+<div class="photoModal" id="photoModal" aria-hidden="true">
+  <button class="photoModalClose" id="photoModalClose" aria-label="Close photo">×</button>
+  <button class="photoModalNav photoModalPrev" id="photoModalPrev" aria-label="Previous photo">‹</button>
+  <img id="photoModalImg" alt="Expanded hotel or sight photo">
+  <button class="photoModalNav photoModalNext" id="photoModalNext" aria-label="Next photo">›</button>
+  <div class="photoModalCount" id="photoModalCount"></div>
+</div>
+
+<script>
+const DATA={"Paris":[{"name":"Hôtel Rochechouart, a Member of Design Hotels™","brand":"Marriott","source":"Marriott search","lat":48.8828,"lon":2.344,"distance":1.4,"regular":440,"points":null,"mmp":null,"mma":null,"expedia":null,"total":1320,"station":"Anvers / Pigalle","transit":"Excellent","stay":"3 nights","hiltonCode":null,"city":"Paris","directOccupancy":"2 adults + 1 child","occupancyStatus":"Confirmed in Marriott search","directSourceLabel":"Marriott Direct","expediaOccupancy":"2 adults + 1 child","expediaRoomType":"Room type not recorded","breakfast":"Not recorded","wifi":"Not recorded","nights":3,"marriottSearchBasis":"2 adults + 1 child","expediaSearchBasis":null,"lastPriceChecked":"Oct 3, 2026"},{"name":"Le Méridien Paris Arc De Triomphe","brand":"Marriott","source":"Marriott search","lat":48.8794,"lon":2.2848,"distance":1.9,"regular":363,"points":212000,"mmp":334,"mma":334,"expedia":null,"total":1002,"station":"Porte Maillot","transit":"Excellent","stay":"3 nights","hiltonCode":null,"city":"Paris","directOccupancy":"2 adults + 1 child","occupancyStatus":"Confirmed in Marriott search","directSourceLabel":"Marriott Direct","expediaOccupancy":"2 adults + 1 child","expediaRoomType":"Room type not recorded","breakfast":"Not recorded","wifi":"Not recorded","nights":3,"marriottSearchBasis":"2 adults + 1 child","expediaSearchBasis":null,"lastPriceChecked":"Oct 3, 2026"},{"name":"AC Hotel Paris Porte Maillot","brand":"Marriott","source":"Marriott search + Expedia geo","lat":48.881718,"lon":2.280837,"distance":2.1,"regular":424,"points":null,"mmp":464,"mma":464,"expedia":379,"total":1272,"station":"Porte Maillot / Louise Michel","transit":"Good","stay":"3 nights","hiltonCode":null,"city":"Paris","directOccupancy":"2 adults + 1 child","occupancyStatus":"Confirmed in Marriott search","directSourceLabel":"Marriott Direct","expediaOccupancy":"2 adults + 1 child","expediaRoomType":"Room type not recorded","breakfast":"Not recorded","wifi":"Not recorded","nights":3,"marriottSearchBasis":"2 adults + 1 child","expediaSearchBasis":"2 adults + 1 child","lastPriceChecked":"Oct 3, 2026"},{"name":"Residence Inn by Marriott Paris Didot Montparnasse","brand":"Marriott","source":"Marriott search + Expedia geo","lat":48.827877,"lon":2.315153,"distance":2.6,"regular":429,"points":null,"mmp":419,"mma":419,"expedia":385,"total":1257,"station":"Plaisance / Porte de Vanves","transit":"Good","stay":"3 nights","hiltonCode":null,"city":"Paris","directOccupancy":"2 adults + 1 child","occupancyStatus":"Confirmed in Marriott search","directSourceLabel":"Marriott Direct","expediaOccupancy":"2 adults + 1 child","expediaRoomType":"Room type not recorded","breakfast":"Not recorded","wifi":"Not recorded","nights":3,"marriottSearchBasis":"2 adults + 1 child","expediaSearchBasis":"2 adults + 1 child","lastPriceChecked":"Oct 3, 2026"},{"name":"Courtyard by Marriott Paris Gare de Lyon","brand":"Marriott","source":"Marriott search + Expedia geo","lat":48.845077,"lon":2.371224,"distance":2.7,"regular":461,"points":230000,"mmp":460,"mma":460,"expedia":415,"total":1380,"station":"Gare de Lyon","transit":"Excellent","stay":"3 nights","hiltonCode":null,"city":"Paris","directOccupancy":"2 adults + 1 child","occupancyStatus":"Confirmed in Marriott search","directSourceLabel":"Marriott Direct","expediaOccupancy":"2 adults + 1 child","expediaRoomType":"Room type not recorded","breakfast":"Not recorded","wifi":"Not recorded","nights":3,"marriottSearchBasis":"2 adults + 1 child","expediaSearchBasis":"2 adults + 1 child","lastPriceChecked":"Oct 3, 2026"},{"name":"Courtyard by Marriott Paris Porte de Versailles","brand":"Marriott","source":"Marriott search + Expedia geo","lat":48.829705,"lon":2.284057,"distance":3.0,"regular":402,"points":116000,"mmp":402,"mma":402,"expedia":367,"total":1206,"station":"Porte de Versailles","transit":"Excellent","stay":"3 nights","hiltonCode":null,"city":"Paris","directOccupancy":"2 adults + 1 child","occupancyStatus":"Confirmed in Marriott search","directSourceLabel":"Marriott Direct","expediaOccupancy":"2 adults + 1 child","expediaRoomType":"Room type not recorded","breakfast":"Not recorded","wifi":"Not recorded","nights":3,"marriottSearchBasis":"2 adults + 1 child","expediaSearchBasis":"2 adults + 1 child","lastPriceChecked":"Oct 3, 2026"},{"name":"Maison Bram Paris Gare de l'Est, Tapestry Collection Hilton","brand":"Hilton","source":"Expedia hotel research","lat":48.876332,"lon":2.357101,"distance":1.79,"regular":null,"points":null,"mmp":null,"mma":null,"expedia":458,"total":1570,"station":"Gare de l'Est","transit":"Excellent","stay":"3 nights","hiltonCode":"PARGEUP","directHilton":{"currency":"EUR","currencySymbol":"€","fxRate":1.1251,"fxAsOf":"2026-10-03","nightly":[{"date":"2027-06-02","eur":319.78},{"date":"2027-06-03","eur":272.71},{"date":"2027-06-04","eur":279.33}],"nightlyUSD":[359.78,306.83,314.27],"stayTotalLocal":922.52,"stayTotalUSD":1037.93,"avgNightUSD":345.98,"roomType":"King Guest Room","occupancy":"2 adults","taxes":"€50.70 taxes/government charges","wifi":"Included","cancelTerms":"Change/cancel by May 31, 2027","ratePlan":"Room only","pointsNightly":[83000,73000,74000],"pointsStay":230000,"breakfast":"$20 per person/day extra","occupancyNote":"Standard room did not appear when a child was added; direct quote was run for 2 adults. Confirm 2 adults + child before booking."},"directHiltonAvgNightUSD":345.98,"city":"Paris","directOccupancy":"2 adults","occupancyStatus":"Family occupancy needs confirmation","directSourceLabel":"Hilton Direct","expediaOccupancy":"2 adults + 1 child","expediaRoomType":"Room type not recorded","wifi":"Included","cancelTerms":"Change/cancel by May 31, 2027","ratePlan":"Room only","breakfast":"$20 per person/day extra","nights":3,"marriottSearchBasis":null,"expediaSearchBasis":"2 adults + 1 child","lastPriceChecked":"Oct 3, 2026"},{"name":"Airbnb #1 — Apartment for 8 in the heart of Paris (Louvre / Rue de Rivoli)","brand":"Airbnb","lodgingType":"Vacation rental","source":"Airbnb listing supplied by user","city":"Paris","lat":48.8639,"lon":2.3332,"distance":0.56,"regular":null,"points":null,"mmp":null,"mma":null,"expedia":null,"nights":3,"wholeGroupStay":1776,"bedrooms":3,"beds":4,"bathrooms":4,"sleeps":8,"area":"Louvre / Rue de Rivoli / Palais Royal","station":"Palais Royal–Musée du Louvre","transit":"Excellent","accessLevel":"good","access":"Good — only one flight","elevator":"No","stairs":"1 flight","floor":"1st floor","ac":"Portable + window AC","washer":"Washer + dryer","crib":"Yes","rating":4.58,"reviewCount":602,"cancelTerms":"Free cancellation for 24 hours; partial refund before May 26","listingUrl":"https://www.airbnb.com/rooms/615069?check_in=2027-06-02&check_out=2027-06-05&adults=3&children=2&infants=1","wifi":"Included/listed","breakfast":"N/A — vacation rental","locationConfidence":"Approximate pin from listing/map","rentalNotes":"80 m². Three bedrooms; each bedroom has a shower/lavabo. Listing also mentions 2 WCs. Excellent location; potential street noise.","photoQuery":null,"hostNote":"","directOccupancy":"Whole-group rental","occupancyStatus":"Fits group (sleeps 8)","directSourceLabel":"Airbnb","lastPriceChecked":"Oct 3, 2026"},{"name":"Airbnb #2 — Golden Triangle 2BR | Avenue Montaigne","brand":"Airbnb","lodgingType":"Vacation rental","source":"Airbnb listing supplied by user","city":"Paris","lat":48.8667,"lon":2.3017,"distance":0.89,"regular":null,"points":null,"mmp":null,"mma":null,"expedia":null,"nights":3,"wholeGroupStay":1966,"bedrooms":2,"beds":3,"bathrooms":2,"sleeps":6,"area":"Golden Triangle / Avenue Montaigne / Alma-Marceau","station":"Alma-Marceau","transit":"Excellent","accessLevel":"caution","access":"Caution — duplex/internal stairs; building access not confirmed","elevator":"Unknown","stairs":"Internal stairs; building entrance access unknown","floor":"Two-story duplex","ac":"Portable AC + fan","washer":"Washer","crib":"On request","rating":5.0,"reviewCount":3,"cancelTerms":"Free cancellation before May 3; partial refund before May 26","listingUrl":"https://www.airbnb.com/rooms/1703591495208616598?check_in=2027-06-02&check_out=2027-06-05&adults=3&children=2&infants=1","wifi":"Included/listed","breakfast":"N/A — vacation rental","locationConfidence":"Approximate pin from listing/map","rentalNotes":"Quiet-street family review; hotel-quality bedding. Exact address hidden until booking.","photoQuery":null,"hostNote":"","directOccupancy":"Whole-group rental","occupancyStatus":"Fits group (sleeps 6)","directSourceLabel":"Airbnb","lastPriceChecked":"Oct 3, 2026"},{"name":"Airbnb #3 — Champs-Élysées Exceptional 2BR / Hot Tub","brand":"Airbnb","lodgingType":"Vacation rental","source":"Airbnb listing supplied by user","city":"Paris","lat":48.8713,"lon":2.3035,"distance":0.9,"regular":null,"points":null,"mmp":null,"mma":null,"expedia":null,"nights":3,"wholeGroupStay":2106,"bedrooms":2,"beds":3,"bathrooms":2,"sleeps":6,"area":"Champs-Élysées / George V","station":"George V","transit":"Excellent","accessLevel":"caution","access":"Caution — 2nd-floor walk-up, no elevator","elevator":"No","stairs":"About 2 flights via private external staircase","floor":"2nd floor","ac":"Full air conditioning","washer":"Washer","crib":"Not stated","rating":null,"reviewCount":0,"cancelTerms":"Free cancellation before May 19; partial refund before May 26","listingUrl":"https://www.airbnb.com/rooms/1773526827089391366?check_in=2027-06-02&check_out=2027-06-05&adults=3&children=2&infants=1","wifi":"Included/listed","breakfast":"N/A — vacation rental","locationConfidence":"Approximate pin from listing/map","rentalNotes":"New listing/no reviews. Description says 2 bathrooms + 2 toilets; listing header showed 3 baths.","photoQuery":null,"hostNote":"","directOccupancy":"Whole-group rental","occupancyStatus":"Fits group (sleeps 6)","directSourceLabel":"Airbnb","lastPriceChecked":"Oct 3, 2026"},{"name":"Airbnb #4 — Apartment city view (Eiffel / Invalides)","brand":"Airbnb","lodgingType":"Vacation rental","source":"Airbnb listing supplied by user","city":"Paris","lat":48.8587,"lon":2.3094,"distance":0.72,"regular":null,"points":null,"mmp":null,"mma":null,"expedia":null,"nights":3,"wholeGroupStay":2129,"bedrooms":2,"beds":4,"bathrooms":2,"sleeps":6,"area":"Eiffel Tower / Invalides","station":"École Militaire / Invalides area","transit":"Excellent","accessLevel":"unknown","access":"Verify — floor/elevator not stated","elevator":"Unknown","stairs":"Unknown","floor":"Unknown","ac":"Air conditioning","washer":"Washer + dryer","crib":"On request","rating":5.0,"reviewCount":1,"cancelTerms":"Free cancellation before May 19; partial refund before May 26","listingUrl":"https://www.airbnb.com/rooms/1263900751308916914?check_in=2027-06-02&check_out=2027-06-05&adults=3&children=2&infants=1","wifi":"Included/listed","breakfast":"N/A — vacation rental","locationConfidence":"Approximate pin from listing/map","rentalNotes":"One family review mentions Eiffel Tower view and a quiet night. Floor/elevator must be verified.","photoQuery":null,"hostNote":"","directOccupancy":"Whole-group rental","occupancyStatus":"Fits group (sleeps 6)","directSourceLabel":"Airbnb","lastPriceChecked":"Oct 3, 2026"},{"name":"Airbnb #5 — Elegant 3BR in Champs-Élysées Golden Triangle","brand":"Airbnb","lodgingType":"Vacation rental","source":"Airbnb listing supplied by user","city":"Paris","lat":48.8732,"lon":2.3132,"distance":0.64,"regular":null,"points":null,"mmp":null,"mma":null,"expedia":null,"nights":3,"wholeGroupStay":2217,"bedrooms":3,"beds":3,"bathrooms":2,"sleeps":7,"area":"Champs-Élysées / central 8th arrondissement","station":"Saint-Philippe-du-Roule / Miromesnil area","transit":"Excellent","accessLevel":"unknown","access":"Verify — floor/elevator not stated","elevator":"Unknown","stairs":"Unknown","floor":"Unknown","ac":"Air conditioning","washer":"Washer","crib":"Yes","rating":null,"reviewCount":0,"cancelTerms":"Free cancellation before May 3; partial refund before May 26","listingUrl":"https://www.airbnb.com/rooms/1780374705033232082?check_in=2027-06-02&check_out=2027-06-05&adults=3&children=2&infants=1","wifi":"Included/listed","breakfast":"N/A — vacation rental","locationConfidence":"Approximate pin from listing/map","rentalNotes":"New listing, but host is a Superhost with 423 reviews on other properties.","photoQuery":null,"hostNote":"Host: Superhost, 4.8/5 across 423 reviews.","directOccupancy":"Whole-group rental","occupancyStatus":"Fits group (sleeps 7)","directSourceLabel":"Airbnb","lastPriceChecked":"Oct 3, 2026"},{"name":"Vrbo #1 — Le Rayz Vendôme 2BR Apartment","brand":"Vrbo","lodgingType":"Vacation rental","source":"Vrbo listing supplied by user","city":"Paris","lat":48.8698,"lon":2.3316,"distance":0.55,"regular":null,"points":null,"mmp":null,"mma":null,"expedia":null,"nights":3,"wholeGroupStay":1795,"bedrooms":2,"beds":3,"bathrooms":null,"sleeps":6,"area":"Place Vendôme / Opéra","station":"Opéra / Madeleine","transit":"Excellent","accessLevel":"good","access":"Good — elevator confirmed","elevator":"Yes","stairs":"Elevator","floor":"Not material","ac":"Air conditioning","washer":"Noted on property options","crib":"Available (€30/day)","rating":9.0,"reviewCount":622,"cancelTerms":"Quoted $1,795 rate is non-refundable; free cancellation before May 26 was shown as +$93","listingUrl":"https://vrbo.onelink.me/ItNz/no2rcy7l","wifi":"Included/listed","breakfast":"N/A — vacation rental","locationConfidence":"Exact property: 9 Rue Daunou, Place Vendôme/Opéra","rentalNotes":"721 sq ft 2BR apartment: King + Double + Double sofa bed. Aparthotel with staffed front desk and housekeeping.","photoQuery":"Le Rayz Vendôme Paris","hostNote":"","directOccupancy":"Whole-group rental","occupancyStatus":"Fits group (sleeps 6)","directSourceLabel":"Vrbo","lastPriceChecked":"Oct 3, 2026"},{"name":"Vrbo #2 — Modern apartment 2BR/6P — Faubourg-du-Roule","brand":"Vrbo","lodgingType":"Vacation rental","source":"Vrbo listing supplied by user","city":"Paris","lat":48.872,"lon":2.3078,"distance":0.75,"regular":null,"points":null,"mmp":null,"mma":null,"expedia":null,"nights":3,"wholeGroupStay":2308,"bedrooms":2,"beds":null,"bathrooms":2,"sleeps":6,"area":"Faubourg-du-Roule / Champs-Élysées","station":"Saint-Philippe-du-Roule","transit":"Excellent","accessLevel":"caution","access":"Caution — 5th floor; elevator not confirmed","elevator":"Unknown","stairs":"Potentially major issue if no elevator","floor":"5th floor","ac":"Not confirmed","washer":"Not confirmed","crib":"Crib listed","rating":9.4,"reviewCount":38,"cancelTerms":"Free cancellation before May 3; 50% refund before May 19","listingUrl":"https://vrbo.onelink.me/ItNz/arrm9bxq","wifi":"Included/listed","breakfast":"N/A — vacation rental","locationConfidence":"Approximate pin from listing/map","rentalNotes":"Excellent location score. Must verify elevator before considering; 5th floor would be a no without one.","photoQuery":null,"hostNote":"","directOccupancy":"Whole-group rental","occupancyStatus":"Fits group (sleeps 6)","directSourceLabel":"Vrbo","lastPriceChecked":"Oct 3, 2026"},{"name":"Vrbo #3 — Place Vendôme Quiet 2BR / 2BA","brand":"Vrbo","lodgingType":"Vacation rental","source":"Vrbo listing supplied by user","city":"Paris","lat":48.8681,"lon":2.3298,"distance":0.42,"regular":null,"points":null,"mmp":null,"mma":null,"expedia":null,"nights":3,"wholeGroupStay":2132,"bedrooms":2,"beds":4,"bathrooms":2,"sleeps":6,"area":"Place Vendôme / Rue de la Paix","station":"Opéra / Madeleine / Tuileries","transit":"Excellent","accessLevel":"good","access":"Good — elevator confirmed by recent guest reviews","elevator":"Yes","stairs":"Elevator","floor":"Not material","ac":"Air conditioning","washer":"Washer + dryer","crib":"Not stated","rating":9.6,"reviewCount":65,"cancelTerms":"Free cancellation before May 19; 50% refund before May 26","listingUrl":"https://vrbo.onelink.me/ItNz/hdn2zak7","wifi":"Included/listed","breakfast":"N/A — vacation rental","locationConfidence":"Approximate pin from listing/map","rentalNotes":"Queen + 2 twins + double futon. Highchair. Strong verified reviews and 10/10 location score.","photoQuery":null,"hostNote":"","directOccupancy":"Whole-group rental","occupancyStatus":"Fits group (sleeps 6)","directSourceLabel":"Vrbo","lastPriceChecked":"Oct 3, 2026"},{"name":"Vrbo #4 — Champs-Élysées 2BR / Sleeps 7","brand":"Vrbo","lodgingType":"Vacation rental","source":"Vrbo listing supplied by user","city":"Paris","lat":48.8709,"lon":2.3047,"distance":0.84,"regular":null,"points":null,"mmp":null,"mma":null,"expedia":null,"nights":3,"wholeGroupStay":2386,"bedrooms":2,"beds":3,"bathrooms":2.5,"sleeps":7,"area":"Champs-Élysées","station":"George V / Franklin D. Roosevelt area","transit":"Excellent","accessLevel":"unknown","access":"Verify — floor/elevator not stated","elevator":"Unknown","stairs":"Unknown","floor":"Unknown","ac":"Not confirmed","washer":"Not confirmed","crib":"Not stated","rating":9.6,"reviewCount":15,"cancelTerms":"NON-REFUNDABLE","listingUrl":"https://vrbo.onelink.me/ItNz/2qxyg4vv","wifi":"Included/listed","breakfast":"N/A — vacation rental","locationConfidence":"Approximate pin from listing/map","rentalNotes":"2+ bathrooms. Strong location, but non-refundable and access is unverified.","photoQuery":null,"hostNote":"","directOccupancy":"Whole-group rental","occupancyStatus":"Fits group (sleeps 7)","directSourceLabel":"Vrbo","lastPriceChecked":"Oct 3, 2026"}],"London":[{"name":"Moxy London Piccadilly Circus","brand":"Marriott","source":"Marriott search","lat":51.51,"lon":-0.1344,"distance":0.0,"regular":326,"points":232000,"mmp":286,"mma":286,"expedia":null,"total":1144,"station":"Piccadilly Circus","transit":"Excellent","stay":"4 nights","hiltonCode":null,"city":"London","directOccupancy":"2 adults + 1 child","occupancyStatus":"Confirmed in Marriott search","directSourceLabel":"Marriott Direct","expediaOccupancy":"2 adults + 1 child","expediaRoomType":"Room type not recorded","breakfast":"Not recorded","wifi":"Not recorded","nights":4,"marriottSearchBasis":"2 adults + 1 child","expediaSearchBasis":null,"lastPriceChecked":"Oct 3, 2026"},{"name":"Four Points Flex by Sheraton London Euston","brand":"Marriott","source":"Marriott search","lat":51.5263,"lon":-0.1349,"distance":1.2,"regular":236,"points":null,"mmp":null,"mma":null,"expedia":null,"total":944,"station":"Euston","transit":"Excellent","stay":"4 nights","hiltonCode":null,"city":"London","directOccupancy":"2 adults + 1 child","occupancyStatus":"Confirmed in Marriott search","directSourceLabel":"Marriott Direct","expediaOccupancy":"2 adults + 1 child","expediaRoomType":"Room type not recorded","breakfast":"Not recorded","wifi":"Not recorded","nights":4,"marriottSearchBasis":"2 adults + 1 child","expediaSearchBasis":null,"lastPriceChecked":"Oct 3, 2026"},{"name":"London Marriott Hotel Marble Arch","brand":"Marriott","source":"Marriott search + Expedia geo","lat":51.516356,"lon":-0.1637,"distance":1.4,"regular":483,"points":240000,"mmp":529,"mma":529,"expedia":414,"total":1932,"station":"Marble Arch / Edgware Road","transit":"Good","stay":"4 nights","hiltonCode":null,"city":"London","directOccupancy":"2 adults + 1 child","occupancyStatus":"Confirmed in Marriott search","directSourceLabel":"Marriott Direct","expediaOccupancy":"2 adults + 1 child","expediaRoomType":"Room type not recorded","breakfast":"Not recorded","wifi":"Not recorded","nights":4,"marriottSearchBasis":"2 adults + 1 child","expediaSearchBasis":"2 adults + 1 child","lastPriceChecked":"Oct 3, 2026"},{"name":"Residence Inn by Marriott London Bridge","brand":"Marriott","source":"Marriott search + Expedia geo","lat":51.49848,"lon":-0.083975,"distance":2.3,"regular":398,"points":269000,"mmp":431,"mma":380,"expedia":389,"total":1520,"station":"London Bridge / Borough","transit":"Good","stay":"4 nights","hiltonCode":null,"city":"London","directOccupancy":"2 adults + 1 child","occupancyStatus":"Confirmed in Marriott search","directSourceLabel":"Marriott Direct","expediaOccupancy":"2 adults + 1 child","expediaRoomType":"Room type not recorded","breakfast":"Not recorded","wifi":"Not recorded","nights":4,"marriottSearchBasis":"2 adults + 1 child","expediaSearchBasis":"2 adults + 1 child","lastPriceChecked":"Oct 3, 2026"},{"name":"Residence Inn by Marriott London Tower Bridge","brand":"Marriott","source":"Marriott search + Expedia geo","lat":51.498639,"lon":-0.081322,"distance":2.4,"regular":397,"points":225000,"mmp":393,"mma":346,"expedia":340,"total":1384,"station":"London Bridge / Borough","transit":"Good","stay":"4 nights","hiltonCode":null,"city":"London","directOccupancy":"2 adults + 1 child","occupancyStatus":"Confirmed in Marriott search","directSourceLabel":"Marriott Direct","expediaOccupancy":"2 adults + 1 child","expediaRoomType":"Room type not recorded","breakfast":"Not recorded","wifi":"Not recorded","nights":4,"marriottSearchBasis":"2 adults + 1 child","expediaSearchBasis":"2 adults + 1 child","lastPriceChecked":"Oct 3, 2026"},{"name":"London Marriott Hotel Kensington","brand":"Marriott","source":"Marriott search + Expedia geo","lat":51.49456,"lon":-0.189412,"distance":2.6,"regular":492,"points":291000,"mmp":505,"mma":505,"expedia":421,"total":1968,"station":"Earl's Court / Gloucester Road","transit":"Excellent","stay":"4 nights","hiltonCode":null,"city":"London","directOccupancy":"2 adults + 1 child","occupancyStatus":"Confirmed in Marriott search","directSourceLabel":"Marriott Direct","expediaOccupancy":"2 adults + 1 child","expediaRoomType":"Room type not recorded","breakfast":"Not recorded","wifi":"Not recorded","nights":4,"marriottSearchBasis":"2 adults + 1 child","expediaSearchBasis":"2 adults + 1 child","lastPriceChecked":"Oct 3, 2026"},{"name":"London Marriott Hotel Regents Park","brand":"Marriott","source":"Marriott search","lat":51.5421,"lon":-0.1738,"distance":2.7,"regular":451,"points":233000,"mmp":460,"mma":436,"expedia":null,"total":1744,"station":"Swiss Cottage","transit":"Excellent","stay":"4 nights","hiltonCode":null,"city":"London","directOccupancy":"2 adults + 1 child","occupancyStatus":"Confirmed in Marriott search","directSourceLabel":"Marriott Direct","expediaOccupancy":"2 adults + 1 child","expediaRoomType":"Room type not recorded","breakfast":"Not recorded","wifi":"Not recorded","nights":4,"marriottSearchBasis":"2 adults + 1 child","expediaSearchBasis":null,"lastPriceChecked":"Oct 3, 2026"},{"name":"London Marriott Hotel Maida Vale","brand":"Marriott","source":"Marriott search","lat":51.5353,"lon":-0.1926,"distance":3.0,"regular":null,"points":null,"mmp":357,"mma":357,"expedia":null,"total":1428,"station":"Kilburn Park","transit":"Excellent","stay":"4 nights","hiltonCode":null,"city":"London","directOccupancy":"2 adults + 1 child","occupancyStatus":"Confirmed in Marriott search","directSourceLabel":"Marriott Direct","expediaOccupancy":"2 adults + 1 child","expediaRoomType":"Room type not recorded","breakfast":"Not recorded","wifi":"Not recorded","nights":4,"marriottSearchBasis":"2 adults + 1 child","expediaSearchBasis":null,"lastPriceChecked":"Oct 3, 2026"},{"name":"Residence Inn by Marriott London Kensington","brand":"Marriott","source":"Marriott search","lat":51.4948,"lon":-0.205,"distance":3.1,"regular":null,"points":null,"mmp":401,"mma":354,"expedia":null,"total":1416,"station":"West Kensington / Kensington Olympia","transit":"Good","stay":"4 nights","hiltonCode":null,"city":"London","directOccupancy":"2 adults + 1 child","occupancyStatus":"Confirmed in Marriott search","directSourceLabel":"Marriott Direct","expediaOccupancy":"2 adults + 1 child","expediaRoomType":"Room type not recorded","breakfast":"Not recorded","wifi":"Not recorded","nights":4,"marriottSearchBasis":"2 adults + 1 child","expediaSearchBasis":null,"lastPriceChecked":"Oct 3, 2026"},{"name":"DoubleTree by Hilton London Victoria","brand":"Hilton","source":"Expedia hotel research","lat":51.49409,"lon":-0.14338,"distance":1.17,"regular":null,"points":null,"mmp":null,"mma":null,"expedia":444,"total":2131,"station":"Victoria","transit":"Excellent","stay":"4 nights","hiltonCode":"LONVCDI","directHilton":{"currency":"GBP","currencySymbol":"£","fxRate":1.32425,"fxAsOf":"2026-10-03","nightly":[372.72,154.94,327.19,454.79],"nightlyUSD":[493.57,205.18,433.28,602.26],"stayTotalLocal":1309.64,"stayTotalUSD":1734.29,"avgNightUSD":433.57,"roomType":"Queen Guest Room","occupancy":"2 adults","taxes":"Included in price","wifi":"Included","cancelTerms":"Change/cancel by May 31, 2027","ratePlan":"Room only","pointsNightly":[70000,66000,70000,70000],"pointsStay":276000,"familyExperience":"Hilton Family Experience for travellers under 12; kids menu and children's amenities.","breakfast":"Not included in supplied room-only quote"},"directHiltonAvgNightUSD":433.57,"city":"London","directOccupancy":"2 adults","occupancyStatus":"Family occupancy needs confirmation","directSourceLabel":"Hilton Direct","expediaOccupancy":"2 adults + 1 child","expediaRoomType":"Room type not recorded","wifi":"Included","cancelTerms":"Change/cancel by May 31, 2027","ratePlan":"Room only","breakfast":"Not included in supplied room-only quote","familyExperience":"Hilton Family Experience for travellers under 12; kids menu and children's amenities.","nights":4,"marriottSearchBasis":null,"expediaSearchBasis":"2 adults + 1 child","lastPriceChecked":"Oct 3, 2026"},{"name":"Hilton London Euston","brand":"Hilton","source":"Expedia hotel research","lat":51.526623,"lon":-0.129987,"distance":1.16,"regular":null,"points":null,"mmp":null,"mma":null,"expedia":347,"total":1668,"station":"Euston / Euston Square","transit":"Excellent","stay":"4 nights","hiltonCode":"LONEUHI","directHilton":{"currency":"GBP","currencySymbol":"£","fxRate":1.32425,"fxAsOf":"2026-10-03","nightly":[299.85,190.48,299.85,327.19],"nightlyUSD":[397.08,252.24,397.08,433.28],"stayTotalLocal":1117.38,"stayTotalUSD":1479.69,"avgNightUSD":369.92,"roomType":"Double Guest Room","occupancy":"2 adults","taxes":"Included in price","wifi":"Included","cancelTerms":"Change/cancel by May 31, 2027","ratePlan":"Room only","pointsNightly":[65000,64000,65000,65000],"pointsStay":259000,"breakfast":"Not included in supplied room-only quote"},"directHiltonAvgNightUSD":369.92,"city":"London","directOccupancy":"2 adults","occupancyStatus":"Family occupancy needs confirmation","directSourceLabel":"Hilton Direct","expediaOccupancy":"2 adults + 1 child","expediaRoomType":"Room type not recorded","wifi":"Included","cancelTerms":"Change/cancel by May 31, 2027","ratePlan":"Room only","breakfast":"Not included in supplied room-only quote","nights":4,"marriottSearchBasis":null,"expediaSearchBasis":"2 adults + 1 child","lastPriceChecked":"Oct 3, 2026"},{"name":"Hampton by Hilton London Waterloo","brand":"Hilton","source":"Expedia hotel research","lat":51.50097,"lon":-0.10796,"distance":1.29,"regular":null,"points":null,"mmp":null,"mma":null,"expedia":345,"total":1656,"station":"Waterloo","transit":"Excellent","stay":"4 nights","hiltonCode":"LONWLHX","directHilton":{"currency":"GBP","currencySymbol":"£","fxRate":1.32425,"fxAsOf":"2026-10-03","nightly":[278.89,188.66,243.34,325.37],"nightlyUSD":[369.32,249.83,322.24,430.87],"stayTotalLocal":1036.26,"stayTotalUSD":1372.27,"avgNightUSD":343.07,"roomType":"Queen Room","occupancy":"2 adults","taxes":"Included in price","wifi":"Included","cancelTerms":"Change/cancel by May 31, 2027","ratePlan":"Room only","pointsNightly":[65000,65000,65000,65000],"pointsStay":260000,"breakfast":"Free hot breakfast included","cribs":"Available","connectingRooms":"Available"},"directHiltonAvgNightUSD":343.07,"city":"London","directOccupancy":"2 adults","occupancyStatus":"Family occupancy needs confirmation","directSourceLabel":"Hilton Direct","expediaOccupancy":"2 adults + 1 child","expediaRoomType":"Room type not recorded","wifi":"Included","cancelTerms":"Change/cancel by May 31, 2027","ratePlan":"Room only","breakfast":"Free hot breakfast included","nights":4,"marriottSearchBasis":null,"expediaSearchBasis":"2 adults + 1 child","lastPriceChecked":"Oct 3, 2026"},{"name":"Hilton London Bankside","brand":"Hilton","source":"Expedia hotel research","lat":51.505634,"lon":-0.101017,"distance":1.46,"regular":null,"points":null,"mmp":null,"mma":null,"expedia":382,"total":1833,"station":"Southwark / London Bridge","transit":"Excellent","stay":"4 nights","hiltonCode":"LONSBHI","directHilton":{"currency":"GBP","currencySymbol":"£","fxRate":1.32425,"fxAsOf":"2026-10-03","nightly":[303.49,278.93,312.0,384.12],"nightlyUSD":[401.9,369.37,413.17,508.67],"stayTotalLocal":1278.54,"stayTotalUSD":1693.11,"avgNightUSD":423.28,"roomType":"King Deluxe Room","occupancy":"2 adults","taxes":"Included in price","wifi":"Included","cancelTerms":"Change/cancel by May 31, 2027","ratePlan":"Room only","familyExperience":"Hilton Family Experience for travellers under 12; kids menu and children's amenities.","breakfast":"Not included in supplied room-only quote","pointsNote":"No usable standard points rate was offered in the supplied Hilton result; points are treated as not offered.","pointsStatus":"Not offered"},"directHiltonAvgNightUSD":423.28,"city":"London","directOccupancy":"2 adults","occupancyStatus":"Family amenities noted; exact 2 adults + child occupancy still needs confirmation","directSourceLabel":"Hilton Direct","expediaOccupancy":"2 adults + 1 child","expediaRoomType":"Room type not recorded","wifi":"Included","cancelTerms":"Change/cancel by May 31, 2027","ratePlan":"Room only","breakfast":"Not included in supplied room-only quote","familyExperience":"Hilton Family Experience for travellers under 12; kids menu and children's amenities.","nights":4,"marriottSearchBasis":null,"expediaSearchBasis":"2 adults + 1 child","lastPriceChecked":"Oct 3, 2026"},{"name":"Hilton London Metropole","brand":"Hilton","source":"Expedia hotel research","lat":51.51937,"lon":-0.169374,"distance":1.64,"regular":null,"points":null,"mmp":null,"mma":null,"expedia":290,"total":1392,"station":"Edgware Road","transit":"Excellent","stay":"4 nights","hiltonCode":"LONMETW","city":"London","directOccupancy":"2 adults","occupancyStatus":"Family occupancy needs confirmation","directSourceLabel":"Hilton Direct","expediaOccupancy":"2 adults + 1 child","expediaRoomType":"Room type not recorded","wifi":"Included","cancelTerms":"Change/cancel by May 31, 2027","ratePlan":"Room only","directHilton":{"currency":"GBP","currencySymbol":"£","fxRate":1.32425,"fxAsOf":"2026-10-03","nightly":[221.6,195.93,226.42,278.87],"nightlyUSD":[293.45,259.46,299.84,369.29],"stayTotalLocal":922.82,"stayTotalUSD":1222.04,"avgNightUSD":305.51,"roomType":"Queen Guest Room","occupancy":"2 adults","taxes":"Included in price","wifi":"Included","cancelTerms":"Change/cancel by May 31, 2027","ratePlan":"Room only","pointsNightly":[60000,60000,60000,60000],"pointsStay":240000,"familyExperience":"Hilton Family Experience for travellers under 12; kids menu and children's amenities.","breakfast":"Not included in supplied room-only quote"},"directHiltonAvgNightUSD":305.51,"breakfast":"Not included in supplied room-only quote","familyExperience":"Hilton Family Experience for travellers under 12; kids menu and children's amenities.","nights":4,"marriottSearchBasis":null,"expediaSearchBasis":"2 adults + 1 child","lastPriceChecked":"Oct 3, 2026"},{"name":"DoubleTree by Hilton London Kensington","brand":"Hilton","source":"Expedia hotel research","lat":51.495033,"lon":-0.183526,"distance":2.36,"regular":null,"points":null,"mmp":null,"mma":null,"expedia":363,"total":1745,"station":"Gloucester Road","transit":"Excellent","stay":"4 nights","hiltonCode":"LCYSKDI","city":"London","directOccupancy":"2 adults","occupancyStatus":"Family occupancy needs confirmation","directSourceLabel":"Hilton Direct","expediaOccupancy":"2 adults + 1 child","expediaRoomType":"Room type not recorded","wifi":"Included","cancelTerms":"Change/cancel by May 31, 2027","ratePlan":"Room only","directHilton":{"currency":"GBP","currencySymbol":"£","fxRate":1.32425,"fxAsOf":"2026-10-03","nightly":[281.62,236.05,285.27,317.76],"nightlyUSD":[372.94,312.59,377.77,420.79],"stayTotalLocal":1120.71,"stayTotalUSD":1484.1,"avgNightUSD":371.02,"roomType":"Double Guest Room","occupancy":"2 adults","taxes":"Included in price","wifi":"Included","cancelTerms":"Change/cancel by May 31, 2027","ratePlan":"Room only","pointsNightly":[70000,70000,70000,70000],"pointsStay":280000,"breakfast":"Not included in supplied room-only quote"},"directHiltonAvgNightUSD":371.02,"breakfast":"Not included in supplied room-only quote","nights":4,"marriottSearchBasis":null,"expediaSearchBasis":"2 adults + 1 child","lastPriceChecked":"Oct 3, 2026"},{"name":"Hilton London Hyde Park","brand":"Hilton","source":"Expedia hotel research","lat":51.51027,"lon":-0.18755,"distance":2.3,"regular":null,"points":null,"mmp":null,"mma":null,"expedia":401,"total":1927,"station":"Queensway / Bayswater","transit":"Excellent","stay":"4 nights","hiltonCode":"LONHPHN","city":"London","directOccupancy":"2 adults","occupancyStatus":"Strong family policy; confirm exact room setup for 2 adults + child","directSourceLabel":"Hilton Direct","expediaOccupancy":"2 adults + 1 child","expediaRoomType":"Room type not recorded","wifi":"Included","cancelTerms":"Change/cancel by May 31, 2027","ratePlan":"Room only","directHilton":{"currency":"GBP","currencySymbol":"£","fxRate":1.32425,"fxAsOf":"2026-10-03","nightly":[316.49,192.41,232.75,353.78],"nightlyUSD":[419.11,254.8,308.22,468.49],"stayTotalLocal":1095.42,"stayTotalUSD":1450.61,"avgNightUSD":362.65,"roomType":"Queen Guest Room","occupancy":"2 adults","taxes":"Included in price","wifi":"Included","cancelTerms":"Change/cancel by May 31, 2027","ratePlan":"Room only","pointsNightly":[65000,65000,65000,65000],"pointsStay":260000,"breakfast":"Children 12 and under receive complimentary buffet breakfast","occupancyNote":"Hilton states children up to 18 stay free with existing bedding on room-only rates when sharing with a paying adult."},"directHiltonAvgNightUSD":362.65,"breakfast":"Children 12 and under receive complimentary buffet breakfast","nights":4,"marriottSearchBasis":null,"expediaSearchBasis":"2 adults + 1 child","lastPriceChecked":"Oct 3, 2026"},{"name":"DoubleTree by Hilton Hotel London - Hyde Park","brand":"Hilton","source":"Expedia hotel research","lat":51.51006,"lon":-0.190324,"distance":2.42,"regular":null,"points":null,"mmp":null,"mma":null,"expedia":414,"total":1988,"station":"Queensway / Notting Hill Gate","transit":"Excellent","stay":"4 nights","hiltonCode":"LONHYDI","city":"London","directOccupancy":"2 adults","occupancyStatus":"Family occupancy needs confirmation","directSourceLabel":"Hilton Direct","expediaOccupancy":"2 adults + 1 child","expediaRoomType":"Room type not recorded","wifi":"Included","cancelTerms":"Change/cancel by May 31, 2027","ratePlan":"Room only","directHilton":{"currency":"GBP","currencySymbol":"£","fxRate":1.32425,"fxAsOf":"2026-10-03","nightly":[296.97,190.17,218.1,410.71],"nightlyUSD":[393.26,251.83,288.82,543.88],"stayTotalLocal":1115.95,"stayTotalUSD":1477.8,"avgNightUSD":369.45,"roomType":"Queen Guest Room","occupancy":"2 adults","taxes":"Included in price","wifi":"Included","cancelTerms":"Change/cancel by May 31, 2027","ratePlan":"Room only","pointsNightly":[65000,65000,65000,65000],"pointsStay":260000,"familyExperience":"Hilton Family Experience for travellers under 12; kids menu and children's amenities.","breakfast":"Not included in supplied room-only quote"},"directHiltonAvgNightUSD":369.45,"breakfast":"Not included in supplied room-only quote","familyExperience":"Hilton Family Experience for travellers under 12; kids menu and children's amenities.","nights":4,"marriottSearchBasis":null,"expediaSearchBasis":"2 adults + 1 child","lastPriceChecked":"Oct 3, 2026"},{"name":"DoubleTree by Hilton Hotel London - Tower of London","brand":"Hilton","source":"Expedia hotel research","lat":51.510912,"lon":-0.077992,"distance":2.42,"regular":null,"points":null,"mmp":null,"mma":null,"expedia":393,"total":1886,"station":"Tower Hill","transit":"Excellent","stay":"4 nights","hiltonCode":"LONTLDI","city":"London","directOccupancy":"2 adults","occupancyStatus":"Family occupancy needs confirmation","directSourceLabel":"Hilton Direct","expediaOccupancy":"2 adults + 1 child","expediaRoomType":"Room type not recorded","wifi":"Included","cancelTerms":"Change/cancel by May 31, 2027","ratePlan":"Room only","directHilton":{"currency":"GBP","currencySymbol":"£","fxRate":1.32425,"fxAsOf":"2026-10-03","nightly":[273.42,168.61,309.88,410.13],"nightlyUSD":[362.08,223.28,410.36,543.11],"stayTotalLocal":1162.04,"stayTotalUSD":1538.83,"avgNightUSD":384.71,"roomType":"Queen Guest Room","occupancy":"2 adults","taxes":"Included in price","wifi":"Included","cancelTerms":"Change/cancel by May 31, 2027","ratePlan":"Room only","pointsNightly":[65000,57000,65000,65000],"pointsStay":252000,"familyExperience":"Hilton Family Experience for travellers under 12; kids menu and children's amenities.","breakfast":"Not included in supplied room-only quote"},"directHiltonAvgNightUSD":384.71,"breakfast":"Not included in supplied room-only quote","familyExperience":"Hilton Family Experience for travellers under 12; kids menu and children's amenities.","nights":4,"marriottSearchBasis":null,"expediaSearchBasis":"2 adults + 1 child","lastPriceChecked":"Oct 3, 2026"},{"name":"Canopy by Hilton London City","brand":"Hilton","source":"Expedia hotel research","lat":51.513051,"lon":-0.07534,"distance":2.54,"regular":null,"points":null,"mmp":null,"mma":null,"expedia":477,"total":2289,"station":"Aldgate / Tower Hill","transit":"Excellent","stay":"4 nights","hiltonCode":"LONPYPY","city":"London","directOccupancy":"2 adults","occupancyStatus":"Family occupancy needs confirmation","directSourceLabel":"Hilton Direct","expediaOccupancy":"2 adults + 1 child","expediaRoomType":"Room type not recorded","wifi":"Included","cancelTerms":"Change/cancel by May 31, 2027","ratePlan":"Room only","directHilton":{"currency":"GBP","currencySymbol":"£","fxRate":1.32425,"fxAsOf":"2026-10-03","nightly":[318.99,205.07,341.78,410.13],"nightlyUSD":[422.42,271.56,452.6,543.11],"stayTotalLocal":1275.96,"stayTotalUSD":1689.69,"avgNightUSD":422.42,"roomType":"Queen Room","occupancy":"2 adults","taxes":"Included in price","wifi":"Included","cancelTerms":"Change/cancel by May 31, 2027","ratePlan":"Room only","pointsNightly":[80000,80000,80000,80000],"pointsStay":320000,"familyExperience":"Hilton Family Experience for travellers under 12; kids menu and children's amenities.","breakfast":"Not included in supplied room-only quote"},"directHiltonAvgNightUSD":422.42,"breakfast":"Not included in supplied room-only quote","familyExperience":"Hilton Family Experience for travellers under 12; kids menu and children's amenities.","nights":4,"marriottSearchBasis":null,"expediaSearchBasis":"2 adults + 1 child","lastPriceChecked":"Oct 3, 2026"},{"name":"Vrbo #1 — Exquisite 3BR Apartment in Mayfair","brand":"Vrbo","lodgingType":"Vacation rental","source":"Vrbo listing supplied by user","city":"London","lat":51.5097,"lon":-0.147,"distance":0.55,"regular":null,"points":null,"mmp":null,"mma":null,"expedia":null,"nights":4,"wholeGroupStay":2207,"bedrooms":3,"beds":3,"bathrooms":3,"sleeps":6,"area":"Mayfair / St James","station":"Green Park / Bond Street area","transit":"Good","accessLevel":"unknown","access":"Verify — floor/elevator not stated","elevator":"Unknown","stairs":"Unknown","floor":"Unknown","ac":"Not stated","washer":"Not stated","crib":"Highchair","rating":null,"reviewCount":null,"cancelTerms":"Free cancellation before May 22; 50% refund before May 29","listingUrl":"https://vrbo.onelink.me/ItNz/tta0ft64","wifi":"Included/listed","breakfast":"N/A — vacation rental","locationConfidence":"Approximate pin from listing/map","rentalNotes":"King + Queen + Double. Excellent space/layout. Host cancellation rate shown as 17%.","photoQuery":null,"hostNote":"Host cancellation rate: 17% — reliability caution.","directOccupancy":"Whole-group rental","occupancyStatus":"Fits group (sleeps 6)","directSourceLabel":"Vrbo","lastPriceChecked":"Oct 3, 2026"},{"name":"Vrbo #2 — Charming flat in Mayfair — Pass the Keys","brand":"Vrbo","lodgingType":"Vacation rental","source":"Vrbo listing supplied by user","city":"London","lat":51.5118,"lon":-0.149,"distance":0.65,"regular":null,"points":null,"mmp":null,"mma":null,"expedia":null,"nights":4,"wholeGroupStay":2558,"bedrooms":2,"beds":4,"bathrooms":1,"sleeps":6,"area":"Mayfair","station":"Bond Street / Green Park area","transit":"Good","accessLevel":"caution","access":"Caution — review says multiple flights of stairs; elevator not confirmed","elevator":"Unknown","stairs":"Multiple flights likely","floor":"Upper floor","ac":"Wall AC visible in listing photo","washer":"Not stated","crib":"Not stated","rating":8.0,"reviewCount":1,"cancelTerms":"Free cancellation before May 22; 50% refund before May 29","listingUrl":"https://vrbo.onelink.me/ItNz/jtcjq5qq","wifi":"Included/listed","breakfast":"N/A — vacation rental","locationConfidence":"Approximate pin from listing/map","rentalNotes":"King + 2 twins + double sofa bed. Only 1 bathroom. One verified review.","photoQuery":null,"hostNote":"","directOccupancy":"Whole-group rental","occupancyStatus":"Fits group (sleeps 6)","directSourceLabel":"Vrbo","lastPriceChecked":"Oct 3, 2026"},{"name":"Airbnb #1 — Very central with stunning views (Elephant & Castle)","brand":"Airbnb","lodgingType":"Vacation rental","source":"Airbnb listing supplied by user","city":"London","lat":51.4937,"lon":-0.096,"distance":1.99,"regular":null,"points":null,"mmp":null,"mma":null,"expedia":null,"nights":4,"wholeGroupStay":1457,"bedrooms":2,"beds":3,"bathrooms":2,"sleeps":5,"area":"Elephant & Castle / Kennington","station":"Elephant & Castle","transit":"Good","accessLevel":"good","access":"Good — elevator confirmed","elevator":"Yes","stairs":"Elevator","floor":"36th floor","ac":"Air conditioning","washer":"Washer","crib":"Not stated","rating":5.0,"reviewCount":2,"cancelTerms":"Free cancellation before June 4; partial refund before check-in June 5","listingUrl":"https://www.airbnb.com/rooms/963478528810979684?check_in=2027-06-05&check_out=2027-06-09&adults=3&children=2&infants=1","wifi":"Included/listed","breakfast":"N/A — vacation rental","locationConfidence":"Approximate pin from listing/map","rentalNotes":"2BR/2BA with skyline views. Capacity is 5 guests plus the infant search. Good transit, but not prime West End location.","photoQuery":null,"hostNote":"Host profile: 3.86/5 overall, 13% response rate, responds within a few days or more — reliability caution.","directOccupancy":"Whole-group rental","occupancyStatus":"Fits group (sleeps 5)","directSourceLabel":"Airbnb","lastPriceChecked":"Oct 3, 2026"}]},SIGHTS={"Paris": [{"name": "Place de la Concorde", "type": "Reference", "lat": 48.865633, "lon": 2.321236, "refDistance": 0.0}, {"name": "Eiffel Tower", "type": "Sight", "lat": 48.85837, "lon": 2.294481, "refDistance": 1.32}, {"name": "Esplanade du Trocadéro", "type": "Sight", "lat": 48.862829, "lon": 2.287324, "refDistance": 1.55}, {"name": "Rue de l'Université (Eiffel view)", "type": "Saved", "lat": 48.85935, "lon": 2.30084, "refDistance": 1.02}, {"name": "Notre-Dame Cathedral", "type": "Sight", "lat": 48.852968, "lon": 2.349902, "refDistance": 1.57}, {"name": "Chapel of Our Lady of the Miraculous Medal", "type": "Sight", "lat": 48.85067, "lon": 2.32332, "refDistance": 1.04}, {"name": "Napoleon's Tomb / Les Invalides", "type": "Sight", "lat": 48.85657, "lon": 2.31262, "refDistance": 0.74}, {"name": "Arc de Triomphe", "type": "Sight", "lat": 48.873792, "lon": 2.295028, "refDistance": 1.32}, {"name": "Chez Janou", "type": "Food", "lat": 48.85555, "lon": 2.36547, "refDistance": 2.13}, {"name": "Le Bon Georges", "type": "Food", "lat": 48.87938, "lon": 2.33772, "refDistance": 1.21}, {"name": "Versailles Palace", "type": "Day trip", "lat": 48.804865, "lon": 2.120355, "refDistance": 10.05}], "London": [{"name": "Piccadilly Circus", "type": "Reference", "lat": 51.510067, "lon": -0.134158, "refDistance": 0.0}, {"name": "Buckingham Palace", "type": "Sight", "lat": 51.501364, "lon": -0.14189, "refDistance": 0.69}, {"name": "Big Ben / Westminster", "type": "Sight", "lat": 51.500729, "lon": -0.124625, "refDistance": 0.76}, {"name": "London Eye", "type": "Sight", "lat": 51.503324, "lon": -0.119543, "refDistance": 0.78}, {"name": "Tower of London", "type": "Sight", "lat": 51.508112, "lon": -0.075949, "refDistance": 2.51}, {"name": "Tower Bridge", "type": "Sight", "lat": 51.505456, "lon": -0.075356, "refDistance": 2.55}, {"name": "Covent Garden", "type": "Saved", "lat": 51.511684, "lon": -0.123015, "refDistance": 0.49}, {"name": "Seven Dials Market", "type": "Food", "lat": 51.51435, "lon": -0.12748, "refDistance": 0.41}, {"name": "Hamleys Regent Street", "type": "Saved", "lat": 51.51285, "lon": -0.14016, "refDistance": 0.32}, {"name": "Oxford Circus", "type": "Saved", "lat": 51.515419, "lon": -0.141099, "refDistance": 0.48}, {"name": "Donutelier", "type": "Food", "lat": 51.51145, "lon": -0.12875, "refDistance": 0.25}, {"name": "Heard. Burger Soho", "type": "Food", "lat": 51.51385, "lon": -0.13255, "refDistance": 0.27}, {"name": "Hard Rock Cafe", "type": "Food", "lat": 51.50344, "lon": -0.14918, "refDistance": 0.79}, {"name": "Borough Market", "type": "Saved", "lat": 51.50549, "lon": -0.09089, "refDistance": 1.89}, {"name": "Heard. Burger Borough", "type": "Food", "lat": 51.5054, "lon": -0.0916, "refDistance": 1.86}, {"name": "Sky Garden", "type": "Sight", "lat": 51.51125, "lon": -0.08353, "refDistance": 2.18}, {"name": "Old Spitalfields Market", "type": "Saved", "lat": 51.51966, "lon": -0.0755, "refDistance": 2.61}, {"name": "Camden Market", "type": "Saved", "lat": 51.54131, "lon": -0.14655, "refDistance": 2.22}, {"name": "Kensington Gardens", "type": "Sight", "lat": 51.50645, "lon": -0.17954, "refDistance": 1.97}, {"name": "Paddington Station / shop", "type": "Saved", "lat": 51.51544, "lon": -0.17553, "refDistance": 1.82}, {"name": "Fortnum & Mason Royal Exchange", "type": "Saved", "lat": 51.51349, "lon": -0.08763, "refDistance": 2.01}, {"name": "Windsor Castle", "type": "Day trip", "lat": 51.483894, "lon": -0.604403, "refDistance": 20.31}]},REFS={"Paris": {"name": "Place de la Concorde", "lat": 48.865633, "lon": 2.321236}, "London": {"name": "Piccadilly Circus", "lat": 51.510067, "lon": -0.134158}};
+const ACTIVITIES={"Paris":[{"priority":"Must Do","name":"Eiffel Tower + Trocadéro","area":"7th / Trocadéro","kid":"Yes","museum":"No","time":"2–3 hr","cost":"Ticketed tower; grounds free","reserve":"Yes","day":"Jun 2 · Arrival day","map":"Eiffel Tower","note":"Pair with Trocadéro and Champ de Mars."},{"priority":"Must Do","name":"Seine River Cruise","area":"Seine / Eiffel area","kid":"Yes","museum":"No","time":"1–1.5 hr","cost":"Ticketed","reserve":"Recommended","day":"Jun 2 · Evening","map":"Seine River cruise Paris","note":"Good low-effort sightseeing after arrival."},{"priority":"Must Do","name":"Versailles Palace & Gardens","area":"Versailles","kid":"Yes","museum":"No","time":"5–7 hr","cost":"Ticketed","reserve":"Yes","day":"Jun 3 · Day trip","map":"Palace of Versailles","note":"Major day trip; focus on palace highlights + gardens rather than museum-style depth."},{"priority":"Must Do","name":"Notre-Dame Cathedral","area":"Île de la Cité","kid":"Yes","museum":"No","time":"1–1.5 hr","cost":"Cathedral generally free; extras vary","reserve":"Recommended","day":"Jun 4","map":"Notre-Dame Cathedral Paris","note":"Interior is the goal, not just an exterior stop."},{"priority":"Must Do","name":"Napoleon’s Tomb / Les Invalides","area":"7th arrondissement","kid":"Yes","museum":"No","time":"1.5–2 hr","cost":"Ticketed","reserve":"Recommended","day":"Jun 4","map":"Napoleon's Tomb Les Invalides Paris","note":"Historic monument focus; skip deeper museum sections if desired."},{"priority":"Strong Option","name":"Arc de Triomphe","area":"Champs-Élysées","kid":"Yes","museum":"No","time":"1–1.5 hr","cost":"Ticketed rooftop; exterior free","reserve":"Recommended","day":"Jun 4","map":"Arc de Triomphe Paris","note":"Excellent city view; pair with Champs-Élysées."},{"priority":"Strong Option","name":"Sainte-Chapelle","area":"Île de la Cité","kid":"Yes","museum":"No","time":"45–60 min","cost":"Ticketed","reserve":"Recommended","day":"Jun 4 · If timing works","map":"Sainte-Chapelle Paris","note":"Compact historic stop near Notre-Dame."},{"priority":"Good If Nearby","name":"Tuileries Garden","area":"1st arrondissement","kid":"Yes","museum":"No","time":"45–90 min","cost":"Free","reserve":"No","day":"Jun 2 or Jun 4","map":"Tuileries Garden Paris","note":"Easy stroller-friendly break near central sights."},{"priority":"Good If Nearby","name":"Place de la Concorde","area":"8th arrondissement","kid":"Yes","museum":"No","time":"20–30 min","cost":"Free","reserve":"No","day":"Jun 4","map":"Place de la Concorde Paris","note":"Good pass-through/photo stop."},{"priority":"Good If Nearby","name":"Louvre Exterior / Courtyard","area":"1st arrondissement","kid":"Yes","museum":"No","time":"30–45 min","cost":"Free exterior","reserve":"No","day":"Jun 2 or Jun 4","map":"Louvre Museum Paris","note":"Exterior/photo stop only unless plans change."},{"priority":"Optional","name":"Montmartre + Sacré-Cœur","area":"18th arrondissement","kid":"Yes","museum":"No","time":"2–3 hr","cost":"Mostly free","reserve":"No","day":"Only if energy/time","map":"Sacré-Cœur Paris","note":"Atmospheric but adds travel and hills."},{"priority":"Low Priority","name":"Louvre Museum Interior","area":"1st arrondissement","kid":"Maybe","museum":"Yes","time":"3+ hr","cost":"Ticketed","reserve":"Yes","day":"Not planned","map":"Louvre Museum Paris","note":"Low priority because the trip is not museum-focused."},{"priority":"Low Priority","name":"Musée d’Orsay","area":"7th arrondissement","kid":"Maybe","museum":"Yes","time":"2–3 hr","cost":"Ticketed","reserve":"Recommended","day":"Not planned","map":"Musée d'Orsay Paris","note":"Low priority for this family trip."}],"London":[{"priority":"Must Do","name":"Tower of London + Crown Jewels","area":"Tower Hill","kid":"Yes","museum":"No","time":"3–4 hr","cost":"Ticketed","reserve":"Yes","day":"Jun 6","map":"Tower of London","note":"One of the strongest family/history stops."},{"priority":"Must Do","name":"Tower Bridge","area":"Tower Hill / Southwark","kid":"Yes","museum":"No","time":"1–1.5 hr","cost":"Exterior free; exhibition ticketed","reserve":"Recommended","day":"Jun 6","map":"Tower Bridge London","note":"Pairs naturally with Tower of London."},{"priority":"Strong Option","name":"Thames River Cruise","area":"Thames","kid":"Yes","museum":"No","time":"1–1.5 hr","cost":"Ticketed","reserve":"Recommended","day":"Jun 6","map":"Thames River cruise London","note":"Good low-effort connector after Tower sights."},{"priority":"Must Do","name":"Buckingham Palace / Changing of the Guard","area":"St James / Westminster","kid":"Yes","museum":"No","time":"1.5–2 hr","cost":"Exterior free; palace tours vary","reserve":"Recommended","day":"Jun 5","map":"Buckingham Palace London","note":"Pair with St James’s Park and Westminster."},{"priority":"Must Do","name":"Big Ben + Westminster","area":"Westminster","kid":"Yes","museum":"No","time":"1–1.5 hr","cost":"Mostly free exterior","reserve":"No","day":"Jun 5","map":"Big Ben London","note":"Core first-day landmark stop."},{"priority":"Must Do","name":"Windsor Castle","area":"Windsor","kid":"Yes","museum":"No","time":"5–7 hr with travel","cost":"Ticketed","reserve":"Yes","day":"Jun 7 · Day trip","map":"Windsor Castle","note":"Primary day trip."},{"priority":"Strong Option","name":"London Eye","area":"South Bank","kid":"Yes","museum":"No","time":"1–1.5 hr","cost":"Ticketed","reserve":"Yes","day":"Jun 5 or Jun 8","map":"London Eye","note":"Good skyline view; can flex to free day."},{"priority":"Strong Option","name":"Covent Garden","area":"West End","kid":"Yes","museum":"No","time":"1.5–2 hr","cost":"Free to explore","reserve":"No","day":"Jun 8","map":"Covent Garden London","note":"Food, street performers, shopping."},{"priority":"Strong Option","name":"Borough Market","area":"Southwark","kid":"Yes","museum":"No","time":"1–1.5 hr","cost":"Free entry; food extra","reserve":"No","day":"Jun 6 or Jun 8","map":"Borough Market London","note":"Easy food stop with the Tower/Thames side of town."},{"priority":"Good If Nearby","name":"St James’s Park","area":"Westminster","kid":"Yes","museum":"No","time":"30–60 min","cost":"Free","reserve":"No","day":"Jun 5","map":"St James's Park London","note":"Natural connector between Buckingham and Westminster."},{"priority":"Good If Nearby","name":"Sky Garden","area":"City of London","kid":"Yes","museum":"No","time":"1–1.5 hr","cost":"Often free with timed reservation","reserve":"Yes","day":"Jun 6 or Jun 8","map":"Sky Garden London","note":"Strong free-view option if a slot is available."},{"priority":"Optional","name":"Kensington Gardens","area":"Kensington","kid":"Yes","museum":"No","time":"1–2 hr","cost":"Free","reserve":"No","day":"Jun 8","map":"Kensington Gardens London","note":"Good flexible outdoor family stop."},{"priority":"Optional","name":"Westminster Abbey","area":"Westminster","kid":"Yes","museum":"No","time":"1.5–2 hr","cost":"Ticketed","reserve":"Recommended","day":"Jun 5 if energy/time","map":"Westminster Abbey London","note":"Historic landmark, but not essential if the day becomes too full."},{"priority":"Low Priority","name":"Churchill War Rooms","area":"Westminster","kid":"Maybe","museum":"Yes","time":"2–3 hr","cost":"Ticketed","reserve":"Recommended","day":"Not planned","map":"Churchill War Rooms London","note":"Low priority because this trip is not museum-focused."}]};
+const VIATOR_BASE="https://www.viator.com/?pid=P00282444&uid=U00758134&mcid=58086&currency=USD";
+let city="Paris",map=null,infoWindow=null,mapMarkers=[],mapReady=false,placesReady=false,routesReady=false;
+let activePhotoToken=0,routePolylines=[]; let hotelSort={key:"distance",dir:"asc"};
+const stateKey="familyHotelPlannerFinalState";
+let localState=JSON.parse(localStorage.getItem(stateKey)||'{"favorites":[],"hidden":[],"notes":{}}');
+
+const $=id=>document.getElementById(id);
+const fmt=v=>v==null?"—":"$"+Number(v).toLocaleString(undefined,{maximumFractionDigits:2});
+const pts=v=>v==null?"—":Number(v).toLocaleString();
+const nights=()=>city==="Paris"?3:4;
+const citySuffix=()=>city==="Paris"?"Paris, France":"London, UK";
+
+function saveState(){localStorage.setItem(stateKey,JSON.stringify(localState))}
+function fav(name){return localState.favorites.includes(name)}
+function hidden(name){return localState.hidden.includes(name)}
+function toggleFav(name){localState.favorites=fav(name)?localState.favorites.filter(x=>x!==name):[...localState.favorites,name];saveState();renderAll(false)}
+function toggleHidden(name){localState.hidden=hidden(name)?localState.hidden.filter(x=>x!==name):[...localState.hidden,name];saveState();renderAll(false)}
+function saveNote(name,val){localState.notes[name]=val;saveState()}
+
+function isRental(h){return h.brand==="Airbnb"||h.brand==="Vrbo"||h.lodgingType==="Vacation rental"}
+function directCashStay(h){
+ if(isRental(h)&&h.wholeGroupStay!=null)return h.wholeGroupStay;
+ if(h.directHilton?.stayTotalUSD!=null)return h.directHilton.stayTotalUSD;
+ if(h.regular!=null)return h.regular*h.nights;
+ return null;
+}
+function directCashNight(h){
+ if(isRental(h)&&h.wholeGroupStay!=null)return h.wholeGroupStay/h.nights;
+ if(h.directHilton?.avgNightUSD!=null)return h.directHilton.avgNightUSD;
+ return h.regular;
+}
+function directPoints(h){return isRental(h)?null:(h.directHilton?h.directHilton.pointsStay??null:h.points)}
+function bestKnown(h){
+ if(isRental(h))return{v:directCashNight(h),src:"Whole-group rental"};
+ const arr=[];
+ if(directCashNight(h)!=null)arr.push({v:directCashNight(h),src:h.brand+" Direct"});
+ if(h.mmp!=null)arr.push({v:h.mmp,src:"MMP"});
+ if(h.mma!=null)arr.push({v:h.mma,src:"MMA"});
+ if(h.expedia!=null)arr.push({v:h.expedia,src:"Expedia"});
+ if(!arr.length)return{v:null,src:""};
+ return arr.sort((a,b)=>a.v-b.v)[0]
+}
+function fullGroupCash(h){
+ if(isRental(h))return h.wholeGroupStay??null;
+ const bk=bestKnown(h);
+ return bk.v==null?null:bk.v*h.nights*2;
+}
+function fullGroupSource(h){
+ if(isRental(h))return "Whole rental · quoted group total";
+ const bk=bestKnown(h);return bk.v==null?"":`${bk.src} × 2 rooms × ${h.nights} nights`;
+}
+function familyFit(h){
+ if(isRental(h))return `Whole group · ${h.bedrooms??"?"}BR · sleeps ${h.sleeps??"?"}`;
+ if(h.brand==="Marriott")return "2 adults + 1 child searched per room";
+ if(h.name==="Hilton London Hyde Park")return "Strong family policy; room setup confirm";
+ if(h.familyExperience||h.directHilton?.familyExperience)return "Family amenities; occupancy confirm";
+ return "2-adult quote; occupancy confirm";
+}
+function accessLevel(h){return isRental(h)?(h.accessLevel||"unknown"):"good"}
+function accessText(h){return isRental(h)?(h.access||"Verify access"):"Hotel access / elevators expected; confirm room specifics"}
+function accessBadge(h){
+ const lv=accessLevel(h),label=lv==="good"?"Good":lv==="avoid"?"Avoid":lv==="caution"?"Caution":"Verify";
+ return `<span class="accessTag access-${lv}">${label}</span>`;
+}
+function visibleHotels(){
+ const b=$("brand").value,cap=+$("cap").value,vis=$("visibility").value,focus=$("hotelFocus").value;
+ const af=$("accessFilter")?.value||"all";
+ let a=DATA[city].filter(h=>(!b||h.brand===b)&&(bestKnown(h).v??999999)<=cap);
+ if(af==="easy")a=a.filter(h=>accessLevel(h)==="good");
+ if(af==="excludeAvoid")a=a.filter(h=>accessLevel(h)!=="avoid");
+ if(vis==="favorites")a=a.filter(h=>fav(h.name));
+ if(vis==="visible")a=a.filter(h=>!hidden(h.name));
+ if(focus)a=a.filter(h=>h.name===focus);
+ return a;
+}
+function refreshHotelSelect(){
+ const current=$("hotelFocus").value,b=$("brand").value,cap=+$("cap").value,vis=$("visibility").value;
+ const af=$("accessFilter")?.value||"all";
+ let a=DATA[city].filter(h=>(!b||h.brand===b)&&(bestKnown(h).v??999999)<=cap);
+ if(af==="easy")a=a.filter(h=>accessLevel(h)==="good");
+ if(af==="excludeAvoid")a=a.filter(h=>accessLevel(h)!=="avoid");
+ if(vis==="favorites")a=a.filter(h=>fav(h.name));
+ if(vis==="visible")a=a.filter(h=>!hidden(h.name));
+ $("hotelFocus").innerHTML='<option value="">Show all lodgings</option>'+a.map(h=>`<option value="${esc(h.name)}">${esc(h.name)}</option>`).join("");
+ if(a.some(h=>h.name===current))$("hotelFocus").value=current; else $("hotelFocus").value="";
+}
+function refreshDest(){
+ const current=$("destination").value;
+ $("destination").innerHTML='<option value="">No place selected</option>'+SIGHTS[city].map(s=>`<option value="${esc(s.name)}">${esc(s.name)}</option>`).join("");
+ if(SIGHTS[city].some(s=>s.name===current))$("destination").value=current;
+}
+function refreshRouteTo(){
+ const current=$("routeTo").value;
+ const placeOpts=SIGHTS[city].map(s=>`<option value="P:${esc(s.name)}">${esc(s.name)} · place</option>`).join("");
+ const hotelOpts=DATA[city].filter(h=>!hidden(h.name)).map(h=>`<option value="H:${esc(h.name)}">${esc(h.name)} · lodging</option>`).join("");
+ $("routeTo").innerHTML='<option value="">Choose route destination</option><optgroup label="Sights & saved places">'+placeOpts+'</optgroup><optgroup label="Lodgings">'+hotelOpts+'</optgroup>';
+ if([...$("routeTo").options].some(o=>o.value===current))$("routeTo").value=current;
+}
+function routeEntity(){
+ const v=$("routeTo").value;
+ if(!v)return null;
+ const type=v.slice(0,2),name=v.slice(2);
+ if(type==="P:"){const s=placeByName(name);return s?{kind:"place",name:s.name,lat:s.lat,lon:s.lon}:null}
+ if(type==="H:"){const h=hotelByName(name);return h?{kind:"hotel",name:h.name,lat:h.lat,lon:h.lon}:null}
+ return null;
+}
+function focusedOrigin(){
+ const hn=$("hotelFocus").value,pn=$("destination").value;
+ if(hn){const h=hotelByName(hn);return h?{kind:"hotel",name:h.name,lat:h.lat,lon:h.lon}:null}
+ if(pn){const s=placeByName(pn);return s?{kind:"place",name:s.name,lat:s.lat,lon:s.lon}:null}
+ return null;
+}
+function refreshCompare(){
+ const opts='<option value="">Choose lodging</option>'+DATA[city].filter(h=>!hidden(h.name)).map(h=>`<option value="${esc(h.name)}">${esc(h.name)}</option>`).join("");
+ const a=$("compareA").value,b=$("compareB").value;$("compareA").innerHTML=opts;$("compareB").innerHTML=opts;
+ if(DATA[city].some(h=>h.name===a))$("compareA").value=a;if(DATA[city].some(h=>h.name===b))$("compareB").value=b;
+}
+
+function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]))}
+function gSearch(q){return"https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(q)}
+function gDir(o,d,mode){return"https://www.google.com/maps/dir/?api=1&origin="+encodeURIComponent(o)+"&destination="+encodeURIComponent(d)+"&travelmode="+mode}
+function officialUrl(h){
+ if(h.listingUrl)return h.listingUrl;
+ if(h.brand==="Hilton"&&h.hiltonCode)return"https://www.hilton.com/en/hotels/"+h.hiltonCode.toLowerCase()+"/";
+ return h.brand==="Marriott"?"https://www.marriott.com/search/findHotels.mi?destinationAddress.city="+encodeURIComponent(city):"";
+}
+function placeByName(n){return SIGHTS[city].find(s=>s.name===n)}
+function hotelByName(n){return DATA[city].find(h=>h.name===n)}
+
+function renderSummary(hs){
+ $("count").textContent=hs.length;
+ const vals=hs.map(h=>fullGroupCash(h)).filter(v=>v!=null);
+ $("lowest").textContent=vals.length?fmt(Math.min(...vals)):"—";
+ $("refName").textContent=REFS[city].name;
+}
+
+function breakfastText(h){return h.directHilton?.breakfast||h.breakfast||"Not recorded"}
+function wifiText(h){return h.directHilton?.wifi||h.wifi||"Not recorded"}
+
+
+function hotelSortValue(h,key){
+  const p=directPoints(h),cash=directCashStay(h);
+  const vals={
+    name:h.name,brand:h.brand,distance:h.distance,family:familyFit(h),
+    directNight:directCashNight(h),directStay:cash,fullGroupCash:fullGroupCash(h),
+    bedrooms:h.bedrooms??null,bathrooms:h.bathrooms??null,access:accessText(h),
+    ac:h.ac||"",washer:h.washer||"",cancellation:h.cancelTerms||"",
+    rating:h.rating??null,points:p,mmp:h.mmp,mma:h.mma,expedia:h.expedia,
+    station:h.station||h.area||"",checked:h.lastPriceChecked||""
+  };
+  return vals[key];
+}
+function sortHotels(hs){
+  const {key,dir}=hotelSort;
+  const mult=dir==="asc"?1:-1;
+  return [...hs].sort((a,b)=>{
+    const av=hotelSortValue(a,key),bv=hotelSortValue(b,key);
+    const an=av==null||av===""||Number.isNaN(av),bn=bv==null||bv===""||Number.isNaN(bv);
+    if(an&&bn)return 0;
+    if(an)return 1;
+    if(bn)return -1;
+    if(typeof av==="number"&&typeof bv==="number")return (av-bv)*mult;
+    return String(av).localeCompare(String(bv),undefined,{numeric:true,sensitivity:"base"})*mult;
+  });
+}
+function updateSortMarks(){
+  document.querySelectorAll("th.sortable").forEach(th=>{
+    const mark=th.querySelector(".sortMark");
+    if(!mark)return;
+    mark.textContent=th.dataset.sort===hotelSort.key?(hotelSort.dir==="asc"?"▲":"▼"):"";
+  });
+}
+function setHotelSort(key){
+  if(hotelSort.key===key)hotelSort.dir=hotelSort.dir==="asc"?"desc":"asc";
+  else{
+    hotelSort.key=key;
+    hotelSort.dir=["name","brand","family","access","ac","washer","cancellation","station","checked"].includes(key)?"asc":"asc";
+  }
+  renderAll(false);
+}
+
+function renderHotelTable(hs){
+ hs=sortHotels(hs); updateSortMarks();
+ $("hotelBody").innerHTML=hs.map(h=>{
+   const d=directCashStay(h),p=directPoints(h),bk=bestKnown(h),fg=fullGroupCash(h);
+   const rowClass=hidden(h.name)?"strike":"";
+   const rental=isRental(h);
+   return `<tr class="${rowClass}">
+   <td><button class="btn small" onclick='toggleFav(${JSON.stringify(h.name)})'>${fav(h.name)?"★":"☆"}</button><button class="btn small" onclick='toggleHidden(${JSON.stringify(h.name)})'>${hidden(h.name)?"Show":"Hide"}</button></td>
+   <td class="hotelname"><b><a href="#" onclick='focusHotel(${JSON.stringify(h.name)});return false'>${esc(h.name)}</a></b><div class="priceSub">${esc(bk.src)}: ${fmt(bk.v)}/night</div></td>
+   <td><span class="badge ${h.brand.toLowerCase()}">${esc(h.brand)}</span><div class="priceSub">${rental?"Vacation rental":"Hotel"}</div></td>
+   <td>${h.distance!=null?h.distance.toFixed(1)+" mi":"—"}<div class="priceSub">from ${esc(REFS[city].name)}${rental?" · "+esc(h.locationConfidence||"approx."):""}</div></td>
+   <td>${esc(familyFit(h))}</td>
+   <td>${fmt(directCashNight(h))}</td>
+   <td>${fmt(d)}<div class="priceSub">${rental?"whole rental":"one room/direct stay"}</div></td>
+   <td><b>${fmt(fg)}</b><div class="priceSub">${esc(fullGroupSource(h))}</div></td>
+   <td>${h.bedrooms??"—"}</td><td>${h.bathrooms??"—"}</td>
+   <td>${accessBadge(h)}<div class="priceSub">${esc(accessText(h))}</div></td>
+   <td>${esc(h.ac|| (rental?"Not stated":"Hotel — verify room"))}</td>
+   <td>${esc(h.washer|| (rental?"Not stated":"—"))}</td>
+   <td>${esc(h.cancelTerms||h.directHilton?.cancelTerms||"Not recorded")}</td>
+   <td>${h.rating!=null?esc(h.rating)+(h.reviewCount!=null?` / ${Number(h.reviewCount).toLocaleString()} reviews`:""):"—"}</td>
+   <td>${p!=null?pts(p):h.directHilton?.pointsStatus||"—"}</td>
+   <td>${fmt(h.mmp)}</td><td>${fmt(h.mma)}</td><td>${fmt(h.expedia)}</td>
+   <td>${esc(h.station||h.area||"—")}<div class="priceSub">${esc(h.transit||"")}</div></td>
+   <td>${esc(h.lastPriceChecked||"—")}</td>
+   </tr>`
+ }).join("")
+}
+async function focusHotel(name){
+ if($("hotelFocus").value===name){
+   $("hotelFocus").value="";
+   $("routeTo").value="";
+   renderAll(false);
+   $("focusHero").innerHTML="<span>Select a lodging or place to load a photo.</span>";
+   return;
+ }
+ $("hotelFocus").value=name;
+ $("destination").value="";
+ renderAll(false);
+ await showLodgingPhoto(hotelByName(name));
+ if(mapReady){const h=hotelByName(name);map.panTo({lat:h.lat,lng:h.lon});map.setZoom(15)}
+}
+async function focusPlace(name){
+ if($("destination").value===name && !$("hotelFocus").value){
+   $("destination").value="";
+   $("routeTo").value="";
+   renderAll(false);
+   $("focusHero").innerHTML="<span>Select a lodging or place to load a photo.</span>";
+   return;
+ }
+ $("destination").value=name;
+ $("hotelFocus").value="";
+ renderAll(false);
+ await showPhoto(name+", "+citySuffix());
+ if(mapReady){const s=placeByName(name);map.panTo({lat:s.lat,lng:s.lon});map.setZoom(15)}
+}
+
+function routeControls(origin){
+ const dest=routeEntity();
+ if(!dest)return `<div class="note">Choose <b>Route to</b> above for walking or Metro/Transit directions from this ${origin.kind}.</div>`;
+ if(origin.name===dest.name)return `<div class="warning">Choose a different route destination.</div>`;
+ return `<div class="actions">
+   <a class="btn small primary" target="_blank" rel="noopener" href="${gDir(origin.name+", "+citySuffix(),dest.name+", "+citySuffix(),"walking")}">Walking ↗</a>
+   <a class="btn small teal" target="_blank" rel="noopener" href="${gDir(origin.name+", "+citySuffix(),dest.name+", "+citySuffix(),"transit")}">Metro / Transit ↗</a>
+   <button class="btn small" onclick="loadSingleRoute('WALKING')">Live walk time</button>
+   <button class="btn small" onclick="loadSingleRoute('TRANSIT')">Live transit time</button>
+ </div><div id="singleRoute" class="note"></div>`;
+}
+
+function renderFocus(){
+ const hn=$("hotelFocus").value,pn=$("destination").value;
+ if(hn){
+   const h=hotelByName(hn),d=h.directHilton,p=directPoints(h),cash=directCashStay(h),bk=bestKnown(h),fg=fullGroupCash(h);
+   const rental=isRental(h);
+   let quote="";
+   if(d){
+     const dates=city==="Paris"?["Jun 2","Jun 3","Jun 4"]:["Jun 5","Jun 6","Jun 7","Jun 8"];
+     const nightly=(d.nightly||[]).map((n,i)=>{
+       const local=typeof n==="object"?n.eur:n;
+       return `<div class="row"><span>${dates[i]}</span><b>${d.currencySymbol}${Number(local).toFixed(2)} ≈ ${fmt(d.nightlyUSD[i])}${d.pointsNightly?` · ${pts(d.pointsNightly[i])} pts`:""}</b></div>`
+     }).join("");
+     quote=`<div class="warning"><b>Hilton Direct quote</b><br>${esc(d.roomType)} · ${esc(d.occupancy)} · ${esc(d.ratePlan)}<br>${esc(d.cancelTerms)}</div>${nightly}
+     <div class="row"><span>Total direct stay</span><b>${fmt(d.stayTotalUSD)}</b></div>
+     <div class="row"><span>Points / stay</span><b>${p!=null?pts(p)+" pts":esc(d.pointsStatus||"Not offered")}</b></div>
+     ${d.familyExperience?`<div class="warning">${esc(d.familyExperience)}</div>`:""}${d.occupancyNote?`<div class="warning">${esc(d.occupancyNote)}</div>`:""}${d.pointsNote?`<div class="warning">${esc(d.pointsNote)}</div>`:""}`;
+   }
+   const rentalDetails=rental?`
+     <div class="rentalBox">
+       <div class="row"><span>Bedrooms / bathrooms</span><b>${h.bedrooms??"—"} / ${h.bathrooms??"—"}</b></div>
+       <div class="row"><span>Sleeps</span><b>${h.sleeps??"—"}</b></div>
+       <div class="row"><span>Access</span><b>${accessBadge(h)} ${esc(accessText(h))}</b></div>
+       <div class="row"><span>Floor</span><b>${esc(h.floor||"Unknown")}</b></div>
+       <div class="row"><span>Elevator</span><b>${esc(h.elevator||"Unknown")}</b></div>
+       <div class="row"><span>Stairs</span><b>${esc(h.stairs||"Unknown")}</b></div>
+       <div class="row"><span>AC</span><b>${esc(h.ac||"Not stated")}</b></div>
+       <div class="row"><span>Washer / dryer</span><b>${esc(h.washer||"Not stated")}</b></div>
+       <div class="row"><span>Crib / baby gear</span><b>${esc(h.crib||"Not stated")}</b></div>
+       <div class="row"><span>Rating</span><b>${h.rating!=null?esc(h.rating)+(h.reviewCount!=null?` · ${Number(h.reviewCount).toLocaleString()} reviews`:""):"—"}</b></div>
+       <div class="row"><span>Cancellation</span><b>${esc(h.cancelTerms||"Not recorded")}</b></div>
+       <div class="row"><span>Location confidence</span><b>${esc(h.locationConfidence||"Approximate")}</b></div>
+       ${h.hostNote?`<div class="warning">${esc(h.hostNote)}</div>`:""}
+       ${h.rentalNotes?`<div class="warning">${esc(h.rentalNotes)}</div>`:""}
+     </div>`:"";
+   const origin={kind:"hotel",name:h.name,lat:h.lat,lon:h.lon};
+   $("focusPanel").innerHTML=`<div class="focus"><h3>${esc(h.name)} ${fav(h.name)?"★":""}</h3>
+   <div class="actions"><button class="btn small" onclick="clearFocusOnly()">✕ Unselect lodging</button></div>
+   <div class="row"><span>Type / brand</span><b>${esc(h.brand)} · ${rental?"Vacation rental":"Hotel"}</b></div>
+   <div class="row"><span>Group fit</span><b>${esc(familyFit(h))}</b></div>
+   <div class="row"><span>Distance from ${esc(REFS[city].name)}</span><b>${h.distance!=null?h.distance.toFixed(1)+" mi":"—"}</b></div>
+   <div class="row"><span>Station / area</span><b>${esc(h.station||h.area||"—")}</b></div>
+   <div class="row"><span>Average cash / night</span><b>${fmt(bk.v)} · ${esc(bk.src)}</b></div>
+   <div class="row"><span>${rental?"Whole rental":"One room"} / stay</span><b>${fmt(cash)}</b></div>
+   <div class="row"><span>Estimated full-group cash</span><b>${fmt(fg)}</b></div>
+   <div class="row"><span>Full-group basis</span><b>${esc(fullGroupSource(h))}</b></div>
+   ${rentalDetails}
+   ${!rental?`<div class="row"><span>Direct points / stay</span><b>${p!=null?pts(p)+" pts":"—"}</b></div><div class="row"><span>Breakfast</span><b>${esc(breakfastText(h))}</b></div><div class="row"><span>Wi-Fi</span><b>${esc(wifiText(h))}</b></div>`:""}
+   ${quote}
+   <div class="actions"><a class="btn small" target="_blank" rel="noopener" href="${gSearch((h.area||h.name)+", "+citySuffix())}">Google Maps ↗</a>${officialUrl(h)?`<a class="btn small" target="_blank" rel="noopener" href="${officialUrl(h)}">${rental?"Open listing / photos ↗":"Official site ↗"}</a>`:""}<button class="btn small" onclick='toggleFav(${JSON.stringify(h.name)})'>${fav(h.name)?"Remove favorite":"★ Favorite"}</button><button class="btn small danger" onclick='toggleHidden(${JSON.stringify(h.name)})'>${hidden(h.name)?"Unhide":"Hide lodging"}</button></div>
+   ${routeControls(origin)}
+   <div class="notesbox"><label>My notes</label><textarea oninput='saveNote(${JSON.stringify(h.name)},this.value)' placeholder="Add notes for this lodging...">${esc(localState.notes[h.name]||"")}</textarea></div>
+   </div>`;
+   showLodgingPhoto(h);
+   return;
+ }
+ if(pn){
+   const s=placeByName(pn),origin={kind:"place",name:s.name,lat:s.lat,lon:s.lon};
+   $("focusPanel").innerHTML=`<div class="focus"><h3>${esc(s.name)}</h3>
+   <div class="actions"><button class="btn small" onclick="clearFocusOnly()">✕ Unselect place</button></div>
+   <div class="row"><span>Type</span><b>${esc(s.type)}</b></div>
+   <div class="row"><span>Distance from ${esc(REFS[city].name)}</span><b>${s.refDistance.toFixed(1)} mi straight-line</b></div>
+   <div class="actions"><a class="btn small" target="_blank" rel="noopener" href="${gSearch(s.name+", "+citySuffix())}">Open in Google Maps ↗</a></div>
+   ${routeControls(origin)}
+   </div>`;
+   showPhoto(s.name+", "+citySuffix());return;
+ }
+ $("focusPanel").innerHTML='<div class="focus"><h3>Select a lodging or place</h3><div class="note">Photos/listing links, pricing, family fit, access, directions and notes appear here.</div></div>';
+ $("focusHero").innerHTML="<span>Select a lodging or place to load a photo.</span>";
+}
+function renderPlaces(){
+ $("placesList").innerHTML=SIGHTS[city].map(s=>{
+   const active=$("destination").value===s.name&&!$("hotelFocus").value;
+   return `<div class="place ${active?"active":""}"><b>${esc(s.name)}</b><small>${esc(s.type)} · ${s.refDistance.toFixed(1)} mi from ${esc(REFS[city].name)}</small><div class="placeActions"><button class="btn small" onclick='focusPlace(${JSON.stringify(s.name)})'>${active?"✕ Unselect":"Focus"}</button><a class="btn small" target="_blank" href="${gSearch(s.name+", "+citySuffix())}">Google Maps ↗</a></div></div>`
+ }).join("")
+}
+
+function renderCompare(){
+ const names=[$("compareA").value,$("compareB").value];
+ $("compareGrid").innerHTML=names.map((n,idx)=>{
+   if(!n)return`<div class="compareCard"><h3>Lodging ${idx?"B":"A"}</h3><div class="note">Choose a lodging above.</div></div>`;
+   const h=hotelByName(n),cash=directCashStay(h),p=directPoints(h),bk=bestKnown(h),fg=fullGroupCash(h),rental=isRental(h);
+   return`<div class="compareCard"><div class="comparePhoto" id="comparePhoto${idx}"></div><h3>${esc(h.name)}</h3>
+   <div class="row"><span>Type</span><b>${esc(h.brand)} · ${rental?"Vacation rental":"Hotel"}</b></div>
+   <div class="row"><span>Group fit</span><b>${esc(familyFit(h))}</b></div>
+   <div class="row"><span>Reference distance</span><b>${h.distance?.toFixed(1)??"—"} mi</b></div>
+   <div class="row"><span>Avg/night</span><b>${fmt(bk.v)} · ${esc(bk.src)}</b></div>
+   <div class="row"><span>Stay cash</span><b>${fmt(cash)}</b></div>
+   <div class="row"><span>Full-group cash</span><b>${fmt(fg)}</b></div>
+   ${rental?`<div class="row"><span>Bedrooms / baths</span><b>${h.bedrooms??"—"} / ${h.bathrooms??"—"}</b></div><div class="row"><span>Access</span><b>${accessBadge(h)} ${esc(accessText(h))}</b></div><div class="row"><span>Cancellation</span><b>${esc(h.cancelTerms||"—")}</b></div>`:`<div class="row"><span>Points/stay</span><b>${p!=null?pts(p):"—"}</b></div><div class="row"><span>Breakfast</span><b>${esc(breakfastText(h))}</b></div>`}
+   <div class="row"><span>Station / area</span><b>${esc(h.station||h.area||"—")}</b></div>
+   <div class="actions"><button class="btn small" onclick='focusHotel(${JSON.stringify(h.name)})'>Focus</button><a class="btn small" target="_blank" href="${gSearch((h.area||h.name)+", "+citySuffix())}">Maps ↗</a>${officialUrl(h)?`<a class="btn small" target="_blank" href="${officialUrl(h)}">${rental?"Listing ↗":"Site ↗"}</a>`:""}</div></div>`
+ }).join("");
+ names.forEach((n,i)=>{if(n)showLodgingPhoto(hotelByName(n),"comparePhoto"+i)})
+}
+function clearMarkers(){mapMarkers.forEach(m=>m.setMap(null));mapMarkers=[]}
+function icon(c,scale=7){return{path:google.maps.SymbolPath.CIRCLE,fillColor:c,fillOpacity:1,strokeColor:"#fff",strokeWeight:2,scale}}
+function renderMap(){
+ if(!mapReady||!map)return;clearMarkers();const bounds=new google.maps.LatLngBounds();
+ SIGHTS[city].forEach(s=>{const c=s.type==="Sight"?"#e34b38":s.type==="Food"?"#d18a00":s.type==="Saved"?"#278369":"#7d8795";const m=new google.maps.Marker({map,position:{lat:s.lat,lng:s.lon},title:s.name,icon:icon(c,6)});m.addListener("click",()=>focusPlace(s.name));mapMarkers.push(m);bounds.extend(m.getPosition())});
+ visibleHotels().forEach(h=>{const mc=h.brand==="Marriott"?"#4d61d6":h.brand==="Hilton"?"#1380c5":h.brand==="Airbnb"?"#e84f6f":"#248b5a";const m=new google.maps.Marker({map,position:{lat:h.lat,lng:h.lon},title:h.name,icon:icon(mc,8)});m.addListener("click",()=>focusHotel(h.name));mapMarkers.push(m);bounds.extend(m.getPosition())});
+ if(!bounds.isEmpty())map.fitBounds(bounds,50)
+}
+
+const photoState={};
+function renderPhotoCarousel(targetId){
+ const target=$(targetId),st=photoState[targetId];
+ if(!target||!st||!st.items.length)return;
+ const i=st.index,item=st.items[i];
+ target.innerHTML=`<div class="photoCarousel">
+   ${st.items.length>1?`<button class="photoNav photoPrev" type="button" aria-label="Previous photo">‹</button>`:""}
+   <img src="${item.uri}" alt="${esc(st.query)}" class="mainPlacePhoto">
+   ${st.items.length>1?`<button class="photoNav photoNext" type="button" aria-label="Next photo">›</button>`:""}
+   <div class="photoCount">${i+1} / ${st.items.length}</div>
+   <div class="photoHint">Click to enlarge</div>
+   ${item.attrs?`<div class="attr">Photo: ${esc(item.attrs)}</div>`:""}
+ </div>
+ <div class="photoThumbs">${st.items.map((x,j)=>`<div class="photoThumb ${j===i?"active":""}" data-photo-index="${j}"><img src="${x.uri}" alt="Photo ${j+1}"></div>`).join("")}</div>`;
+
+ const prev=target.querySelector(".photoPrev");
+ const next=target.querySelector(".photoNext");
+ const main=target.querySelector(".mainPlacePhoto");
+ if(prev)prev.addEventListener("click",e=>{e.stopPropagation();changePhoto(targetId,-1)});
+ if(next)next.addEventListener("click",e=>{e.stopPropagation();changePhoto(targetId,1)});
+ if(main)main.addEventListener("click",()=>openPhotoModal(main.src,targetId));
+ target.querySelectorAll(".photoThumb").forEach(el=>{
+   el.addEventListener("click",()=>setPhotoIndex(targetId,Number(el.dataset.photoIndex)));
+ });
+}
+function setPhotoIndex(targetId,index){
+ const st=photoState[targetId];if(!st)return;st.index=index;renderPhotoCarousel(targetId)
+}
+function changePhoto(targetId,delta){
+ const st=photoState[targetId];if(!st||!st.items.length)return;st.index=(st.index+delta+st.items.length)%st.items.length;renderPhotoCarousel(targetId)
+}
+async function showLodgingPhoto(h,targetId="focusHero"){
+ const target=$(targetId);if(!target||!h)return;
+ if(isRental(h)&&!h.photoQuery){
+   target.innerHTML=`<div class="rentalBox" style="width:100%;text-align:left"><b>${esc(h.brand)} listing photos</b><p class="note">The exact rental gallery is best viewed on the listing. The live map below uses the supplied/identified location pin.</p>${h.listingUrl?`<a class="btn small" target="_blank" rel="noopener" href="${h.listingUrl}">Open listing photos ↗</a>`:""}</div>`;
+   return;
+ }
+ await showPhoto((h.photoQuery||h.name)+", "+citySuffix(),targetId);
+}
+async function showPhoto(query,targetId="focusHero"){
+ const target=$(targetId);if(!target)return;
+ target.innerHTML='<span><span class="spinner"></span> Loading photos…</span>';
+ if(!mapReady){target.innerHTML="<span>Google features are still loading.</span>";return}
+ try{
+   const {Place}=await google.maps.importLibrary("places");
+   placesReady=true;$("placesStatus").className="pill ok";$("placesStatus").textContent="Photos: ready";
+   const {places}=await Place.searchByText({textQuery:query,fields:["id","displayName","photos"],maxResultCount:1});
+   const photos=places?.[0]?.photos||[];
+   if(!photos.length){target.innerHTML="<span>No Google Places photos returned.</span>";return}
+   const items=photos.slice(0,8).map(photo=>({
+     uri:photo.getURI({maxWidth:1400}),
+     attrs:(photo.authorAttributions||[]).map(a=>a.displayName).filter(Boolean).join(", ")
+   }));
+   photoState[targetId]={query,items,index:0};
+   renderPhotoCarousel(targetId);
+ }catch(e){
+   placesReady=false;$("placesStatus").className="pill warn";$("placesStatus").textContent="Photos: enable Places API (New)";
+   target.innerHTML="<span>Could not load Google Places photos.</span>";
+ }
+}
+async function loadSingleRoute(mode){
+ const origin=focusedOrigin(),dest=routeEntity(),out=$("singleRoute");
+ if(!origin||!dest||!out)return;
+ if(origin.name===dest.name){out.textContent="Choose a different route destination.";return}
+ out.innerHTML='<span class="spinner"></span> Loading route…';
+ try{
+   const {Route}=await google.maps.importLibrary("routes");routesReady=true;$("routesStatus").className="pill ok";$("routesStatus").textContent="Routes: ready";
+   const {routes}=await Route.computeRoutes({origin:{lat:origin.lat,lng:origin.lon},destination:{lat:dest.lat,lng:dest.lon},travelMode:mode,fields:["distanceMeters","durationMillis","localizedValues","path"]});
+   if(!routes?.length)throw new Error("No route");
+   routePolylines.forEach(p=>p.setMap(null));routePolylines=routes[0].createPolylines();routePolylines.forEach(p=>p.setMap(map));
+   const r=routes[0],dist=r.localizedValues?.distance||((r.distanceMeters/1609.344).toFixed(1)+" mi"),dur=r.localizedValues?.duration||Math.round(r.durationMillis/60000)+" min";
+   out.textContent=`${mode==="WALKING"?"Walking":"Transit"} from ${origin.name} to ${dest.name}: ${dist} · ${dur}${mode==="TRANSIT"?" (current-network estimate)":""}`;
+ }catch(e){routesReady=false;$("routesStatus").className="pill warn";$("routesStatus").textContent="Routes: enable Routes API";out.textContent="Could not calculate the route here. The Google Maps route buttons above will still open the route directly."}
+}
+
+async function loadMatrix(){
+ const hn=$("hotelFocus").value;if(!hn){$("matrix").innerHTML='<div class="warning">Select one hotel first.</div>';return}
+ const h=hotelByName(hn),targets=SIGHTS[city].filter(s=>s.type!=="Food").slice(0,8);$("matrix").innerHTML='<span class="spinner"></span> Loading route matrix…';
+ try{
+   const {Route}=await google.maps.importLibrary("routes");routesReady=true;$("routesStatus").className="pill ok";$("routesStatus").textContent="Routes: ready";
+   let rows=[];
+   for(const s of targets){
+     let w="—",t="—";
+     try{const x=await Route.computeRoutes({origin:{lat:h.lat,lng:h.lon},destination:{lat:s.lat,lng:s.lon},travelMode:"WALKING",fields:["durationMillis","distanceMeters","localizedValues"]});if(x.routes?.[0])w=(x.routes[0].localizedValues?.duration||Math.round(x.routes[0].durationMillis/60000)+" min")+" · "+(x.routes[0].localizedValues?.distance||(x.routes[0].distanceMeters/1609.344).toFixed(1)+" mi")}catch(e){}
+     try{const x=await Route.computeRoutes({origin:{lat:h.lat,lng:h.lon},destination:{lat:s.lat,lng:s.lon},travelMode:"TRANSIT",fields:["durationMillis","distanceMeters","localizedValues"]});if(x.routes?.[0])t=(x.routes[0].localizedValues?.duration||Math.round(x.routes[0].durationMillis/60000)+" min")}catch(e){}
+     rows.push(`<tr><td>${esc(s.name)}</td><td>${w}</td><td>${t}</td><td><a target="_blank" href="${gDir(h.name+", "+citySuffix(),s.name+", "+citySuffix(),"transit")}">Maps ↗</a></td></tr>`);
+   }
+   $("matrix").innerHTML=`<table><thead><tr><th>Place</th><th>Walk</th><th>Transit*</th><th>Route</th></tr></thead><tbody>${rows.join("")}</tbody></table><div class="note">*Transit is a current-network estimate, not a June 2027 timetable.</div>`;
+ }catch(e){routesReady=false;$("routesStatus").className="pill warn";$("routesStatus").textContent="Routes: enable Routes API";$("matrix").innerHTML='<div class="warning">Routes API is not enabled for this key. Enable it to load walking/transit times.</div>'}
+}
+
+
+function priorityClass(p){
+ if(p==="Must Do")return"priority-must";
+ if(p==="Strong Option")return"priority-strong";
+ if(p==="Good If Nearby")return"priority-nearby";
+ if(p==="Low Priority")return"priority-low";
+ return"priority-optional";
+}
+function renderActivities(){
+ const p=$("activityPriority")?.value||"",m=$("activityMuseum")?.value||"",r=$("activityReserve")?.value||"";
+ const rows=(ACTIVITIES[city]||[]).filter(a=>(!p||a.priority===p)&&(!m||a.museum===m)&&(!r||a.reserve===r));
+ $("activityBody").innerHTML=rows.map(a=>`<tr>
+ <td><span class="priorityTag ${priorityClass(a.priority)}">${esc(a.priority)}</span></td>
+ <td><b>${esc(a.name)}</b><div class="priceSub">${esc(a.note||"")}</div></td>
+ <td>${esc(a.area)}</td>
+ <td>${esc(a.kid)}</td>
+ <td>${esc(a.museum)}</td>
+ <td>${esc(a.time)}</td>
+ <td>${esc(a.cost)}</td>
+ <td>${esc(a.reserve)}</td>
+ <td>${esc(a.day)}</td>
+ <td><a class="btn small" target="_blank" rel="noopener" href="${gSearch(a.map+", "+citySuffix())}">Map ↗</a></td>
+ <td><a class="btn small teal" target="_blank" rel="noopener" href="${VIATOR_BASE}">Check / Book ↗</a></td>
+ </tr>`).join("");
+}
+function renderAll(refresh=true){
+ if(refresh){refreshHotelSelect();refreshDest();refreshRouteTo();refreshCompare()}
+ const hs=visibleHotels();renderSummary(hs);renderHotelTable(hs);renderFocus();renderPlaces();renderActivities();renderCompare();renderMap()
+}
+
+async function initMap(){
+ const {Map}=await google.maps.importLibrary("maps");map=new Map($("map"),{center:{lat:REFS[city].lat,lng:REFS[city].lon},zoom:13,mapTypeControl:true,streetViewControl:true,fullscreenControl:true,gestureHandling:"greedy"});
+ mapReady=true;$("mapStatus").className="pill ok";$("mapStatus").textContent="Map: ready";renderAll(false);
+ // Probe optional libraries without failing the map.
+ try{await google.maps.importLibrary("places");placesReady=true;$("placesStatus").className="pill ok";$("placesStatus").textContent="Photos: ready"}catch(e){$("placesStatus").className="pill warn";$("placesStatus").textContent="Photos: enable Places API (New)"}
+ try{await google.maps.importLibrary("routes");routesReady=true;$("routesStatus").className="pill ok";$("routesStatus").textContent="Routes: ready"}catch(e){$("routesStatus").className="pill warn";$("routesStatus").textContent="Routes: enable Routes API"}
+}
+
+function loadGoogle(){
+ const key=$("apiKey").value.trim();if(!key){$("mapStatus").textContent="Map: paste key first";return}
+ 
+ if(window.google?.maps?.importLibrary){initMap();return}
+ // Google recommended dynamic loader.
+ (g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await(a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})({key,v:"weekly"});
+ initMap().catch(e=>{$("mapStatus").className="pill warn";$("mapStatus").textContent="Map: failed — check key/API restrictions"});
+}
+
+
+let modalGalleryTarget="focusHero";
+function openPhotoModal(src,targetId="focusHero"){
+  modalGalleryTarget=targetId;
+  const st=photoState[targetId];
+  if(st&&st.items?.length){
+    const idx=st.items.findIndex(x=>x.uri===src);
+    if(idx>=0)st.index=idx;
+    updateExpandedPhoto();
+  }else{
+    $("photoModalImg").src=src;
+    $("photoModalCount").textContent="";
+    $("photoModalPrev").style.display="none";
+    $("photoModalNext").style.display="none";
+  }
+  $("photoModal").classList.add("open");
+  $("photoModal").setAttribute("aria-hidden","false");
+}
+function updateExpandedPhoto(){
+  const st=photoState[modalGalleryTarget];
+  if(!st||!st.items?.length)return;
+  const item=st.items[st.index];
+  $("photoModalImg").src=item.uri;
+  $("photoModalCount").textContent=`${st.index+1} / ${st.items.length}`;
+  const show=st.items.length>1?"block":"none";
+  $("photoModalPrev").style.display=show;
+  $("photoModalNext").style.display=show;
+}
+function changeExpandedPhoto(delta){
+  const st=photoState[modalGalleryTarget];
+  if(!st||!st.items?.length)return;
+  st.index=(st.index+delta+st.items.length)%st.items.length;
+  updateExpandedPhoto();
+  renderPhotoCarousel(modalGalleryTarget);
+}
+function closePhotoModal(){
+  $("photoModal").classList.remove("open");
+  $("photoModal").setAttribute("aria-hidden","true");
+  $("photoModalImg").src="";
+}
+
+function clearCurrentSelection(){
+  clearFocusOnly();
+}
+function clearFocusOnly(){
+  $("hotelFocus").value="";
+  $("destination").value="";
+  $("routeTo").value="";
+  $("matrix").innerHTML="";
+  routePolylines.forEach(p=>p.setMap(null));
+  routePolylines=[];
+  renderAll(false);
+  $("focusHero").innerHTML="<span>Select a lodging or place to load a photo.</span>";
+}
+
+function resetCurrentMapView(){
+  if(!mapReady||!map)return;
+  routePolylines.forEach(p=>p.setMap(null));
+  routePolylines=[];
+  map.setCenter({lat:REFS[city].lat,lng:REFS[city].lon});
+  map.setZoom(13);
+}
+
+$("photoModalClose").onclick=closePhotoModal;$("photoModalPrev").onclick=e=>{e.stopPropagation();changeExpandedPhoto(-1)};$("photoModalNext").onclick=e=>{e.stopPropagation();changeExpandedPhoto(1)};
+$("photoModal").onclick=e=>{if(e.target===$("photoModal"))closePhotoModal()};
+document.addEventListener("keydown",e=>{
+  if(e.key==="Escape"){closePhotoModal();return}
+  if($("photoModal").classList.contains("open")){
+    if(e.key==="ArrowLeft")changeExpandedPhoto(-1);
+    if(e.key==="ArrowRight")changeExpandedPhoto(1);
+    return;
+  }
+  if(photoState.focusHero){
+    if(e.key==="ArrowLeft")changePhoto("focusHero",-1);
+    if(e.key==="ArrowRight")changePhoto("focusHero",1);
+  }
+});
+
+$("loadGoogle").onclick=loadGoogle;$("loadMatrix").onclick=loadMatrix;$("clearSelection").onclick=clearCurrentSelection;$("resetMapView").onclick=resetCurrentMapView;
+["brand","cap","visibility","accessFilter"].forEach(id=>$(id).onchange=()=>renderAll(true));
+["activityPriority","activityMuseum","activityReserve"].forEach(id=>$(id).onchange=()=>renderActivities());
+$("hotelFocus").onchange=()=>{if($("hotelFocus").value)$("destination").value="";renderAll(false)};
+$("destination").onchange=()=>{if($("destination").value)$("hotelFocus").value="";renderAll(false)};
+$("routeTo").onchange=()=>renderFocus();
+["compareA","compareB"].forEach(id=>$(id).onchange=renderCompare);
+document.querySelectorAll("th.sortable").forEach(th=>th.addEventListener("click",()=>setHotelSort(th.dataset.sort)));
+document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));b.classList.add("active");city=b.dataset.city;$("hotelFocus").value="";$("destination").value="";$("routeTo").value="";$("matrix").innerHTML="";if(mapReady){map.setCenter({lat:REFS[city].lat,lng:REFS[city].lon});map.setZoom(13)}renderAll(true)});
+renderAll(true);window.addEventListener("load",()=>{setTimeout(loadGoogle,100)});
+</script>
+</body></html>
