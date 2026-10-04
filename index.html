@@ -56,7 +56,7 @@ main{padding:18px 14px 42px}.card,.toolbar,.summary,.panel{background:#fff;borde
 .priority-nearby{background:#fff4d8;color:#875a00}.priority-optional{background:#eef1f5;color:#4a5563}
 .priority-low{background:#fde7e7;color:#9b1c1c}
 
-.weatherPanel{margin-bottom:14px;padding:14px}
+.flightPanel{margin-bottom:14px;padding:14px}.flightGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.flightCard{border:1px solid var(--line);border-radius:12px;padding:12px;background:#fbfdff}.flightCard h3{margin:0 0 8px;font-size:15px}.flightLeg{display:grid;grid-template-columns:90px 1fr;gap:8px;padding:7px 0;border-bottom:1px solid #edf0f4;font-size:12px}.flightLeg:last-child{border-bottom:0}.flightTime{font-weight:900}.flightRoute{font-weight:850}.flightMeta{font-size:10px;color:var(--muted);margin-top:2px;line-height:1.4}.flightLayover{margin:7px 0;padding:7px 9px;border-radius:8px;background:#fff4d8;color:#875a00;font-size:11px;font-weight:800}@media(max-width:750px){.flightGrid{grid-template-columns:1fr}}.weatherPanel{margin-bottom:14px;padding:14px}
 .weatherHead{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap}
 .weatherCurrent{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:10px 0}
 .weatherTemp{font-size:34px;font-weight:900}
@@ -109,6 +109,45 @@ main{padding:18px 14px 42px}.card,.toolbar,.summary,.panel{background:#fff;borde
 <div class="note">To use all features, allow the same key to access Maps JavaScript API, Places API (New), and Routes API.</div>
 </section>
 
+
+
+<section class="panel flightPanel" id="flightPanel">
+  <div class="weatherHead">
+    <div>
+      <h2 style="margin:0">Flights</h2>
+      <div class="note">Confirmed trip flight details · June 1–9, 2027 · Courtesy of TripIt</div>
+    </div>
+  </div>
+  <div class="flightGrid">
+    <div class="flightCard">
+      <h3>Outbound · Tampa → Paris</h3>
+      <div class="flightLeg">
+        <div class="flightTime">Tue, Jun 1<br>2:20 PM EDT</div>
+        <div><div class="flightRoute">TPA → ATL · DL 1525</div><div class="flightMeta">Delta Air Lines · arrives Atlanta 3:57 PM EDT</div></div>
+      </div>
+      <div class="flightLayover">Atlanta layover · 1 hr 38 min</div>
+      <div class="flightLeg">
+        <div class="flightTime">Tue, Jun 1<br>5:35 PM EDT</div>
+        <div><div class="flightRoute">ATL → CDG · DL 90</div><div class="flightMeta">Delta Air Lines · overnight transatlantic flight</div></div>
+      </div>
+      <div class="flightLeg">
+        <div class="flightTime">Wed, Jun 2<br>8:15 AM GMT+2</div>
+        <div><div class="flightRoute">Arrive Paris · CDG</div><div class="flightMeta">Paris hotel stay begins Jun 2</div></div>
+      </div>
+    </div>
+    <div class="flightCard">
+      <h3>Return · London → Tampa</h3>
+      <div class="flightLeg">
+        <div class="flightTime">Wed, Jun 9<br>12:40 PM GMT+1</div>
+        <div><div class="flightRoute">LHR → TPA · VS 129</div><div class="flightMeta">Virgin Atlantic · nonstop to Tampa</div></div>
+      </div>
+      <div class="flightLeg">
+        <div class="flightTime">Wed, Jun 9<br>5:05 PM EDT</div>
+        <div><div class="flightRoute">Arrive Tampa · TPA</div><div class="flightMeta">Trip ends Jun 9</div></div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <section class="panel weatherPanel" id="weatherPanel">
   <div class="weatherHead">
