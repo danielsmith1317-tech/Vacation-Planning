@@ -268,9 +268,7 @@ main{padding:18px 14px 42px}.card,.toolbar,.summary,.panel{background:#fff;borde
 <th class="sortable" data-sort="distance">Ref dist.<span class="sortMark"></span></th>
 <th class="sortable" data-sort="family">Group fit<span class="sortMark"></span></th>
 <th>Room 1 · full stay</th>
-<th>Room 1 source</th>
 <th>Room 2 · full stay</th>
-<th>Room 2 source</th>
 <th class="sortable" data-sort="fullGroupCash">Combined · full stay<span class="sortMark"></span></th>
 <th>Book with</th>
 <th class="sortable" data-sort="points">Points · 1 room stay (2p/3p)<span class="sortMark"></span></th>
@@ -281,7 +279,7 @@ main{padding:18px 14px 42px}.card,.toolbar,.summary,.panel{background:#fff;borde
 <th class="sortable" data-sort="station">Area / Station<span class="sortMark"></span></th>
 <th class="sortable" data-sort="checked">Checked<span class="sortMark"></span></th>
 </tr></thead><tbody id="hotelBody"></tbody></table></div>
-<div class="note"><b>How to read this:</b> Hotel cash pricing now prioritizes <b>two separate one-room searches</b>: Room 1 = Daniel / Mariana / Luciano (age 1), Room 2 = Nicole / Gemma / Jasper (ages 2 and 11). Each room keeps its own booking source because the cheapest seller can differ by occupancy. The <b>Combined</b> price is Room 1 + Room 2 and is the number used against Airbnb/Vrbo. Where a provider still has only an aggregate quote, individual rooms remain blank rather than being estimated. Marriott Points/MMP/MMA remain separate 2-person/3-person comparisons. Flexible/cancellable terms should still be re-verified before booking.</div>
+<div class="note"><b>How to read this:</b> Hotel cash pricing shows the two actual room totals plus the combined 2-room total. <b>Book with</b> is the only booking-source field; separate Room 1/Room 2 source columns were removed because they were redundant and often unavailable. If two different sellers are required for the two rooms, Book with may show both. Where only an aggregate quote exists, individual rooms remain blank rather than being estimated. Marriott Points/MMP/MMA remain separate 2-person/3-person comparisons. Flexible/cancellable terms should still be re-verified before booking.</div>
 </div>
 </section>
 
@@ -677,7 +675,7 @@ function renderDecision(){
      <div class="scoreLine"><span class="statusPill ${decisionStatusClass(x.status)}">${esc(x.status)}</span><div class="scoreRing">${x.score}</div></div>
      <h3><a href="#" onclick='focusHotel(${JSON.stringify(h.name)});document.getElementById("decisionSection").scrollIntoView({behavior:"smooth"});return false'>${esc(h.name)}</a></h3>
      <div class="decisionPrice">${fmt(fg)} <span style="font-size:10px;font-weight:700;color:var(--muted)">combined</span></div>
-     <div class="decisionMeta">${isRental(h)?"Whole property":`Room 1: <b>${roomCashLabel(h,1)}</b> <span class="priceSub">${esc(h.room1Source||"")}</span> · Room 2: <b>${roomCashLabel(h,2)}</b> <span class="priceSub">${esc(h.room2Source||"")}</span>`}<br>Combined booking: <b>${esc(fullGroupSource(h))}</b> · ${esc(familyFit(h))}</div>
+     <div class="decisionMeta">${isRental(h)?"Whole property":`Room 1: <b>${roomCashLabel(h,1)}</b> · Room 2: <b>${roomCashLabel(h,2)}</b>`}<br>Book with <b>${esc(fullGroupSource(h))}</b> · ${esc(familyFit(h))}</div>
      <div class="scoreBreakdown"><span>Location ${c.location}</span><span>Price ${c.price}</span><span>Luxury ${c.luxury}</span><span>Condition ${c.condition}</span><span>Reviews ${c.reviews}</span><span>Family ${c.family}</span><span>Flex ${c.flexibility}</span><span>Loyalty ${c.loyalty}</span></div>
      <div class="procon"><div class="pro"><b>Why it stays:</b> ${esc(w.pro)}</div><div class="con"><b>Why it loses:</b> ${esc(w.con)}</div></div>
      <div class="actions"><button class="btn small" onclick='focusHotel(${JSON.stringify(h.name)})'>View details</button><button class="btn small" onclick='toggleFav(${JSON.stringify(h.name)})'>${fav(h.name)?"★ Favorite":"☆ Favorite"}</button></div>
@@ -756,9 +754,7 @@ function renderHotelTable(hs){
    <td>${h.distance!=null?h.distance.toFixed(1)+" mi":"—"}<div class="priceSub">from ${esc(REFS[city].name)}${rental?" · "+esc(h.locationConfidence||"approx."):""}</div></td>
    <td>${esc(familyFit(h))}</td>
    <td><b>${roomCashLabel(h,1)}</b><div class="priceSub">${esc(roomCashSplit(h).room1==null?roomCashSplit(h).basis:"Daniel / Mariana / Luciano")}</div></td>
-   <td>${esc(h.room1Source||"—")}</td>
    <td><b>${roomCashLabel(h,2)}</b><div class="priceSub">${esc(roomCashSplit(h).room2==null?roomCashSplit(h).basis:"Nicole / Gemma / Jasper")}</div></td>
-   <td>${esc(h.room2Source||"—")}</td>
    <td><b>${fmt(fg)}</b><div class="priceSub">${rental?"whole property":"2 rooms combined"}</div></td>
    <td><b>${esc(fullGroupSource(h))}</b><div class="priceSub">${esc(h.cashRatePreference||"Cancellable / non-prepaid preferred")}</div></td>
    <td>${p!=null?pts(p):h.directHilton?.pointsStatus||"—"}${p!=null?`<div class="priceSub">${h.points2Occ!=null?"2p "+pts(h.points2Occ):""}${h.points3Occ!=null?" · 3p "+pts(h.points3Occ):h.points2Occ!=null?" · 3p unavailable":""}</div>`:""}</td>
