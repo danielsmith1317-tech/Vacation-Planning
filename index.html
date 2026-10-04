@@ -133,7 +133,7 @@ main{padding:18px 14px 42px}.card,.toolbar,.summary,.panel{background:#fff;borde
 
 <div class="summary">
 <div class="metric"><div class="small">Lodgings shown</div><div class="big" id="count">—</div></div>
-<div class="metric"><div class="small">Lowest full-group stay</div><div class="big" id="lowest">—</div></div>
+<div class="metric"><div class="small">Lowest combined stay</div><div class="big" id="lowest">—</div></div>
 <div class="metric"><div class="small">Reference</div><div class="big" id="refName" style="font-size:14px">—</div></div>
 <div class="metric"><div class="small">Hotel room plan</div><div class="big" style="font-size:14px">2 rooms · kids 1, 2 & 11</div></div>
 <div class="metric"><div class="small">Hilton pricing method</div><div class="big" style="font-size:14px">2-adult room baseline*</div></div>
@@ -212,7 +212,9 @@ main{padding:18px 14px 42px}.card,.toolbar,.summary,.panel{background:#fff;borde
 <th class="sortable" data-sort="brand">Type / Brand<span class="sortMark"></span></th>
 <th class="sortable" data-sort="distance">Ref dist.<span class="sortMark"></span></th>
 <th class="sortable" data-sort="family">Group fit<span class="sortMark"></span></th>
-<th class="sortable" data-sort="fullGroupCash">Best cash · full stay<span class="sortMark"></span></th>
+<th>Room 1 · full stay</th>
+<th>Room 2 · full stay</th>
+<th class="sortable" data-sort="fullGroupCash">Combined · full stay<span class="sortMark"></span></th>
 <th>Book with</th>
 <th class="sortable" data-sort="points">Points · 1 room stay<span class="sortMark"></span></th>
 <th class="sortable" data-sort="mmp">MMP/night<span class="sortMark"></span></th>
@@ -222,7 +224,7 @@ main{padding:18px 14px 42px}.card,.toolbar,.summary,.panel{background:#fff;borde
 <th class="sortable" data-sort="station">Area / Station<span class="sortMark"></span></th>
 <th class="sortable" data-sort="checked">Checked<span class="sortMark"></span></th>
 </tr></thead><tbody id="hotelBody"></tbody></table></div>
-<div class="note"><b>How to read this:</b> “Best cash” is the lowest currently recorded <b>cancellable, non-prepaid</b> full-stay price for the entire group, with the booking source shown beside it. <b>Points are shown for one room for the full stay</b>, so you can use points for Daniel/Mariana/Luciano’s room while Nicole’s room remains cash if needed. MMP and MMA stay separate so you can add/update them from Marriott without changing the normal cash comparison. Hilton cash should use Semi-Flex when verified. Advance Purchase/non-refundable rates should not be treated as the winning cash price.</div>
+<div class="note"><b>How to read this:</b> Hotel cash pricing is shown as <b>Room 1</b> (Daniel / Mariana / Luciano), <b>Room 2</b> (Nicole / Gemma / Jasper), and the <b>combined 2-room total</b> so hotels can be compared fairly with Airbnb/Vrbo. If a booking source only returned one combined two-room total, the planner leaves the individual-room amounts blank rather than guessing. “Book with” shows the source of the best currently recorded cancellable, non-prepaid cash price. <b>Points remain one-room/full-stay</b>. MMP and MMA stay separate so you can add/update them from Marriott without changing the normal cash comparison.</div>
 </div>
 </section>
 
@@ -305,6 +307,30 @@ function bestKnown(h){
 }
 function fullGroupCash(h){return bestCashQuote(h).total}
 function fullGroupSource(h){return bestCashQuote(h).source}
+
+function roomCashSplit(h){
+ if(isRental(h))return{room1:null,room2:null,combined:h.wholeGroupStay??null,basis:"Whole property"};
+ const combined=fullGroupCash(h);
+ // Marriott exact searches were run separately for the two actual room occupancies.
+ if(h.occupancyMethod==="exact-split" && h.room1NightUSD!=null && h.room2NightUSD!=null){
+   return{
+     room1:h.room1NightUSD*h.nights,
+     room2:h.room2NightUSD*h.nights,
+     combined:(h.room1NightUSD+h.room2NightUSD)*h.nights,
+     basis:"Exact room split"
+   };
+ }
+ // Hilton baseline intentionally prices two identical 2-adult standard rooms.
+ if(h.occupancyMethod==="hilton-2adult-baseline" && combined!=null){
+   return{room1:combined/2,room2:combined/2,combined,basis:"2-adult baseline per room"};
+ }
+ // Other providers returned only an aggregate 2-room total; do not invent a per-room split.
+ return{room1:null,room2:null,combined,basis:"Provider did not itemize rooms"};
+}
+function roomCashLabel(h,which){
+ const s=roomCashSplit(h),v=which===1?s.room1:s.room2;
+ return v==null?"—":fmt(v);
+}
 function familyFit(h){
  if(isRental(h))return `Whole group · ${h.bedrooms??"?"}BR · sleeps ${h.sleeps??"?"}`;
  if(h.occupancyMethod==="exact-split")return "2 rooms · exact family split priced";
@@ -521,8 +547,8 @@ function renderDecision(){
    return `<div class="decisionCard">
      <div class="scoreLine"><span class="statusPill ${decisionStatusClass(x.status)}">${esc(x.status)}</span><div class="scoreRing">${x.score}</div></div>
      <h3><a href="#" onclick='focusHotel(${JSON.stringify(h.name)});document.getElementById("decisionSection").scrollIntoView({behavior:"smooth"});return false'>${esc(h.name)}</a></h3>
-     <div class="decisionPrice">${fmt(fg)}</div>
-     <div class="decisionMeta">full group · book with <b>${esc(fullGroupSource(h))}</b> · ${esc(familyFit(h))}</div>
+     <div class="decisionPrice">${fmt(fg)} <span style="font-size:10px;font-weight:700;color:var(--muted)">combined</span></div>
+     <div class="decisionMeta">${isRental(h)?"Whole property":`Room 1: <b>${roomCashLabel(h,1)}</b> · Room 2: <b>${roomCashLabel(h,2)}</b>`}<br>Book with <b>${esc(fullGroupSource(h))}</b> · ${esc(familyFit(h))}</div>
      <div class="scoreBreakdown"><span>Location ${c.location}</span><span>Price ${c.price}</span><span>Family ${c.family}</span><span>Flex ${c.flexibility}</span><span>Reviews ${c.reviews}</span><span>Loyalty ${c.loyalty}</span></div>
      <div class="procon"><div class="pro"><b>Why it stays:</b> ${esc(w.pro)}</div><div class="con"><b>Why it loses:</b> ${esc(w.con)}</div></div>
      <div class="actions"><button class="btn small" onclick='focusHotel(${JSON.stringify(h.name)})'>View details</button><button class="btn small" onclick='toggleFav(${JSON.stringify(h.name)})'>${fav(h.name)?"★ Favorite":"☆ Favorite"}</button></div>
@@ -596,11 +622,13 @@ function renderHotelTable(hs){
    const rental=isRental(h);
    return `<tr class="${rowClass}">
    <td><button class="btn small" onclick='toggleFav(${JSON.stringify(h.name)})'>${fav(h.name)?"★":"☆"}</button><button class="btn small" onclick='toggleHidden(${JSON.stringify(h.name)})'>${hidden(h.name)?"Show":"Hide"}</button></td>
-   <td class="hotelname"><b><a href="#" onclick='focusHotel(${JSON.stringify(h.name)});return false'>${esc(h.name)}</a></b><div class="priceSub">Best cash: ${fmt(fg)} · ${esc(fullGroupSource(h))}</div></td>
+   <td class="hotelname"><b><a href="#" onclick='focusHotel(${JSON.stringify(h.name)});return false'>${esc(h.name)}</a></b><div class="priceSub">Combined: ${fmt(fg)} · ${esc(fullGroupSource(h))}</div></td>
    <td><span class="badge ${h.brand.toLowerCase()}">${esc(h.brand)}</span><div class="priceSub">${rental?"Vacation rental":"Hotel"}</div></td>
    <td>${h.distance!=null?h.distance.toFixed(1)+" mi":"—"}<div class="priceSub">from ${esc(REFS[city].name)}${rental?" · "+esc(h.locationConfidence||"approx."):""}</div></td>
    <td>${esc(familyFit(h))}</td>
-   <td><b>${fmt(fg)}</b><div class="priceSub">full group · full stay</div></td>
+   <td><b>${roomCashLabel(h,1)}</b><div class="priceSub">${esc(roomCashSplit(h).room1==null?roomCashSplit(h).basis:"Daniel / Mariana / Luciano")}</div></td>
+   <td><b>${roomCashLabel(h,2)}</b><div class="priceSub">${esc(roomCashSplit(h).room2==null?roomCashSplit(h).basis:"Nicole / Gemma / Jasper")}</div></td>
+   <td><b>${fmt(fg)}</b><div class="priceSub">${rental?"whole property":"2 rooms combined"}</div></td>
    <td><b>${esc(fullGroupSource(h))}</b><div class="priceSub">${esc(h.cashRatePreference||"Cancellable / non-prepaid preferred")}</div></td>
    <td>${p!=null?pts(p):h.directHilton?.pointsStatus||"—"}${p!=null?`<div class="priceSub">${esc(h.pointsBasis||"1 room · full stay")}</div>`:""}</td>
    <td>${fmt(h.mmp)}</td>
@@ -691,6 +719,10 @@ function renderFocus(){
    $("focusPanel").innerHTML=`<div class="focus"><h3>${esc(h.name)} ${fav(h.name)?"★":""}</h3>
    <div class="actions"><button class="btn small" onclick="clearFocusOnly()">✕ Unselect lodging</button></div>
    <div class="row"><span>Type / brand</span><b>${esc(h.brand)} · ${rental?"Vacation rental":"Hotel"}</b></div>
+   ${!rental?`<div class="row"><span>Room 1 · full stay</span><b>${roomCashLabel(h,1)}</b></div>
+   <div class="row"><span>Room 2 · full stay</span><b>${roomCashLabel(h,2)}</b></div>
+   <div class="row"><span>Combined hotel total</span><b>${fmt(fullGroupCash(h))}</b></div>
+   <div class="row"><span>Book with</span><b>${esc(fullGroupSource(h))}</b></div>`:""}
    <div class="row"><span>Group fit</span><b>${esc(familyFit(h))}</b></div>
    <div class="row"><span>Distance from ${esc(REFS[city].name)}</span><b>${h.distance!=null?h.distance.toFixed(1)+" mi":"—"}</b></div>
    <div class="row"><span>Station / area</span><b>${esc(h.station||h.area||"—")}</b></div>
