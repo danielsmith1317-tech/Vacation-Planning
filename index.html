@@ -56,7 +56,7 @@ main{padding:18px 14px 42px}.card,.toolbar,.summary,.panel{background:#fff;borde
 .priority-nearby{background:#fff4d8;color:#875a00}.priority-optional{background:#eef1f5;color:#4a5563}
 .priority-low{background:#fde7e7;color:#9b1c1c}
 
-.flightPanel{margin-bottom:14px;padding:14px}.flightGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.flightCard{border:1px solid var(--line);border-radius:12px;padding:12px;background:#fbfdff}.flightCard h3{margin:0 0 8px;font-size:15px}.flightLeg{display:grid;grid-template-columns:90px 1fr;gap:8px;padding:7px 0;border-bottom:1px solid #edf0f4;font-size:12px}.flightLeg:last-child{border-bottom:0}.flightTime{font-weight:900}.flightRoute{font-weight:850}.flightMeta{font-size:10px;color:var(--muted);margin-top:2px;line-height:1.4}.flightLayover{margin:7px 0;padding:7px 9px;border-radius:8px;background:#fff4d8;color:#875a00;font-size:11px;font-weight:800}.trainCard{margin-top:12px;border:1px solid var(--line);border-radius:12px;padding:12px;background:#fbfdff}.trainCard h3{margin:0 0 8px;font-size:15px}.trainStatus{display:inline-block;padding:4px 8px;border-radius:999px;background:#fff3d9;color:#8a6200;font-size:10px;font-weight:900;margin-bottom:7px}.trainMeta{font-size:11px;color:var(--muted);line-height:1.5}@media(max-width:750px){.flightGrid{grid-template-columns:1fr}}.weatherPanel{margin-bottom:14px;padding:14px}
+.flightPanel{margin-bottom:14px;padding:14px}.flightGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.flightCard{border:1px solid var(--line);border-radius:12px;padding:12px;background:#fbfdff}.flightCard h3{margin:0 0 8px;font-size:15px}.flightLeg{display:grid;grid-template-columns:90px 1fr;gap:8px;padding:7px 0;border-bottom:1px solid #edf0f4;font-size:12px}.flightLeg:last-child{border-bottom:0}.flightTime{font-weight:900}.flightRoute{font-weight:850}.flightMeta{font-size:10px;color:var(--muted);margin-top:2px;line-height:1.4}.flightLayover{margin:7px 0;padding:7px 9px;border-radius:8px;background:#fff4d8;color:#875a00;font-size:11px;font-weight:800}.trainCard{margin-top:12px;border:1px solid var(--line);border-radius:12px;padding:12px;background:#fbfdff}.trainCard h3{margin:0 0 8px;font-size:15px}.trainStatus{display:inline-block;padding:4px 8px;border-radius:999px;background:#fff3d9;color:#8a6200;font-size:10px;font-weight:900;margin-bottom:7px}.trainMeta{font-size:11px;color:var(--muted);line-height:1.5}.trainOptions{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:7px;margin-top:10px}.trainOption{border:1px solid var(--line);border-radius:9px;padding:8px;background:#fff}.trainOption b{display:block;font-size:12px}.trainOption span{display:block;font-size:10px;color:var(--muted);margin-top:3px}.trainFare{font-size:14px!important;color:var(--ink)!important;font-weight:900!important}@media(max-width:900px){.trainOptions{grid-template-columns:repeat(2,1fr)}}@media(max-width:750px){.flightGrid{grid-template-columns:1fr}}.weatherPanel{margin-bottom:14px;padding:14px}
 .weatherHead{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap}
 .weatherCurrent{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:10px 0}
 .weatherTemp{font-size:34px;font-weight:900}
@@ -149,12 +149,19 @@ main{padding:18px 14px 42px}.card,.toolbar,.summary,.panel{background:#fff;borde
   </div>
   <div class="trainCard">
     <h3>Paris → London · Eurostar</h3>
-    <div class="trainStatus">Planned · time not selected yet</div>
+    <div class="trainStatus">Jun 5 schedule checked · time not selected yet</div>
     <div class="flightLeg">
       <div class="flightTime">Sat, Jun 5</div>
-      <div><div class="flightRoute">Paris Gare du Nord → London St Pancras International</div><div class="flightMeta">Eurostar · direct · approximately 2 hr 28 min on current schedules</div></div>
+      <div><div class="flightRoute">Paris Gare du Nord → London St Pancras International</div><div class="flightMeta">Direct Eurostar · 2 hr 28 min · searched for 3 adults + 1 child + 2 infants</div></div>
     </div>
-    <div class="trainMeta"><b>Class:</b> TBD. Eurostar Standard and Plus are under consideration. Current screenshot pricing was only a research example and was for Jun 12, not the actual Jun 5 travel date, so it is not being treated as the trip fare.</div>
+    <div class="trainOptions">
+      <div class="trainOption"><b>07:02 → 08:30</b><span>Train 9007</span><span class="trainFare">$75 adult · Standard</span></div>
+      <div class="trainOption"><b>08:02 → 09:30</b><span>Train 9011</span><span class="trainFare">$75 adult · Standard</span></div>
+      <div class="trainOption"><b>09:02 → 10:30</b><span>Train 9015</span><span class="trainFare">$82 adult · Standard</span></div>
+      <div class="trainOption"><b>10:02 → 11:30</b><span>Train 9019</span><span class="trainFare">$89 adult · Standard</span></div>
+      <div class="trainOption"><b>20:02 → 21:30</b><span>Train 9059</span><span class="trainFare">$89 adult · Standard</span></div>
+    </div>
+    <div class="trainMeta"><b>Current Eurostar search:</b> these are the live Jun 5, 2027 Standard fares returned for the actual travel date. The search did not return Plus/Premier pricing in this result set, so those are not being estimated. Final train remains TBD.</div>
   </div>
 </section>
 
