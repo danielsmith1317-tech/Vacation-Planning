@@ -70,6 +70,30 @@ main{padding:18px 14px 42px}.card,.toolbar,.summary,.panel{background:#fff;borde
 .weatherDay .wxdesc{font-size:10px;color:var(--muted);margin-top:4px;line-height:1.25}
 @media(max-width:750px){.weatherDays{grid-template-columns:repeat(2,1fr)}}
 
+
+/* Decision view */
+.decisionPanel{margin-bottom:14px}
+.decisionHead{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap}
+.decisionControls{display:flex;gap:7px;flex-wrap:wrap}
+.decisionLegend{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 2px}
+.statusPill{display:inline-block;padding:4px 8px;border-radius:999px;font-size:10px;font-weight:900}
+.status-finalist{background:#e7f5ed;color:#237a52}.status-consider{background:#fff3d9;color:#8a6200}.status-archive{background:#eef1f5;color:#667080}
+.decisionGrid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-top:12px}
+.decisionCard{border:1px solid var(--line);border-radius:13px;padding:12px;background:#fff;position:relative}
+.decisionCard h3{font-size:14px;line-height:1.25;margin:7px 0 7px}
+.scoreRing{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#eef4f8;font-size:18px;font-weight:950;border:4px solid #c7d6e3}
+.scoreLine{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.decisionPrice{font-size:18px;font-weight:950;margin:7px 0 2px}
+.decisionMeta{font-size:10px;color:var(--muted);line-height:1.45}
+.procon{margin-top:8px;padding-top:7px;border-top:1px solid #edf0f4;font-size:10px;line-height:1.4}
+.pro{color:#237a52}.con{color:#8a6200}
+.scoreBreakdown{display:grid;grid-template-columns:1fr 1fr;gap:3px 8px;margin-top:8px;font-size:9px;color:#667080}
+.decisionEmpty{padding:18px;border:1px dashed var(--line);border-radius:10px;color:var(--muted);text-align:center}
+.researchHidden #researchBody{display:none}
+#researchToggle{min-width:125px}
+@media(max-width:1100px){.decisionGrid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:750px){.decisionGrid{grid-template-columns:1fr}.decisionCard{padding:13px}}
+
 </style>
 </head>
 <body>
@@ -115,6 +139,28 @@ main{padding:18px 14px 42px}.card,.toolbar,.summary,.panel{background:#fff;borde
 <div class="metric"><div class="small">Hilton pricing method</div><div class="big" style="font-size:14px">2-adult room baseline*</div></div>
 </div>
 
+
+<section class="panel decisionPanel" id="decisionSection">
+  <div class="decisionHead">
+    <div>
+      <h2 style="margin:0">Decision View</h2>
+      <div class="note">Top choices are ranked for this trip using location, full-group cost, family practicality, flexibility, reviews, loyalty value and useful extras. Research is preserved below.</div>
+      <div class="decisionLegend">
+        <span class="statusPill status-finalist">Finalist · top 5</span>
+        <span class="statusPill status-consider">Worth Considering · next 8</span>
+        <span class="statusPill status-archive">Archive · hidden from decision view</span>
+      </div>
+    </div>
+    <div class="decisionControls">
+      <button class="btn small primary" id="showFinalists" type="button">Finalists</button>
+      <button class="btn small" id="showConsider" type="button">Include Consider</button>
+      <button class="btn small" id="researchToggleTop" type="button">Show all research</button>
+    </div>
+  </div>
+  <div class="decisionGrid" id="decisionGrid"></div>
+  <div class="note"><b>Location score</b> is an itinerary-proximity score based on the planned sights currently saved in the planner; it is not a live transit-time score. Cash scores use the best currently stored full-group total, but rates marked unverified still require the cancellable/non-prepaid rate to be confirmed before booking.</div>
+</section>
+
 <div class="grid">
 <section class="panel">
 <h2>Live Map</h2>
@@ -158,9 +204,9 @@ main{padding:18px 14px 42px}.card,.toolbar,.summary,.panel{background:#fff;borde
 <div class="note" style="margin-top:8px">Viator buttons use your preferred Viator booking link. Prices and availability can change, so the planner treats them as book/check links rather than fixed quotes.</div>
 </section>
 
-<section class="panel" style="margin-top:14px">
-<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><h2>Lodging Comparison</h2><span class="note">Click any column header to sort ▲/▼ · ★ favorites and hidden lodgings are saved in this browser</span></div>
-<div class="tableWrap"><table><thead><tr>
+<section class="panel researchHidden" style="margin-top:14px" id="researchSection">
+<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><div><h2 style="margin:0">All Lodging Research</h2><span class="note">Full research table · click headers to sort · ★ favorites and hidden lodgings are saved in this browser</span></div><button class="btn small" id="researchToggle" type="button">Show research</button></div>
+<div id="researchBody"><div class="tableWrap"><table><thead><tr>
 <th></th>
 <th class="sortable" data-sort="name">Property<span class="sortMark"></span></th>
 <th class="sortable" data-sort="brand">Type / Brand<span class="sortMark"></span></th>
@@ -184,6 +230,7 @@ main{padding:18px 14px 42px}.card,.toolbar,.summary,.panel{background:#fff;borde
 <th class="sortable" data-sort="checked">Checked<span class="sortMark"></span></th>
 </tr></thead><tbody id="hotelBody"></tbody></table></div>
 <div class="note"><b>Rate standard:</b> cash comparisons should use only cancellable, non-prepaid rates. For Hilton, use <b>Semi-Flex</b> when available; the connected Hilton search can return points and lowest cash pricing but cannot directly select the Semi-Flex rate, so Semi-Flex cash must be verified before booking. Marriott cash comparisons should likewise use flexible/cancellable rates. The connected Marriott search can price the exact family room split, but it does not currently expose Bonvoy points or special-rate codes MMP/MMA. <b>Room plan:</b> Room 1 = 2 adults + Luciano (age 1); Room 2 = 1 adult + Jasper (age 2) + Gemma (age 11).</div>
+</div>
 </section>
 
 <section class="panel" style="margin-top:14px">
@@ -344,6 +391,159 @@ function officialUrl(h){
 }
 function placeByName(n){return SIGHTS[city].find(s=>s.name===n)}
 function hotelByName(n){return DATA[city].find(h=>h.name===n)}
+
+
+let decisionMode="finalists";
+function clamp(n,min=0,max=100){return Math.max(min,Math.min(max,n))}
+function milesBetween(a,b){
+ if(!a||!b||a.lat==null||a.lon==null||b.lat==null||b.lon==null)return null;
+ const R=3958.8,p=Math.PI/180,dlat=(b.lat-a.lat)*p,dlon=(b.lon-a.lon)*p;
+ const q=Math.sin(dlat/2)**2+Math.cos(a.lat*p)*Math.cos(b.lat*p)*Math.sin(dlon/2)**2;
+ return 2*R*Math.asin(Math.sqrt(q));
+}
+function itineraryTargets(){
+ const names=city==="Paris"
+  ?["Eiffel Tower","Notre-Dame","Napoleon","Arc de Triomphe","Versailles"]
+  :["Buckingham","Big Ben","Tower of London","Tower Bridge","Covent Garden","Windsor Castle"];
+ return names.map(n=>SIGHTS[city].find(s=>s.name.toLowerCase().includes(n.toLowerCase()))).filter(Boolean);
+}
+function itineraryLocationScore(h){
+ if(h.lat==null||h.lon==null)return 45;
+ const target=itineraryTargets().filter(s=>!s.name.toLowerCase().includes("versailles")&&!s.name.toLowerCase().includes("windsor"));
+ if(!target.length)return 50;
+ const ds=target.map(s=>milesBetween({lat:h.lat,lon:h.lon},s)).filter(x=>x!=null);
+ if(!ds.length)return 45;
+ const avg=ds.reduce((a,b)=>a+b,0)/ds.length;
+ const scale=city==="Paris"?24:22;
+ return Math.round(clamp(100-avg*scale));
+}
+function priceScore(h){
+ const v=fullGroupCash(h);if(v==null)return 45;
+ const vals=DATA[city].map(x=>fullGroupCash(x)).filter(x=>x!=null&&x>0).sort((a,b)=>a-b);
+ if(!vals.length)return 50;
+ const floor=vals[Math.min(2,vals.length-1)]||vals[0];
+ return Math.round(clamp(100-((v-floor)/(floor*1.25))*100));
+}
+function familyScore(h){
+ if(isRental(h)){
+   let s=72;
+   if(accessLevel(h)==="good")s+=12;if(accessLevel(h)==="caution")s-=5;if(accessLevel(h)==="avoid")s-=40;
+   if((h.bedrooms||0)>=2)s+=8;if((h.bathrooms||0)>=2)s+=4;
+   if(/crib|highchair/i.test((h.crib||"")+" "+(h.rentalNotes||"")))s+=4;
+   return Math.round(clamp(s));
+ }
+ let s=55;
+ if(h.occupancyMethod==="exact-split")s=98;
+ else if(h.occupancyMethod==="exact-aggregate")s=94;
+ else if(h.occupancyMethod==="aggregate-family")s=82;
+ else if(h.occupancyMethod==="hilton-2adult-baseline")s=68;
+ if(/adjoining|connecting/i.test(h.familyExperience||""))s+=8;
+ if(/crib/i.test((h.familyExperience||"")+" "+(h.occupancyStatus||"")))s+=3;
+ return Math.round(clamp(s));
+}
+function flexibilityScore(h){
+ const txt=((h.cancelTerms||"")+" "+(h.cashRatePreference||"")+" "+(h.cashRateVerification||"")+" "+(h.occupancyStatus||"")).toLowerCase();
+ if(/non-refundable|nonrefundable/.test(txt))return 0;
+ if(/free cancellation|semi-flex|semiflex|flexible|cancellable|cancelable/.test(txt)){
+   if(/verify|cannot directly select|must be confirmed/.test(txt))return 65;
+   return 100;
+ }
+ if(isRental(h)&&/partial/.test(txt))return 70;
+ return 45;
+}
+function reviewScore(h){
+ if(h.rating==null)return 50;
+ const r=Number(h.rating),base=(r>5?r/10:r/5)*100;
+ const bonus=h.reviewCount?Math.min(8,Math.log10(Math.max(1,h.reviewCount))*2):0;
+ return Math.round(clamp(base+bonus));
+}
+function loyaltyScore(h){
+ if(isRental(h))return 20;
+ if(h.mmp!=null||h.mma!=null)return 100;
+ if(directPoints(h)!=null||h.points!=null)return 88;
+ if(["Marriott","Hilton","IHG"].includes(h.brand))return 55;
+ return 30;
+}
+function extrasScore(h){
+ let s=20;
+ const txt=((h.breakfast||"")+" "+(h.familyExperience||"")+" "+(h.ac||"")+" "+(h.washer||"")+" "+(h.rentalNotes||"")+" "+(h.brand||"")).toLowerCase();
+ if(/free breakfast|breakfast included/.test(txt))s+=28;
+ if(/washer/.test(txt))s+=12;
+ if(/kitchen/.test(txt))s+=12;
+ if(/pool/.test(txt))s+=8;
+ if(/adjoining|connecting/.test(txt))s+=12;
+ if(/crib|highchair/.test(txt))s+=8;
+ return Math.round(clamp(s));
+}
+function scoreHotel(h){
+ const c={
+   location:itineraryLocationScore(h),
+   price:priceScore(h),
+   family:familyScore(h),
+   flexibility:flexibilityScore(h),
+   reviews:reviewScore(h),
+   loyalty:loyaltyScore(h),
+   extras:extrasScore(h)
+ };
+ const score=Math.round(c.location*.30+c.price*.25+c.family*.15+c.flexibility*.10+c.reviews*.05+c.loyalty*.05+c.extras*.05);
+ return {score,components:c};
+}
+function hardArchiveReason(h){
+ if(accessLevel(h)==="avoid")return "Access does not fit the stroller/toddler rule";
+ const txt=((h.cancelTerms||"")+" "+(h.cashRatePreference||"")).toLowerCase();
+ if(/non-refundable|nonrefundable/.test(txt))return "Non-refundable rate";
+ if(itineraryLocationScore(h)<30)return "Too inconvenient for this short itinerary";
+ return "";
+}
+function rankedDecision(){
+ const rows=DATA[city].map(h=>({h,...scoreHotel(h),hard:hardArchiveReason(h)})).sort((a,b)=>b.score-a.score);
+ let eligible=rows.filter(x=>!x.hard),hard=rows.filter(x=>x.hard);
+ eligible.forEach((x,i)=>x.status=i<5?"Finalist":i<13?"Worth Considering":"Archive");
+ hard.forEach(x=>x.status="Archive");
+ return [...eligible,...hard].sort((a,b)=>{
+   const o={"Finalist":0,"Worth Considering":1,"Archive":2};
+   return o[a.status]-o[b.status]||b.score-a.score;
+ });
+}
+function whyText(item){
+ const h=item.h,c=item.components,pros=[],cons=[];
+ if(c.location>=75)pros.push("strong itinerary location"); else if(c.location<50)cons.push("weaker sightseeing location");
+ if(c.price>=75)pros.push("strong full-stay value"); else if(c.price<35)cons.push("high cost versus alternatives");
+ if(c.family>=85)pros.push("family setup fits well"); else if(c.family<70)cons.push("room/family fit needs verification");
+ if(c.flexibility>=85)pros.push("flexible rate"); else if(c.flexibility<70)cons.push("flexible rate still needs confirmation");
+ if(/free breakfast|breakfast included/i.test(h.breakfast||""))pros.push("breakfast included");
+ if(h.mmp!=null||h.mma!=null)pros.push("employee-rate upside");
+ else if(directPoints(h)!=null||h.points!=null)pros.push("points option");
+ if(item.hard)cons.unshift(item.hard);
+ return {pro:pros.slice(0,2).join(" · ")||"balanced overall option",con:cons.slice(0,2).join(" · ")||"no major drawback recorded"};
+}
+function decisionStatusClass(s){return s==="Finalist"?"status-finalist":s==="Worth Considering"?"status-consider":"status-archive"}
+function renderDecision(){
+ const el=$("decisionGrid");if(!el)return;
+ const all=rankedDecision();
+ const rows=decisionMode==="finalists"?all.filter(x=>x.status==="Finalist"):all.filter(x=>x.status!=="Archive");
+ if(!rows.length){el.innerHTML='<div class="decisionEmpty">No properties match this decision view.</div>';return}
+ el.innerHTML=rows.map(x=>{
+   const h=x.h,w=whyText(x),fg=fullGroupCash(h),c=x.components;
+   return `<div class="decisionCard">
+     <div class="scoreLine"><span class="statusPill ${decisionStatusClass(x.status)}">${esc(x.status)}</span><div class="scoreRing">${x.score}</div></div>
+     <h3><a href="#" onclick='focusHotel(${JSON.stringify(h.name)});document.getElementById("decisionSection").scrollIntoView({behavior:"smooth"});return false'>${esc(h.name)}</a></h3>
+     <div class="decisionPrice">${fmt(fg)}</div>
+     <div class="decisionMeta">full group · ${esc(h.brand)} · ${esc(familyFit(h))}</div>
+     <div class="scoreBreakdown"><span>Location ${c.location}</span><span>Price ${c.price}</span><span>Family ${c.family}</span><span>Flex ${c.flexibility}</span><span>Reviews ${c.reviews}</span><span>Loyalty ${c.loyalty}</span></div>
+     <div class="procon"><div class="pro"><b>Why it stays:</b> ${esc(w.pro)}</div><div class="con"><b>Why it loses:</b> ${esc(w.con)}</div></div>
+     <div class="actions"><button class="btn small" onclick='focusHotel(${JSON.stringify(h.name)})'>View details</button><button class="btn small" onclick='toggleFav(${JSON.stringify(h.name)})'>${fav(h.name)?"★ Favorite":"☆ Favorite"}</button></div>
+   </div>`
+ }).join("");
+}
+function toggleResearch(){
+ const s=$("researchSection");if(!s)return;
+ const hidden=s.classList.toggle("researchHidden");
+ const label=hidden?"Show research":"Hide research";
+ if($("researchToggle"))$("researchToggle").textContent=label;
+ if($("researchToggleTop"))$("researchToggleTop").textContent=hidden?"Show all research":"Hide all research";
+ if(!hidden)s.scrollIntoView({behavior:"smooth",block:"start"});
+}
 
 function renderSummary(hs){
  $("count").textContent=hs.length;
@@ -758,7 +958,7 @@ async function loadWeather(){
 
 function renderAll(refresh=true){
  if(refresh){refreshHotelSelect();refreshDest();refreshRouteTo();refreshCompare()}
- const hs=visibleHotels();renderSummary(hs);renderHotelTable(hs);renderFocus();renderPlaces();renderActivities();renderCompare();renderMap()
+ const hs=visibleHotels();renderSummary(hs);renderDecision();renderHotelTable(hs);renderFocus();renderPlaces();renderActivities();renderCompare();renderMap()
 }
 
 async function initMap(){
@@ -865,6 +1065,9 @@ $("routeTo").onchange=()=>renderFocus();
 ["compareA","compareB"].forEach(id=>$(id).onchange=renderCompare);
 document.querySelectorAll("th.sortable").forEach(th=>th.addEventListener("click",()=>setHotelSort(th.dataset.sort)));
 document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));b.classList.add("active");city=b.dataset.city;$("hotelFocus").value="";$("destination").value="";$("routeTo").value="";$("matrix").innerHTML="";if(mapReady){map.setCenter({lat:REFS[city].lat,lng:REFS[city].lon});map.setZoom(13)}renderAll(true);loadWeather()});
+$("showFinalists").onclick=()=>{decisionMode="finalists";$("showFinalists").classList.add("primary");$("showConsider").classList.remove("primary");renderDecision()};
+$("showConsider").onclick=()=>{decisionMode="consider";$("showConsider").classList.add("primary");$("showFinalists").classList.remove("primary");renderDecision()};
+$("researchToggle").onclick=toggleResearch;$("researchToggleTop").onclick=toggleResearch;
 renderAll(true);window.addEventListener("load",()=>{setTimeout(loadGoogle,100);setTimeout(loadWeather,250)});
 </script>
 </body></html>
