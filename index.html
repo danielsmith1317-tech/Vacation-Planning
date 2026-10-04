@@ -190,7 +190,7 @@ main{padding:18px 14px 42px}.card,.toolbar,.summary,.panel{background:#fff;borde
 <div class="metric"><div class="small">Lodgings shown</div><div class="big" id="count">—</div></div>
 <div class="metric"><div class="small">Lowest combined stay</div><div class="big" id="lowest">—</div></div>
 <div class="metric"><div class="small">Reference</div><div class="big" id="refName" style="font-size:14px">—</div></div>
-<div class="metric"><div class="small">Hotel room plan</div><div class="big" style="font-size:14px">2 rooms · kids 1, 2 & 11</div></div>
+<div class="metric"><div class="small">Hotel room plan</div><div class="big" style="font-size:14px">2 rooms · max $1,500 each</div></div>
 <div class="metric"><div class="small">Hilton pricing method</div><div class="big" style="font-size:14px">2-adult room baseline*</div></div>
 </div>
 
@@ -213,7 +213,7 @@ main{padding:18px 14px 42px}.card,.toolbar,.summary,.panel{background:#fff;borde
     </div>
   </div>
   <div class="decisionGrid" id="decisionGrid"></div>
-  <div class="note"><b>Scoring:</b> Location 30% · Price/value 25% · Luxury/caliber 12% · Newness/renovation/condition 12% · Reviews 8% · Family practicality 8% · Flexibility 3% · Loyalty 2%. A strong modern 4-star can outrank an older 5-star when the value is better. Location is based on the planned itinerary, not live transit time.</div>
+  <div class="note"><b>Budget rule:</b> Hotels over <b>$1,500 per room for the full stay</b> are removed from the active hotel list. If only a combined 2-room quote is available, anything over $3,000 is removed because at least one room must exceed the cap.<br><br><b>Scoring:</b> Location 30% · Price/value 25% · Luxury/caliber 12% · Newness/renovation/condition 12% · Reviews 8% · Family practicality 8% · Flexibility 3% · Loyalty 2%. A strong modern 4-star can outrank an older 5-star when the value is better. Location is based on the planned itinerary, not live transit time.</div>
 </section>
 
 <div class="grid">
@@ -391,6 +391,15 @@ function roomCashLabel(h,which){
  const s=roomCashSplit(h),v=which===1?s.room1:s.room2;
  return v==null?"—":fmt(v);
 }
+function withinHotelRoomCap(h){
+ if(isRental(h))return true;
+ const s=roomCashSplit(h);
+ if(s.room1!=null&&s.room1>1500)return false;
+ if(s.room2!=null&&s.room2>1500)return false;
+ // If only a combined 2-room quote exists, > $3,000 guarantees at least one room exceeds the $1,500 cap.
+ if(s.room1==null&&s.room2==null&&s.combined!=null&&s.combined>3000)return false;
+ return true;
+}
 function familyFit(h){
  if(isRental(h))return `Whole group · ${h.bedrooms??"?"}BR · sleeps ${h.sleeps??"?"}`;
  if(h.room1Cash!=null&&h.room2Cash!=null)return "2 rooms · each family occupancy priced separately";
@@ -410,7 +419,7 @@ function accessBadge(h){
 function visibleHotels(){
  const b=$("brand").value,cap=+$("cap").value,vis=$("visibility").value,focus=$("hotelFocus").value;
  const af=$("accessFilter")?.value||"all";
- let a=DATA[city].filter(h=>(!b||h.brand===b)&&(bestKnown(h).v??999999)<=cap);
+ let a=DATA[city].filter(h=>withinHotelRoomCap(h)&&(!b||h.brand===b)&&(bestKnown(h).v??999999)<=cap);
  if(af==="easy")a=a.filter(h=>accessLevel(h)==="good");
  if(af==="excludeAvoid")a=a.filter(h=>accessLevel(h)!=="avoid");
  if(vis==="favorites")a=a.filter(h=>fav(h.name));
@@ -421,7 +430,7 @@ function visibleHotels(){
 function refreshHotelSelect(){
  const current=$("hotelFocus").value,b=$("brand").value,cap=+$("cap").value,vis=$("visibility").value;
  const af=$("accessFilter")?.value||"all";
- let a=DATA[city].filter(h=>(!b||h.brand===b)&&(bestKnown(h).v??999999)<=cap);
+ let a=DATA[city].filter(h=>withinHotelRoomCap(h)&&(!b||h.brand===b)&&(bestKnown(h).v??999999)<=cap);
  if(af==="easy")a=a.filter(h=>accessLevel(h)==="good");
  if(af==="excludeAvoid")a=a.filter(h=>accessLevel(h)!=="avoid");
  if(vis==="favorites")a=a.filter(h=>fav(h.name));
@@ -437,7 +446,7 @@ function refreshDest(){
 function refreshRouteTo(){
  const current=$("routeTo").value;
  const placeOpts=SIGHTS[city].map(s=>`<option value="P:${esc(s.name)}">${esc(s.name)} · place</option>`).join("");
- const hotelOpts=DATA[city].filter(h=>!hidden(h.name)).map(h=>`<option value="H:${esc(h.name)}">${esc(h.name)} · lodging</option>`).join("");
+ const hotelOpts=DATA[city].filter(h=>withinHotelRoomCap(h)&&!hidden(h.name)).map(h=>`<option value="H:${esc(h.name)}">${esc(h.name)} · lodging</option>`).join("");
  $("routeTo").innerHTML='<option value="">Choose route destination</option><optgroup label="Sights & saved places">'+placeOpts+'</optgroup><optgroup label="Lodgings">'+hotelOpts+'</optgroup>';
  if([...$("routeTo").options].some(o=>o.value===current))$("routeTo").value=current;
 }
@@ -456,7 +465,7 @@ function focusedOrigin(){
  return null;
 }
 function refreshCompare(){
- const opts='<option value="">Choose lodging</option>'+DATA[city].filter(h=>!hidden(h.name)).map(h=>`<option value="${esc(h.name)}">${esc(h.name)}</option>`).join("");
+ const opts='<option value="">Choose lodging</option>'+DATA[city].filter(h=>withinHotelRoomCap(h)&&!hidden(h.name)).map(h=>`<option value="${esc(h.name)}">${esc(h.name)}</option>`).join("");
  const a=$("compareA").value,b=$("compareB").value;$("compareA").innerHTML=opts;$("compareB").innerHTML=opts;
  if(DATA[city].some(h=>h.name===a))$("compareA").value=a;if(DATA[city].some(h=>h.name===b))$("compareB").value=b;
 }
@@ -625,7 +634,7 @@ function hardArchiveReason(h){
 function decisionCandidates(){
  const b=$("brand")?.value||"",cap=+($("cap")?.value||9999),vis=$("visibility")?.value||"all";
  const af=$("accessFilter")?.value||"all";
- let a=DATA[city].filter(h=>(!b||h.brand===b)&&(bestKnown(h).v??999999)<=cap);
+ let a=DATA[city].filter(h=>withinHotelRoomCap(h)&&(!b||h.brand===b)&&(bestKnown(h).v??999999)<=cap);
  if(af==="easy")a=a.filter(h=>accessLevel(h)==="good");
  if(af==="excludeAvoid")a=a.filter(h=>accessLevel(h)!=="avoid");
  if(vis==="favorites")a=a.filter(h=>fav(h.name));
