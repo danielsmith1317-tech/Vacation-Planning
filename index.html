@@ -56,7 +56,7 @@ main{padding:18px 14px 42px}.card,.toolbar,.summary,.panel{background:#fff;borde
 .priority-nearby{background:#fff4d8;color:#875a00}.priority-optional{background:#eef1f5;color:#4a5563}
 .priority-low{background:#fde7e7;color:#9b1c1c}
 
-.flightPanel{margin-bottom:14px;padding:14px}.flightGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.flightCard{border:1px solid var(--line);border-radius:12px;padding:12px;background:#fbfdff}.flightCard h3{margin:0 0 8px;font-size:15px}.flightLeg{display:grid;grid-template-columns:90px 1fr;gap:8px;padding:7px 0;border-bottom:1px solid #edf0f4;font-size:12px}.flightLeg:last-child{border-bottom:0}.flightTime{font-weight:900}.flightRoute{font-weight:850}.flightMeta{font-size:10px;color:var(--muted);margin-top:2px;line-height:1.4}.flightLayover{margin:7px 0;padding:7px 9px;border-radius:8px;background:#fff4d8;color:#875a00;font-size:11px;font-weight:800}@media(max-width:750px){.flightGrid{grid-template-columns:1fr}}.weatherPanel{margin-bottom:14px;padding:14px}
+.flightPanel{margin-bottom:14px;padding:14px}.flightGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.flightCard{border:1px solid var(--line);border-radius:12px;padding:12px;background:#fbfdff}.flightCard h3{margin:0 0 8px;font-size:15px}.flightLeg{display:grid;grid-template-columns:90px 1fr;gap:8px;padding:7px 0;border-bottom:1px solid #edf0f4;font-size:12px}.flightLeg:last-child{border-bottom:0}.flightTime{font-weight:900}.flightRoute{font-weight:850}.flightMeta{font-size:10px;color:var(--muted);margin-top:2px;line-height:1.4}.flightLayover{margin:7px 0;padding:7px 9px;border-radius:8px;background:#fff4d8;color:#875a00;font-size:11px;font-weight:800}.trainCard{margin-top:12px;border:1px solid var(--line);border-radius:12px;padding:12px;background:#fbfdff}.trainCard h3{margin:0 0 8px;font-size:15px}.trainStatus{display:inline-block;padding:4px 8px;border-radius:999px;background:#fff3d9;color:#8a6200;font-size:10px;font-weight:900;margin-bottom:7px}.trainMeta{font-size:11px;color:var(--muted);line-height:1.5}@media(max-width:750px){.flightGrid{grid-template-columns:1fr}}.weatherPanel{margin-bottom:14px;padding:14px}
 .weatherHead{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap}
 .weatherCurrent{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:10px 0}
 .weatherTemp{font-size:34px;font-weight:900}
@@ -146,6 +146,15 @@ main{padding:18px 14px 42px}.card,.toolbar,.summary,.panel{background:#fff;borde
         <div><div class="flightRoute">Arrive Tampa · TPA</div><div class="flightMeta">Trip ends Jun 9</div></div>
       </div>
     </div>
+  </div>
+  <div class="trainCard">
+    <h3>Paris → London · Eurostar</h3>
+    <div class="trainStatus">Planned · time not selected yet</div>
+    <div class="flightLeg">
+      <div class="flightTime">Sat, Jun 5</div>
+      <div><div class="flightRoute">Paris Gare du Nord → London St Pancras International</div><div class="flightMeta">Eurostar · direct · approximately 2 hr 28 min on current schedules</div></div>
+    </div>
+    <div class="trainMeta"><b>Class:</b> TBD. Eurostar Standard and Plus are under consideration. Current screenshot pricing was only a research example and was for Jun 12, not the actual Jun 5 travel date, so it is not being treated as the trip fare.</div>
   </div>
 </section>
 
