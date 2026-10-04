@@ -55,10 +55,25 @@ main{padding:18px 14px 42px}.card,.toolbar,.summary,.panel{background:#fff;borde
 .priority-must{background:#e7f6ec;color:#17653a}.priority-strong{background:#e8f0ff;color:#214d9a}
 .priority-nearby{background:#fff4d8;color:#875a00}.priority-optional{background:#eef1f5;color:#4a5563}
 .priority-low{background:#fde7e7;color:#9b1c1c}
+
+.weatherPanel{margin-bottom:14px;padding:14px}
+.weatherHead{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap}
+.weatherCurrent{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:10px 0}
+.weatherTemp{font-size:34px;font-weight:900}
+.weatherDesc{font-size:14px;font-weight:800}
+.weatherMeta{font-size:11px;color:var(--muted);line-height:1.5}
+.weatherDays{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:10px}
+.weatherDay{border:1px solid var(--line);border-radius:10px;padding:9px;background:#fbfdff;min-width:0}
+.weatherDay b{display:block;font-size:12px;margin-bottom:4px}
+.weatherDay .wxhi{font-size:15px;font-weight:900}
+.weatherDay .wxlo{font-size:11px;color:var(--muted)}
+.weatherDay .wxdesc{font-size:10px;color:var(--muted);margin-top:4px;line-height:1.25}
+@media(max-width:750px){.weatherDays{grid-template-columns:repeat(2,1fr)}}
+
 </style>
 </head>
 <body>
-<header><div class="wrap"><h1>Paris & London Family Vacation Planner</h1><div class="sub">Lodging + activities • live Google map • family fit • photos • routes • compare mode • Viator booking</div><div class="tabs"><button class="tab active" data-city="Paris">Paris • Jun 2–5</button><button class="tab" data-city="London">London • Jun 5–9</button></div></div></header>
+<header><div class="wrap"><h1>Paris & London Family Vacation Planner</h1><div class="sub">Lodging + activities • live Google map • live weather • family fit • photos • routes • compare mode • Viator booking</div><div class="tabs"><button class="tab active" data-city="Paris">Paris • Jun 2–5</button><button class="tab" data-city="London">London • Jun 5–9</button></div></div></header>
 
 <main class="wrap">
 <section class="card setup" id="apiSetup" style="display:none">
@@ -68,6 +83,19 @@ main{padding:18px 14px 42px}.card,.toolbar,.summary,.panel{background:#fff;borde
 <label style="margin-top:7px"><input id="saveKey" type="checkbox" style="width:auto"> Save key in this browser</label>
 <div class="apistatus"><span class="pill" id="mapStatus">Map: waiting</span><span class="pill" id="placesStatus">Photos: waiting</span><span class="pill" id="routesStatus">Routes: waiting</span></div>
 <div class="note">To use all features, allow the same key to access Maps JavaScript API, Places API (New), and Routes API.</div>
+</section>
+
+
+<section class="panel weatherPanel" id="weatherPanel">
+  <div class="weatherHead">
+    <div>
+      <h2 style="margin:0">Weather</h2>
+      <div class="note" id="weatherNote">Live local conditions and short-range forecast. This is not a June 2027 trip forecast yet.</div>
+    </div>
+    <button class="btn small" id="refreshWeather" type="button">Refresh weather</button>
+  </div>
+  <div id="weatherCurrent" class="weatherCurrent"><span class="muted">Loading weather…</span></div>
+  <div id="weatherDays" class="weatherDays"></div>
 </section>
 
 <div class="toolbar">
@@ -653,6 +681,77 @@ function renderActivities(){
  <td><a class="btn small teal" target="_blank" rel="noopener" href="${VIATOR_BASE}">Check / Book ↗</a></td>
  </tr>`).join("");
 }
+
+function weatherCityCoords(){
+  const r=REFS[city];
+  return {lat:r.lat,lon:r.lon};
+}
+function wxDateLabel(iso){
+  try{return new Date(iso).toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric",timeZone:"UTC"})}
+  catch(e){return "Forecast"}
+}
+function weatherConditionText(obj){
+  return obj?.description?.text||obj?.type||"Conditions unavailable";
+}
+function tempVal(obj){
+  return obj?.degrees!=null?Math.round(obj.degrees):null;
+}
+async function loadWeather(){
+  const currentEl=$("weatherCurrent"),daysEl=$("weatherDays");
+  if(!currentEl||!daysEl)return;
+  const key=$("apiKey")?.value?.trim();
+  if(!key){
+    currentEl.innerHTML='<span class="muted">Weather needs the Google API key already built into this planner.</span>';
+    daysEl.innerHTML="";
+    return;
+  }
+  currentEl.innerHTML='<span><span class="spinner"></span> Loading '+esc(city)+' weather…</span>';
+  daysEl.innerHTML="";
+  const {lat,lon}=weatherCityCoords();
+  const base="https://weather.googleapis.com/v1";
+  try{
+    const [cr,fr]=await Promise.all([
+      fetch(base+`/currentConditions:lookup?key=${encodeURIComponent(key)}&location.latitude=${lat}&location.longitude=${lon}&unitsSystem=IMPERIAL`),
+      fetch(base+`/forecast/days:lookup?key=${encodeURIComponent(key)}&location.latitude=${lat}&location.longitude=${lon}&days=5&unitsSystem=IMPERIAL`)
+    ]);
+    if(!cr.ok)throw new Error("Current weather "+cr.status);
+    if(!fr.ok)throw new Error("Forecast "+fr.status);
+    const c=await cr.json(), d=await fr.json();
+    const t=tempVal(c.temperature), feels=tempVal(c.feelsLikeTemperature);
+    const precip=c.precipitation?.probability?.percent;
+    const humidity=c.relativeHumidity;
+    const wind=c.wind?.speed?.value;
+    currentEl.innerHTML=`
+      <div class="weatherTemp">${t!=null?t+"°F":"—"}</div>
+      <div>
+        <div class="weatherDesc">${esc(weatherConditionText(c.weatherCondition))}</div>
+        <div class="weatherMeta">
+          ${feels!=null?"Feels like "+feels+"°F · ":""}
+          ${humidity!=null?"Humidity "+humidity+"% · ":""}
+          ${precip!=null?"Precipitation "+precip+"% · ":""}
+          ${wind!=null?"Wind "+Math.round(wind)+" mph":""}
+        </div>
+      </div>`;
+    const days=(d.forecastDays||[]).slice(0,5);
+    daysEl.innerHTML=days.map(x=>{
+      const hi=tempVal(x.maxTemperature),lo=tempVal(x.minTemperature);
+      const desc=weatherConditionText(x.daytimeForecast?.weatherCondition||x.nighttimeForecast?.weatherCondition);
+      const pop=x.daytimeForecast?.precipitation?.probability?.percent ?? x.nighttimeForecast?.precipitation?.probability?.percent;
+      const date=x.interval?.startTime||x.displayDate?.year&&`${x.displayDate.year}-${String(x.displayDate.month).padStart(2,"0")}-${String(x.displayDate.day).padStart(2,"0")}T00:00:00Z`;
+      return `<div class="weatherDay">
+        <b>${esc(date?wxDateLabel(date):"Forecast")}</b>
+        <div><span class="wxhi">${hi!=null?hi+"°": "—"}</span> <span class="wxlo">/ ${lo!=null?lo+"°":"—"}</span></div>
+        <div class="wxdesc">${esc(desc)}${pop!=null?" · "+pop+"% precip":""}</div>
+      </div>`
+    }).join("");
+    $("weatherNote").textContent="Live "+city+" conditions + 5-day forecast from Google Weather API. June 2027 trip weather will become useful closer to departure.";
+  }catch(e){
+    currentEl.innerHTML='<div class="warning"><b>Weather could not load.</b><br>Confirm Weather API is enabled for the same Google API key and that the key allows this GitHub Pages site.</div>';
+    daysEl.innerHTML="";
+    $("weatherNote").textContent="Weather API connection needs attention.";
+  }
+}
+
 function renderAll(refresh=true){
  if(refresh){refreshHotelSelect();refreshDest();refreshRouteTo();refreshCompare()}
  const hs=visibleHotels();renderSummary(hs);renderHotelTable(hs);renderFocus();renderPlaces();renderActivities();renderCompare();renderMap()
@@ -753,7 +852,7 @@ document.addEventListener("keydown",e=>{
   }
 });
 
-$("loadGoogle").onclick=loadGoogle;$("loadMatrix").onclick=loadMatrix;$("clearSelection").onclick=clearCurrentSelection;$("resetMapView").onclick=resetCurrentMapView;
+$("loadGoogle").onclick=loadGoogle;$("refreshWeather").onclick=loadWeather;$("loadMatrix").onclick=loadMatrix;$("clearSelection").onclick=clearCurrentSelection;$("resetMapView").onclick=resetCurrentMapView;
 ["brand","cap","visibility","accessFilter"].forEach(id=>$(id).onchange=()=>renderAll(true));
 ["activityPriority","activityMuseum","activityReserve"].forEach(id=>$(id).onchange=()=>renderActivities());
 $("hotelFocus").onchange=()=>{if($("hotelFocus").value)$("destination").value="";renderAll(false)};
@@ -761,7 +860,7 @@ $("destination").onchange=()=>{if($("destination").value)$("hotelFocus").value="
 $("routeTo").onchange=()=>renderFocus();
 ["compareA","compareB"].forEach(id=>$(id).onchange=renderCompare);
 document.querySelectorAll("th.sortable").forEach(th=>th.addEventListener("click",()=>setHotelSort(th.dataset.sort)));
-document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));b.classList.add("active");city=b.dataset.city;$("hotelFocus").value="";$("destination").value="";$("routeTo").value="";$("matrix").innerHTML="";if(mapReady){map.setCenter({lat:REFS[city].lat,lng:REFS[city].lon});map.setZoom(13)}renderAll(true)});
-renderAll(true);window.addEventListener("load",()=>{setTimeout(loadGoogle,100)});
+document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));b.classList.add("active");city=b.dataset.city;$("hotelFocus").value="";$("destination").value="";$("routeTo").value="";$("matrix").innerHTML="";if(mapReady){map.setCenter({lat:REFS[city].lat,lng:REFS[city].lon});map.setZoom(13)}renderAll(true);loadWeather()});
+renderAll(true);window.addEventListener("load",()=>{setTimeout(loadGoogle,100);setTimeout(loadWeather,250)});
 </script>
 </body></html>
