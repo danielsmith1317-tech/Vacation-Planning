@@ -144,7 +144,7 @@ main{padding:18px 14px 42px}.card,.toolbar,.summary,.panel{background:#fff;borde
   <div class="decisionHead">
     <div>
       <h2 style="margin:0">Decision View</h2>
-      <div class="note">Top choices are ranked for this trip using location, full-group cost, family practicality, flexibility, reviews, loyalty value and useful extras. Research is preserved below.</div>
+      <div class="note">Top choices are ranked for this trip with location and value leading the decision, while luxury, newer/renovated condition, reviews and family practicality help separate similarly priced options. Research is preserved below.</div>
       <div class="decisionLegend">
         <span class="statusPill status-finalist">Finalist · top 5</span>
         <span class="statusPill status-consider">Worth Considering · next 8</span>
@@ -158,7 +158,7 @@ main{padding:18px 14px 42px}.card,.toolbar,.summary,.panel{background:#fff;borde
     </div>
   </div>
   <div class="decisionGrid" id="decisionGrid"></div>
-  <div class="note"><b>Location score</b> is an itinerary-proximity score based on the planned sights currently saved in the planner; it is not a live transit-time score. Cash scores use the best currently stored full-group total, but rates marked unverified still require the cancellable/non-prepaid rate to be confirmed before booking.</div>
+  <div class="note"><b>Scoring:</b> Location 30% · Price/value 25% · Luxury/caliber 12% · Newness/renovation/condition 12% · Reviews 8% · Family practicality 8% · Flexibility 3% · Loyalty 2%. A strong modern 4-star can outrank an older 5-star when the value is better. Location is based on the planned itinerary, not live transit time.</div>
 </section>
 
 <div class="grid">
@@ -169,7 +169,7 @@ main{padding:18px 14px 42px}.card,.toolbar,.summary,.panel{background:#fff;borde
 <button class="btn small" id="clearSelection" type="button">Clear selection</button>
 <button class="btn small" id="resetMapView" type="button">Reset map view</button>
 </div>
-<div class="note">Clear selection deselects the current lodging/place. You can also click the selected sight again or use “✕ Unselect” in the Focus panel. “Route to” works from either a lodging or a sightseeing place. Reset map view only returns the map to the normal city view. None of these change your API key, filters, favorites, hidden lodgings, or notes.</div>
+<div class="note"><b>Hotel map priority:</b> larger hotel markers are higher-ranked choices — Finalists are largest, Worth Considering are medium, and archive/research hotels are smaller. Brand colors remain unchanged.<br><br>Clear selection deselects the current lodging/place. You can also click the selected sight again or use “✕ Unselect” in the Focus panel. “Route to” works from either a lodging or a sightseeing place. Reset map view only returns the map to the normal city view. None of these change your API key, filters, favorites, hidden lodgings, or notes.</div>
 </section>
 
 <section class="panel">
@@ -494,17 +494,64 @@ function extrasScore(h){
  if(/crib|highchair/.test(txt))s+=8;
  return Math.round(clamp(s));
 }
+
+function luxuryScore(h){
+ if(isRental(h))return 50;
+ let s=45;
+ const txt=((h.brand||"")+" "+(h.name||"")+" "+(h.source||"")+" "+(h.hotelClass||"")+" "+(h.stars||"")+" "+(h.starRating||"")).toLowerCase();
+ const stars=Number(h.stars??h.starRating??h.hotelClass);
+ if(stars>=5)s=96;
+ else if(stars>=4.5)s=90;
+ else if(stars>=4)s=82;
+ else if(stars>=3.5)s=68;
+ else if(stars>=3)s=55;
+ if(/waldorf|conrad|park hyatt|ritz|st regis|luxury collection|edition|rosewood|mandarin|shangri|corinthia|jw marriott|autograph collection/.test(txt))s=Math.max(s,94);
+ else if(/canopy|curio|tribute portfolio|design hotels|le méridien|le meridien|kimpton|voco|pullman|marriott|hilton|novotel/.test(txt))s=Math.max(s,78);
+ else if(/courtyard|doubletree|residence inn|hampton|holiday inn|premier inn|moxy|four points flex/.test(txt))s=Math.min(Math.max(s,52),72);
+ return Math.round(clamp(s));
+}
+function conditionScore(h){
+ const txt=((h.renovation||"")+" "+(h.renovated||"")+" "+(h.opened||"")+" "+(h.yearOpened||"")+" "+(h.yearRenovated||"")+" "+(h.condition||"")+" "+(h.notes||"")+" "+(h.rentalNotes||"")+" "+(h.name||"")).toLowerCase();
+ const now=2026;
+ const years=[...txt.matchAll(/20\d{2}/g)].map(m=>Number(m[0])).filter(y=>y<=now);
+ let s=55;
+ if(h.yearRenovated||h.renovated){
+   const y=Number(h.yearRenovated||String(h.renovated).match(/20\d{2}/)?.[0]);
+   if(y>=2025)s=100; else if(y>=2023)s=92; else if(y>=2020)s=80; else if(y>=2017)s=68;
+ }
+ if(h.yearOpened||h.opened){
+   const y=Number(h.yearOpened||String(h.opened).match(/20\d{2}/)?.[0]);
+   if(y>=2025)s=Math.max(s,100); else if(y>=2023)s=Math.max(s,94); else if(y>=2020)s=Math.max(s,84);
+ }
+ if(/new hotel|newly opened|brand new|recently renovated|fully renovated|recent renovation|renovated in 202[3-6]/.test(txt))s=Math.max(s,92);
+ if(/dated|tired|needs renovation|older rooms|worn/.test(txt))s=Math.min(s,38);
+ if(years.length){
+   const y=Math.max(...years);
+   if(y>=2025)s=Math.max(s,96); else if(y>=2023)s=Math.max(s,88); else if(y>=2020)s=Math.max(s,78);
+ }
+ return Math.round(clamp(s));
+}
 function scoreHotel(h){
  const c={
    location:itineraryLocationScore(h),
    price:priceScore(h),
+   luxury:luxuryScore(h),
+   condition:conditionScore(h),
+   reviews:reviewScore(h),
    family:familyScore(h),
    flexibility:flexibilityScore(h),
-   reviews:reviewScore(h),
-   loyalty:loyaltyScore(h),
-   extras:extrasScore(h)
+   loyalty:loyaltyScore(h)
  };
- const score=Math.round(c.location*.30+c.price*.25+c.family*.15+c.flexibility*.10+c.reviews*.05+c.loyalty*.05+c.extras*.05);
+ const score=Math.round(
+   c.location*.30+
+   c.price*.25+
+   c.luxury*.12+
+   c.condition*.12+
+   c.reviews*.08+
+   c.family*.08+
+   c.flexibility*.03+
+   c.loyalty*.02
+ );
  return {score,components:c};
 }
 function hardArchiveReason(h){
@@ -528,6 +575,8 @@ function whyText(item){
  const h=item.h,c=item.components,pros=[],cons=[];
  if(c.location>=75)pros.push("strong itinerary location"); else if(c.location<50)cons.push("weaker sightseeing location");
  if(c.price>=75)pros.push("strong full-stay value"); else if(c.price<35)cons.push("high cost versus alternatives");
+ if(c.luxury>=85)pros.push("upscale/luxury caliber"); else if(c.luxury<55)cons.push("more basic hotel caliber");
+ if(c.condition>=85)pros.push("newer or recently refreshed"); else if(c.condition<45)cons.push("older/condition concern");
  if(c.family>=85)pros.push("family setup fits well"); else if(c.family<70)cons.push("room/family fit needs verification");
  if(c.flexibility>=85)pros.push("flexible rate"); else if(c.flexibility<70)cons.push("flexible rate still needs confirmation");
  if(/free breakfast|breakfast included/i.test(h.breakfast||""))pros.push("breakfast included");
@@ -549,7 +598,7 @@ function renderDecision(){
      <h3><a href="#" onclick='focusHotel(${JSON.stringify(h.name)});document.getElementById("decisionSection").scrollIntoView({behavior:"smooth"});return false'>${esc(h.name)}</a></h3>
      <div class="decisionPrice">${fmt(fg)} <span style="font-size:10px;font-weight:700;color:var(--muted)">combined</span></div>
      <div class="decisionMeta">${isRental(h)?"Whole property":`Room 1: <b>${roomCashLabel(h,1)}</b> · Room 2: <b>${roomCashLabel(h,2)}</b>`}<br>Book with <b>${esc(fullGroupSource(h))}</b> · ${esc(familyFit(h))}</div>
-     <div class="scoreBreakdown"><span>Location ${c.location}</span><span>Price ${c.price}</span><span>Family ${c.family}</span><span>Flex ${c.flexibility}</span><span>Reviews ${c.reviews}</span><span>Loyalty ${c.loyalty}</span></div>
+     <div class="scoreBreakdown"><span>Location ${c.location}</span><span>Price ${c.price}</span><span>Luxury ${c.luxury}</span><span>Condition ${c.condition}</span><span>Reviews ${c.reviews}</span><span>Family ${c.family}</span><span>Flex ${c.flexibility}</span><span>Loyalty ${c.loyalty}</span></div>
      <div class="procon"><div class="pro"><b>Why it stays:</b> ${esc(w.pro)}</div><div class="con"><b>Why it loses:</b> ${esc(w.con)}</div></div>
      <div class="actions"><button class="btn small" onclick='focusHotel(${JSON.stringify(h.name)})'>View details</button><button class="btn small" onclick='toggleFav(${JSON.stringify(h.name)})'>${fav(h.name)?"★ Favorite":"☆ Favorite"}</button></div>
    </div>`
@@ -784,7 +833,14 @@ function icon(c,scale=7){return{path:google.maps.SymbolPath.CIRCLE,fillColor:c,f
 function renderMap(){
  if(!mapReady||!map)return;clearMarkers();const bounds=new google.maps.LatLngBounds();
  SIGHTS[city].forEach(s=>{const c=s.type==="Sight"?"#e34b38":s.type==="Food"?"#d18a00":s.type==="Saved"?"#278369":"#7d8795";const m=new google.maps.Marker({map,position:{lat:s.lat,lng:s.lon},title:s.name,icon:icon(c,6)});m.addListener("click",()=>focusPlace(s.name));mapMarkers.push(m);bounds.extend(m.getPosition())});
- visibleHotels().forEach(h=>{const mc=h.brand==="Marriott"?"#4d61d6":h.brand==="Hilton"?"#1380c5":h.brand==="Airbnb"?"#e84f6f":"#248b5a";const m=new google.maps.Marker({map,position:{lat:h.lat,lng:h.lon},title:h.name,icon:icon(mc,8)});m.addListener("click",()=>focusHotel(h.name));mapMarkers.push(m);bounds.extend(m.getPosition())});
+ const decisionMap=new Map(rankedDecision().map(x=>[x.h.name,x]));
+ visibleHotels().forEach(h=>{
+   const mc=h.brand==="Marriott"?"#4d61d6":h.brand==="Hilton"?"#1380c5":h.brand==="Airbnb"?"#e84f6f":"#248b5a";
+   const rank=decisionMap.get(h.name);
+   const scale=rank?.status==="Finalist"?11:rank?.status==="Worth Considering"?9:7;
+   const m=new google.maps.Marker({map,position:{lat:h.lat,lng:h.lon},title:(rank?rank.status+" · "+rank.score+"/100 · ":"")+h.name,icon:icon(mc,scale),zIndex:rank?.status==="Finalist"?30:rank?.status==="Worth Considering"?20:10});
+   m.addListener("click",()=>focusHotel(h.name));mapMarkers.push(m);bounds.extend(m.getPosition())
+ });
  if(!bounds.isEmpty())map.fitBounds(bounds,50)
 }
 
