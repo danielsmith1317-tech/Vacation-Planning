@@ -279,7 +279,7 @@ main{padding:18px 14px 42px}.card,.toolbar,.summary,.panel{background:#fff;borde
 <th class="sortable" data-sort="station">Area / Station<span class="sortMark"></span></th>
 <th class="sortable" data-sort="checked">Checked<span class="sortMark"></span></th>
 </tr></thead><tbody id="hotelBody"></tbody></table></div>
-<div class="note"><b>How to read this:</b> Hotel cash pricing shows the two actual room totals plus the combined 2-room total. <b>Book with</b> is the only booking-source field; separate Room 1/Room 2 source columns were removed because they were redundant and often unavailable. When a Marriott special rate is the selected cash price, Book with also shows the applicable booking code (for example <b>Marriott · MMP</b> or <b>Marriott · MMA</b>). If two different sellers are required for the two rooms, Book with may show both. Where only an aggregate quote exists, individual rooms remain blank rather than being estimated. For Marriott, Room 1 compares the <b>2-person</b> MMP/MMA search and Room 2 compares the <b>3-person</b> MMP/MMA search. If MMP Family or MMA Associate is cheaper than the regular room price, that special rate becomes the displayed room price and the booking code is shown below the occupants. Both codes can cover the two rooms. Marriott Points/MMP/MMA detail columns remain for comparison. Flexible/cancellable terms should still be re-verified before booking.</div>
+<div class="note"><b>How to read this:</b> Hotel cash pricing shows the two actual room totals plus the combined 2-room total. <b>Book with</b> is the only booking-source field; separate Room 1/Room 2 source columns were removed because they were redundant and often unavailable. When a Marriott special rate is the selected cash price, Book with also shows the applicable booking code (for example <b>Marriott · MMP</b> or <b>Marriott · MMA</b>). If two different sellers are required for the two rooms, Book with may show both. Where only an aggregate quote exists, individual rooms remain blank rather than being estimated. For Marriott, if the quoted <b>MMP Family</b> or <b>MMA Associate</b> rate is cheaper than the regular room price, the planner applies that code rate to both rooms because each code can cover two rooms. The booking code is shown below the occupants. Room occupancy still needs to be permitted by the hotel. Both codes can cover the two rooms. Marriott Points/MMP/MMA detail columns remain for comparison. Flexible/cancellable terms should still be re-verified before booking.</div>
 </div>
 </section>
 
@@ -362,17 +362,13 @@ function marriottSpecialRoomOptions(h,which){
  if(h.brand!=="Marriott")return[];
  const n=h.nights||nights();
  const out=[];
- // Marriott searches were intentionally captured at 2-person and 3-person occupancy.
- // Room 1 uses the 2-person search (Daniel + Mariana; Luciano is the infant).
- // Room 2 uses the 3-person search (Nicole + Gemma + Jasper).
- // MMP = Family rate; MMA = Associate rate. Either code can be used for both rooms when available.
- if(which===1){
-   if(h.mmp2OccUSD!=null)out.push({value:h.mmp2OccUSD*n,code:"MMP",label:"MMP Family"});
-   if(h.mma2OccUSD!=null)out.push({value:h.mma2OccUSD*n,code:"MMA",label:"MMA Associate"});
- } else {
-   if(h.mmp3OccUSD!=null)out.push({value:h.mmp3OccUSD*n,code:"MMP",label:"MMP Family"});
-   if(h.mma3OccUSD!=null)out.push({value:h.mma3OccUSD*n,code:"MMA",label:"MMA Associate"});
- }
+ // MMP = Family rate; MMA = Associate rate.
+ // Each code can cover up to 2 rooms, so when the special rate is the best rate we use
+ // the quoted code rate for BOTH rooms. Occupancy still needs to be allowed by the hotel.
+ const mmpNight=h.mmp2OccUSD??h.mmp??null;
+ const mmaNight=h.mma2OccUSD??h.mma??null;
+ if(mmpNight!=null)out.push({value:mmpNight*n,code:"MMP",label:"MMP Family"});
+ if(mmaNight!=null)out.push({value:mmaNight*n,code:"MMA",label:"MMA Associate"});
  return out;
 }
 function baseRoomCashSplit(h){
