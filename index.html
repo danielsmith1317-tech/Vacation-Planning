@@ -213,7 +213,7 @@ main{padding:18px 14px 42px}.card,.toolbar,.summary,.panel{background:#fff;borde
     </div>
   </div>
   <div class="decisionGrid" id="decisionGrid"></div>
-  <div class="note"><b>Budget rule:</b> Hotels over <b>$1,500 per room for the full stay</b> are removed from the active hotel list. If only a combined 2-room quote is available, anything over $3,000 is removed because at least one room must exceed the cap.<br><br><b>Scoring:</b> Location 40% · Price/value 20% · Luxury/caliber 10% · Newness/renovation/condition 10% · Reviews 7% · Family practicality 8% · Flexibility 3% · Loyalty 2%. <b>Location is now the strongest factor.</b> Within Location, walking/sight proximity counts 70% and Metro/transit access counts 30%. The walking score uses the hotel’s position relative to the planned central itinerary; Metro access uses the recorded station/transit quality.</div>
+  <div class="note"><b>Budget rule:</b> Hotels over <b>$1,500 per room for the full stay</b> are removed from the active hotel list. If only a combined 2-room quote is available, anything over $3,000 is removed because at least one room must exceed the cap.<br><br><b>Scoring:</b> Location 45% · Price/value 18% · Luxury/caliber 9% · Newness/renovation/condition 9% · Reviews 7% · Family practicality 8% · Flexibility 2% · Loyalty 2%. <b>Location is the strongest factor.</b> Within Location, walking/sight proximity counts 65% and Metro/transit access counts 35%. Marriott receives the strongest loyalty benefit because Daniel and Nicole can both use Marriott benefits; Hilton receives a smaller loyalty benefit for Daniel. Other brands receive no loyalty boost. The walking score uses the hotel’s position relative to the planned central itinerary; Metro access uses the recorded station/transit quality.</div>
 </section>
 
 <div class="grid">
@@ -594,8 +594,8 @@ function metroAccessScore(h){
  return 50;
 }
 function itineraryLocationScore(h){
- // Mariana/Nicole priority: walking convenience first, then easy Metro/transit access.
- return Math.round(walkabilityScore(h)*.70 + metroAccessScore(h)*.30);
+ // Family priority: walking convenience first, with nearby/easy Metro/transit also heavily weighted.
+ return Math.round(walkabilityScore(h)*.65 + metroAccessScore(h)*.35);
 }
 function priceScore(h){
  const v=fullGroupCash(h);if(v==null)return 45;
@@ -638,11 +638,12 @@ function reviewScore(h){
  return Math.round(clamp(base+bonus));
 }
 function loyaltyScore(h){
- if(isRental(h))return 20;
- if(h.mmp!=null||h.mma!=null)return 100;
- if(directPoints(h)!=null||h.points!=null)return 88;
- if(["Marriott","Hilton","IHG"].includes(h.brand))return 55;
- return 30;
+ if(isRental(h))return 0;
+ // Daniel values Marriott and Hilton; Nicole has Marriott loyalty only.
+ // Marriott gets the strongest group loyalty benefit because it matters to both booking parties.
+ if(h.brand==="Marriott")return 100;
+ if(h.brand==="Hilton")return 70;
+ return 0;
 }
 function extrasScore(h){
  let s=20;
@@ -706,13 +707,13 @@ function scoreHotel(h){
    loyalty:loyaltyScore(h)
  };
  const score=Math.round(
-   c.location*.40+
-   c.price*.20+
-   c.luxury*.10+
-   c.condition*.10+
+   c.location*.45+
+   c.price*.18+
+   c.luxury*.09+
+   c.condition*.09+
    c.reviews*.07+
    c.family*.08+
-   c.flexibility*.03+
+   c.flexibility*.02+
    c.loyalty*.02
  );
  return {score,components:c};
