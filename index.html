@@ -279,7 +279,7 @@ main{padding:18px 14px 42px}.card,.toolbar,.summary,.panel{background:#fff;borde
 <th class="sortable" data-sort="station">Area / Station<span class="sortMark"></span></th>
 <th class="sortable" data-sort="checked">Checked<span class="sortMark"></span></th>
 </tr></thead><tbody id="hotelBody"></tbody></table></div>
-<div class="note"><b>How to read this:</b> Hotel cash pricing shows the two actual room totals plus the combined 2-room total. <b>Book with</b> is the only booking-source field; separate Room 1/Room 2 source columns were removed because they were redundant and often unavailable. When a Marriott special rate is the selected cash price, Book with also shows the applicable booking code (for example <b>Marriott · MMP</b> or <b>Marriott · MMA</b>). If two different sellers are required for the two rooms, Book with may show both. Where only an aggregate quote exists, individual rooms remain blank rather than being estimated. For Marriott, if the eligible 3-person <b>MMP Family</b> or <b>MMA Associate</b> rate is cheaper than the regular room price, the planner automatically uses that special rate in Room 1, Room 2 and Combined pricing and displays the booking code. Both codes can cover the two rooms. Marriott Points/MMP/MMA detail columns remain for comparison. Flexible/cancellable terms should still be re-verified before booking.</div>
+<div class="note"><b>How to read this:</b> Hotel cash pricing shows the two actual room totals plus the combined 2-room total. <b>Book with</b> is the only booking-source field; separate Room 1/Room 2 source columns were removed because they were redundant and often unavailable. When a Marriott special rate is the selected cash price, Book with also shows the applicable booking code (for example <b>Marriott · MMP</b> or <b>Marriott · MMA</b>). If two different sellers are required for the two rooms, Book with may show both. Where only an aggregate quote exists, individual rooms remain blank rather than being estimated. For Marriott, Room 1 compares the <b>2-person</b> MMP/MMA search and Room 2 compares the <b>3-person</b> MMP/MMA search. If MMP Family or MMA Associate is cheaper than the regular room price, that special rate becomes the displayed room price and the booking code is shown below the occupants. Both codes can cover the two rooms. Marriott Points/MMP/MMA detail columns remain for comparison. Flexible/cancellable terms should still be re-verified before booking.</div>
 </div>
 </section>
 
@@ -358,14 +358,21 @@ function bookingSource(h){
  if(s.includes("ihg"))return "IHG";
  return h.brand||"Direct";
 }
-function marriottSpecialRoomOptions(h){
+function marriottSpecialRoomOptions(h,which){
  if(h.brand!=="Marriott")return[];
  const n=h.nights||nights();
  const out=[];
- // Both actual rooms have 3 occupants, so only a 3-person special-rate result is eligible.
- // MMP = Family rate; MMA = Associate rate. User confirmed either code can book both rooms.
- if(h.mmp3OccUSD!=null)out.push({value:h.mmp3OccUSD*n,code:"MMP",label:"MMP Family"});
- if(h.mma3OccUSD!=null)out.push({value:h.mma3OccUSD*n,code:"MMA",label:"MMA Associate"});
+ // Marriott searches were intentionally captured at 2-person and 3-person occupancy.
+ // Room 1 uses the 2-person search (Daniel + Mariana; Luciano is the infant).
+ // Room 2 uses the 3-person search (Nicole + Gemma + Jasper).
+ // MMP = Family rate; MMA = Associate rate. Either code can be used for both rooms when available.
+ if(which===1){
+   if(h.mmp2OccUSD!=null)out.push({value:h.mmp2OccUSD*n,code:"MMP",label:"MMP Family"});
+   if(h.mma2OccUSD!=null)out.push({value:h.mma2OccUSD*n,code:"MMA",label:"MMA Associate"});
+ } else {
+   if(h.mmp3OccUSD!=null)out.push({value:h.mmp3OccUSD*n,code:"MMP",label:"MMP Family"});
+   if(h.mma3OccUSD!=null)out.push({value:h.mma3OccUSD*n,code:"MMA",label:"MMA Associate"});
+ }
  return out;
 }
 function baseRoomCashSplit(h){
@@ -392,34 +399,42 @@ function baseRoomCashSplit(h){
 function roomCashSplit(h){
  const base=baseRoomCashSplit(h);
  if(isRental(h)||h.brand!=="Marriott")return base;
- const specials=marriottSpecialRoomOptions(h);
- if(!specials.length)return base;
 
- function choose(baseValue){
+ const specials1=marriottSpecialRoomOptions(h,1);
+ const specials2=marriottSpecialRoomOptions(h,2);
+ function choose(baseValue,specials){
    const candidates=[];
    if(baseValue!=null)candidates.push({value:baseValue,code:null,label:null});
    candidates.push(...specials);
    return candidates.sort((a,b)=>a.value-b.value)[0]||{value:null,code:null,label:null};
  }
- const r1=choose(base.room1),r2=choose(base.room2);
 
- // If only an aggregate cash quote exists, compare it with the best same-code 2-room Marriott special.
- if(base.room1==null&&base.room2==null){
-   const bestSpecial=specials.sort((a,b)=>a.value-b.value)[0];
-   const specialCombined=bestSpecial?bestSpecial.value*2:null;
-   if(specialCombined!=null&&(base.combined==null||specialCombined<base.combined)){
-     return{room1:bestSpecial.value,room2:bestSpecial.value,combined:specialCombined,basis:"Marriott special rate · 2 rooms eligible",room1Code:bestSpecial.code,room2Code:bestSpecial.code,room1RateLabel:bestSpecial.label,room2RateLabel:bestSpecial.label,combinedRateLabel:bestSpecial.label};
-   }
-   return base;
+ // When exact room prices exist, compare each actual room against its matching Marriott occupancy search.
+ if(base.room1!=null||base.room2!=null){
+   const r1=choose(base.room1,specials1),r2=choose(base.room2,specials2);
+   return{
+     room1:r1.value,room2:r2.value,
+     combined:(r1.value!=null&&r2.value!=null)?r1.value+r2.value:base.combined,
+     basis:(r1.code||r2.code)?"Best available cash rate":"Exact room pricing",
+     room1Code:r1.code,room2Code:r2.code,
+     room1RateLabel:r1.label,room2RateLabel:r2.label,
+     combinedRateLabel:(r1.code&&r1.code===r2.code)?r1.label:null
+   };
  }
- return{
-   room1:r1.value,room2:r2.value,
-   combined:(r1.value!=null&&r2.value!=null)?r1.value+r2.value:base.combined,
-   basis:(r1.code||r2.code)?"Best available cash rate":"Exact room pricing",
-   room1Code:r1.code,room2Code:r2.code,
-   room1RateLabel:r1.label,room2RateLabel:r2.label,
-   combinedRateLabel:(r1.code&&r1.code===r2.code)?r1.label:null
- };
+
+ // If only a combined quote exists, use the two matching Marriott occupancy rates when they beat it.
+ const r1=choose(null,specials1),r2=choose(null,specials2);
+ const specialCombined=(r1.value!=null&&r2.value!=null)?r1.value+r2.value:null;
+ if(specialCombined!=null&&(base.combined==null||specialCombined<base.combined)){
+   return{
+     room1:r1.value,room2:r2.value,combined:specialCombined,
+     basis:"Marriott special rates · occupancy matched",
+     room1Code:r1.code,room2Code:r2.code,
+     room1RateLabel:r1.label,room2RateLabel:r2.label,
+     combinedRateLabel:(r1.code&&r1.code===r2.code)?r1.label:null
+   };
+ }
+ return base;
 }
 function bestCashQuote(h){
  if(isRental(h))return{total:h.wholeGroupStay??null,source:h.brand||"Vacation rental"};
@@ -820,7 +835,7 @@ function renderHotelTable(hs){
    <td>${esc(familyFit(h))}</td>
    <td><b>${roomCashLabel(h,1)}</b><div class="priceSub">${esc(roomCashSplit(h).room1==null?roomCashSplit(h).basis:"Daniel / Mariana / Luciano")}</div>${roomRateNote(h,1)?`<div class="priceSub"><b>${esc(roomRateNote(h,1))}</b></div>`:""}</td>
    <td><b>${roomCashLabel(h,2)}</b><div class="priceSub">${esc(roomCashSplit(h).room2==null?roomCashSplit(h).basis:"Nicole / Gemma / Jasper")}</div>${roomRateNote(h,2)?`<div class="priceSub"><b>${esc(roomRateNote(h,2))}</b></div>`:""}</td>
-   <td><b>${fmt(fg)}</b><div class="priceSub">${rental?"whole property":"2 rooms combined"}${combinedRateNote(h)?` · <b>${esc(combinedRateNote(h))}</b>`:""}</div></td>
+   <td><b>${fmt(fg)}</b><div class="priceSub">${rental?"whole property":"2 rooms combined"}</div>${combinedRateNote(h)?`<div class="priceSub"><b>${esc(combinedRateNote(h))}</b></div>`:""}</td>
    <td><b>${esc(fullGroupSource(h))}</b><div class="priceSub">${esc(h.cashRatePreference||"Cancellable / non-prepaid preferred")}</div></td>
    <td>${p!=null?pts(p):h.directHilton?.pointsStatus||"—"}${p!=null?`<div class="priceSub">${h.points2Occ!=null?"2p "+pts(h.points2Occ):""}${h.points3Occ!=null?" · 3p "+pts(h.points3Occ):h.points2Occ!=null?" · 3p unavailable":""}</div>`:""}</td>
    <td>${fmt(h.mmp)}${h.mmp2OccUSD!=null?`<div class="priceSub">2p ${fmt(h.mmp2OccUSD)}${h.mmp3OccUSD!=null?" · 3p "+fmt(h.mmp3OccUSD):" · 3p unavailable"}</div>`:""}</td>
