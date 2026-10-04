@@ -144,7 +144,7 @@ main{padding:18px 14px 42px}.card,.toolbar,.summary,.panel{background:#fff;borde
   <div class="decisionHead">
     <div>
       <h2 style="margin:0">Decision View</h2>
-      <div class="note">Top choices are ranked for this trip with location and value leading the decision, while luxury, newer/renovated condition, reviews and family practicality help separate similarly priced options. Research is preserved below.</div>
+      <div class="note">Top choices are ranked within the filters you select above. Choosing Marriott, Hilton, IHG, Independent, a price cap, favorites, or access filter recalculates the finalists for that filtered set.</div>
       <div class="decisionLegend">
         <span class="statusPill status-finalist">Finalist · top 5</span>
         <span class="statusPill status-consider">Worth Considering · next 8</span>
@@ -567,8 +567,18 @@ function hardArchiveReason(h){
  if(itineraryLocationScore(h)<30)return "Too inconvenient for this short itinerary";
  return "";
 }
+function decisionCandidates(){
+ const b=$("brand")?.value||"",cap=+($("cap")?.value||9999),vis=$("visibility")?.value||"all";
+ const af=$("accessFilter")?.value||"all";
+ let a=DATA[city].filter(h=>(!b||h.brand===b)&&(bestKnown(h).v??999999)<=cap);
+ if(af==="easy")a=a.filter(h=>accessLevel(h)==="good");
+ if(af==="excludeAvoid")a=a.filter(h=>accessLevel(h)!=="avoid");
+ if(vis==="favorites")a=a.filter(h=>fav(h.name));
+ if(vis==="visible")a=a.filter(h=>!hidden(h.name));
+ return a;
+}
 function rankedDecision(){
- const rows=DATA[city].map(h=>({h,...scoreHotel(h),hard:hardArchiveReason(h)})).sort((a,b)=>b.score-a.score);
+ const rows=decisionCandidates().map(h=>({h,...scoreHotel(h),hard:hardArchiveReason(h)})).sort((a,b)=>b.score-a.score);
  let eligible=rows.filter(x=>!x.hard),hard=rows.filter(x=>x.hard);
  eligible.forEach((x,i)=>x.status=i<5?"Finalist":i<13?"Worth Considering":"Archive");
  hard.forEach(x=>x.status="Archive");
