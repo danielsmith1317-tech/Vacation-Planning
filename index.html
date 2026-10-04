@@ -279,7 +279,7 @@ main{padding:18px 14px 42px}.card,.toolbar,.summary,.panel{background:#fff;borde
 <th class="sortable" data-sort="station">Area / Station<span class="sortMark"></span></th>
 <th class="sortable" data-sort="checked">Checked<span class="sortMark"></span></th>
 </tr></thead><tbody id="hotelBody"></tbody></table></div>
-<div class="note"><b>How to read this:</b> Hotel cash pricing shows the two actual room totals plus the combined 2-room total. <b>Book with</b> is the only booking-source field; separate Room 1/Room 2 source columns were removed because they were redundant and often unavailable. If two different sellers are required for the two rooms, Book with may show both. Where only an aggregate quote exists, individual rooms remain blank rather than being estimated. Marriott Points/MMP/MMA remain separate 2-person/3-person comparisons. Flexible/cancellable terms should still be re-verified before booking.</div>
+<div class="note"><b>How to read this:</b> Hotel cash pricing shows the two actual room totals plus the combined 2-room total. <b>Book with</b> is the only booking-source field; separate Room 1/Room 2 source columns were removed because they were redundant and often unavailable. When a Marriott special rate is the selected cash price, Book with also shows the applicable booking code (for example <b>Marriott · MMP</b> or <b>Marriott · MMA</b>). If two different sellers are required for the two rooms, Book with may show both. Where only an aggregate quote exists, individual rooms remain blank rather than being estimated. Marriott Points/MMP/MMA remain separate 2-person/3-person comparisons. Flexible/cancellable terms should still be re-verified before booking.</div>
 </div>
 </section>
 
@@ -341,19 +341,30 @@ function directCashNight(h){
  return h.regular;
 }
 function directPoints(h){return isRental(h)?null:(h.directHilton?h.directHilton.pointsStay??null:h.points)}
+function marriottBookLabel(source,code){
+ if(!source)return source;
+ const s=String(source);
+ if(!/marriott/i.test(s))return s;
+ if(code==="MMP"||code==="MMA")return "Marriott · "+code;
+ return s;
+}
 function bookingSource(h){
- if(h.bookWith)return h.bookWith;
+ if(h.bookWith)return marriottBookLabel(h.bookWith,h.cashRateCode||h.marriottRateCode);
  if(isRental(h))return h.brand||"Vacation rental";
  const s=(h.groupTotalSource||h.source||"").toLowerCase();
  if(s.includes("booking.com"))return "Booking.com";
  if(s.includes("hilton"))return "Hilton";
- if(s.includes("marriott"))return "Marriott";
+ if(s.includes("marriott"))return marriottBookLabel("Marriott",h.cashRateCode||h.marriottRateCode);
  if(s.includes("ihg"))return "IHG";
  return h.brand||"Direct";
 }
 function bestCashQuote(h){
  if(isRental(h))return{total:h.wholeGroupStay??null,source:h.brand||"Vacation rental"};
- if(h.room1Cash!=null&&h.room2Cash!=null)return{total:h.room1Cash+h.room2Cash,source:h.room1Source===h.room2Source?h.room1Source:(h.room1Source+" + "+h.room2Source)};
+ if(h.room1Cash!=null&&h.room2Cash!=null){
+   let src=h.room1Source===h.room2Source?h.room1Source:(h.room1Source+" + "+h.room2Source);
+   if(h.brand==="Marriott"&&(h.cashRateCode||h.marriottRateCode))src=marriottBookLabel("Marriott",h.cashRateCode||h.marriottRateCode);
+   return{total:h.room1Cash+h.room2Cash,source:src};
+ }
  if(h.groupTotal!=null)return{total:h.groupTotal,source:bookingSource(h)};
  const n=directCashNight(h);
  return{total:n==null?null:n*h.nights*2,source:h.brand?String(h.brand)+" Direct":"Direct"};
