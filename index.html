@@ -924,7 +924,7 @@ function renderHotelTable(hs){
    <td>${esc(h.cancelTerms||h.directHilton?.cancelTerms||h.cashRatePreference||"Verify flexible rate")}</td>
    <td>${h.rating!=null?esc(h.rating)+(h.reviewCount!=null?` / ${Number(h.reviewCount).toLocaleString()} reviews`:""):"—"}</td>
    <td>${esc(h.station||h.area||"—")}<div class="priceSub">${(()=>{const n=nearestTransit(h);return n?"Nearest transit: "+n.name+" · "+n.distance.toFixed(2)+" mi":esc(h.transit||"")})()}</div></td>
-   <td><b>Lounge:</b> ${esc(h.memberLounge||"Not verified")}<div class="priceSub"><b>Breakfast:</b> ${esc(breakfastText(h))}</div><div class="priceSub">${esc(h.breakfastDetail||"")}</div><div class="priceSub"><b>Wi‑Fi:</b> ${esc(wifiText(h))}</div></td>
+   <td><b>Lounge:</b> ${esc(h.memberLounge||"Not verified")}<div class="priceSub"><b>Breakfast:</b> ${esc(breakfastText(h))}</div><div class="priceSub">${esc(h.breakfastDetail||"")}</div><div class="priceSub"><b>Self-cater:</b> ${esc(selfCaterText(h))}</div><div class="priceSub"><a target="_blank" rel="noopener" href="${grocerySearchUrl(h)}">Groceries nearby ↗</a></div><div class="priceSub"><b>Wi‑Fi:</b> ${esc(wifiText(h))}</div></td>
    <td>${esc(h.lastPriceChecked||"—")}</td>
    </tr>`
  }).join("")
