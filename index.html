@@ -213,7 +213,7 @@ main{padding:18px 14px 42px}.card,.toolbar,.summary,.panel{background:#fff;borde
     </div>
   </div>
   <div class="decisionGrid" id="decisionGrid"></div>
-  <div class="note"><b>Budget rule:</b> Hotels over <b>$1,500 per room for the full stay</b> are removed from the active hotel list. If only a combined 2-room quote is available, anything over $3,000 is removed because at least one room must exceed the cap.<br><br><b>Scoring:</b> Location 45% · Price/value 18% · Luxury/caliber 9% · Newness/renovation/condition 9% · Reviews 7% · Family practicality 8% · Flexibility 2% · Loyalty 2%. <b>Location is the strongest factor.</b> Within Location, walking/sight proximity counts 65% and Metro/transit access counts 35%. Marriott receives the strongest loyalty benefit because Daniel and Nicole can both use Marriott benefits; Hilton receives a smaller loyalty benefit for Daniel. Other brands receive no loyalty boost. The walking score uses the hotel’s position relative to the planned central itinerary; Metro access uses the recorded station/transit quality.</div>
+  <div class="note"><b>Budget rule:</b> Hotels over <b>$1,500 per room for the full stay</b> are removed from the active hotel list. If only a combined 2-room quote is available, anything over $3,000 is removed because at least one room must exceed the cap.<br><br><b>Scoring:</b> Location 50% · Price/value 16% · Family practicality 7% · Newness/renovation/condition 7% · Reviews 5% · Luxury/caliber 5% · Member perks 5% · Loyalty 3% · Flexibility 2%. <b>Location is the strongest factor.</b> Within Location, walking/sight proximity counts 65% and Metro/transit access counts 35%. Member perks favor included breakfast first, then verified elite/member lounge access; Wi-Fi is displayed but does not add ranking points. Marriott receives the strongest loyalty benefit because Daniel and Nicole can both use Marriott benefits; Hilton receives a smaller loyalty benefit for Daniel. Other brands receive no loyalty boost.</div>
 </section>
 
 <div class="grid">
@@ -696,14 +696,19 @@ function extrasScore(h){
 }
 
 function perksScore(h){
- let s=20;
+ let s=0;
  const lounge=String(h.memberLounge||"").toLowerCase();
- const breakfast=String(h.breakfast||"").toLowerCase();
- const wifi=String(h.wifi||"").toLowerCase();
- if(lounge.startsWith("yes"))s+=35;
- if(/included for all guests|free breakfast|breakfast included/.test(breakfast))s+=35;
- else if(/status benefit/.test(breakfast))s+=20;
- if(/included/.test(wifi))s+=10;
+ const breakfast=(String(h.breakfast||"")+" "+String(h.breakfastDetail||"")).toLowerCase();
+
+ // Breakfast matters most for this family because it saves both money and morning logistics.
+ if(/included for all guests|free breakfast|breakfast included/.test(breakfast))s+=55;
+ else if(/elite|status benefit|welcome benefit|complimentary.*status/.test(breakfast))s+=38;
+
+ // A verified member/executive lounge is useful, but less important than breakfast.
+ if(/^yes/.test(lounge)||/verified.*lounge|executive lounge|elite member lounge/.test(lounge))s+=35;
+ else if(/verify|access.*depend|possible|eligible/.test(lounge)&&!/no verified/.test(lounge))s+=15;
+
+ // Wi-Fi is displayed as a benefit but intentionally earns no ranking points.
  return Math.round(clamp(s));
 }
 function luxuryScore(h){
@@ -758,14 +763,14 @@ function scoreHotel(h){
  };
  const score=Math.round(
    c.location*.50+
-   c.price*.17+
-   c.luxury*.08+
-   c.condition*.08+
+   c.price*.16+
+   c.family*.07+
+   c.condition*.07+
    c.reviews*.05+
-   c.family*.06+
-   c.flexibility*.02+
-   c.loyalty*.02+
-   c.perks*.02
+   c.luxury*.05+
+   c.perks*.05+
+   c.loyalty*.03+
+   c.flexibility*.02
  );
  return {score,components:c};
 }
