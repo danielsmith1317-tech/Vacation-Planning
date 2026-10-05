@@ -213,7 +213,7 @@ main{padding:18px 14px 42px}.card,.toolbar,.summary,.panel{background:#fff;borde
     </div>
   </div>
   <div class="decisionGrid" id="decisionGrid"></div>
-  <div class="note"><b>Budget rule:</b> Hotels over <b>$1,500 per room for the full stay</b> are removed from the active hotel list. If only a combined 2-room quote is available, anything over $3,000 is removed because at least one room must exceed the cap.<br><br><b>Scoring:</b> Location 50% · Price/value 16% · Family practicality 7% · Newness/renovation/condition 7% · Reviews 5% · Luxury/caliber 5% · Member perks 5% · Loyalty 3% · Flexibility 2%. <b>Location is the strongest factor.</b> Within Location, walking/sight proximity counts 65% and Metro/transit access counts 35%. Member perks favor included breakfast first, then verified elite/member lounge access; Wi-Fi is displayed but does not add ranking points. Marriott receives the strongest loyalty benefit because Daniel and Nicole can both use Marriott benefits; Hilton receives a smaller loyalty benefit for Daniel. Other brands receive no loyalty boost.</div>
+  <div class="note"><b>Budget rule:</b> Hotels over <b>$1,500 per room for the full stay</b> are removed from the active hotel list. If only a combined 2-room quote is available, anything over $3,000 is removed because at least one room must exceed the cap.<br><br><b>Scoring:</b> Location 50% · Price/value 16% · Family practicality 7% · Newness/renovation/condition 7% · Reviews 5% · Luxury/caliber 5% · Food & member perks 5% · Loyalty 3% · Flexibility 2%. <b>Location is the strongest factor.</b> Within Location, walking/sight proximity counts 65% and Metro/transit access counts 35%. Food & member perks favor included breakfast first, then verified elite/member lounge access and self-catering value. Rentals receive a grocery/self-catering benefit because the family can keep food in the unit and make breakfast; Wi-Fi is displayed but does not add ranking points. Marriott receives the strongest loyalty benefit because Daniel and Nicole can both use Marriott benefits; Hilton receives a smaller loyalty benefit for Daniel. Other brands receive no loyalty boost.</div>
 </section>
 
 <div class="grid">
@@ -277,7 +277,7 @@ main{padding:18px 14px 42px}.card,.toolbar,.summary,.panel{background:#fff;borde
 <th class="sortable" data-sort="cancellation">Flexibility<span class="sortMark"></span></th>
 <th class="sortable" data-sort="rating">Rating<span class="sortMark"></span></th>
 <th class="sortable" data-sort="station">Area / Station<span class="sortMark"></span></th>
-<th>Member perks</th>
+<th>Food / member perks</th>
 <th class="sortable" data-sort="checked">Checked<span class="sortMark"></span></th>
 </tr></thead><tbody id="hotelBody"></tbody></table></div>
 <div class="note"><b>How to read this:</b> Hotel cash pricing shows the two actual room totals plus the combined 2-room total. <b>Book with</b> is the only booking-source field; separate Room 1/Room 2 source columns were removed because they were redundant and often unavailable. When a Marriott special rate is the selected cash price, Book with also shows the applicable booking code (for example <b>Marriott · MMP</b> or <b>Marriott · MMA</b>). If two different sellers are required for the two rooms, Book with may show both. Where only an aggregate quote exists, individual rooms remain blank rather than being estimated. For Marriott, <b>both rooms are eligible under either MMP or MMA</b>, and each code can cover two rooms. The planner therefore uses the cheapest eligible quoted code for both rooms when it beats the regular rate. If a mixed-code booking is ever needed because of availability, Room 1 (Daniel / Mariana / Luciano) is the MMP room and Room 2 (Nicole / Gemma / Jasper) is the MMA room. The booking code is shown below the occupants. Both codes can cover the two rooms. Marriott Points/MMP/MMA detail columns remain for comparison. Flexible/cancellable terms should still be re-verified before booking.</div>
@@ -699,16 +699,13 @@ function perksScore(h){
  let s=0;
  const lounge=String(h.memberLounge||"").toLowerCase();
  const breakfast=(String(h.breakfast||"")+" "+String(h.breakfastDetail||"")).toLowerCase();
-
- // Breakfast matters most for this family because it saves both money and morning logistics.
- if(/included for all guests|free breakfast|breakfast included/.test(breakfast))s+=55;
- else if(/elite|status benefit|welcome benefit|complimentary.*status/.test(breakfast))s+=38;
-
- // A verified member/executive lounge is useful, but less important than breakfast.
- if(/^yes/.test(lounge)||/verified.*lounge|executive lounge|elite member lounge/.test(lounge))s+=35;
- else if(/verify|access.*depend|possible|eligible/.test(lounge)&&!/no verified/.test(lounge))s+=15;
-
- // Wi-Fi is displayed as a benefit but intentionally earns no ranking points.
+ const selftxt=((h.kitchen||"")+" "+(h.kitchenette||"")+" "+(h.rentalNotes||"")+" "+(h.name||"")).toLowerCase();
+ if(/included for all guests|free breakfast|breakfast included/.test(breakfast))s+=45;
+ else if(/elite|status benefit|welcome benefit|complimentary.*status/.test(breakfast))s+=30;
+ if(/^yes/.test(lounge)||/verified.*lounge|executive lounge|elite member lounge/.test(lounge))s+=25;
+ else if(/verify|access.*depend|possible|eligible/.test(lounge)&&!/no verified/.test(lounge))s+=10;
+ if(/full kitchen|kitchen equipped|kitchenette/.test(selftxt))s+=30;
+ else if(isRental(h))s+=22;
  return Math.round(clamp(s));
 }
 function luxuryScore(h){
@@ -812,6 +809,7 @@ function whyText(item){
  if(/free breakfast|breakfast included/i.test(h.breakfast||""))pros.push("breakfast included");
  if(h.memberLounge&&/^Yes/.test(h.memberLounge))pros.push("elite lounge available");
  if(/included for all guests/i.test(h.breakfast||""))pros.push("breakfast included");
+ if(isRental(h))pros.push("self-catering / grocery flexibility");
  if(h.mmp!=null||h.mma!=null)pros.push("employee-rate upside");
  else if(directPoints(h)!=null||h.points!=null)pros.push("1-room points option");
  if(item.hard)cons.unshift(item.hard);
@@ -830,7 +828,7 @@ function renderDecision(){
      <h3><a href="#" onclick='focusHotel(${JSON.stringify(h.name)});document.getElementById("decisionSection").scrollIntoView({behavior:"smooth"});return false'>${esc(h.name)}</a></h3>
      <div class="decisionPrice">${fmt(fg)} <span style="font-size:10px;font-weight:700;color:var(--muted)">combined</span></div>
      <div class="decisionMeta">${isRental(h)?"Whole property":`Room 1: <b>${roomCashLabel(h,1)}</b><div class="priceSub">${roomRateNote(h,1)?esc(roomRateNote(h,1)):"Daniel / Mariana / Luciano"}</div>Room 2: <b>${roomCashLabel(h,2)}</b><div class="priceSub">${roomRateNote(h,2)?esc(roomRateNote(h,2)):"Nicole / Gemma / Jasper"}</div>`}<br>Book with <b>${esc(fullGroupSource(h))}</b>${combinedRateNote(h)?`<div class="priceSub">${esc(combinedRateNote(h))}</div>`:""} · ${esc(familyFit(h))}</div>
-     <div class="scoreBreakdown"><span>Location ${c.location}</span><span>Walking ${c.walkability}</span><span>Metro ${c.metro}</span><span>Price ${c.price}</span><span>Luxury ${c.luxury}</span><span>Condition ${c.condition}</span><span>Reviews ${c.reviews}</span><span>Family ${c.family}</span><span>Flex ${c.flexibility}</span><span>Loyalty ${c.loyalty}</span><span>Perks ${c.perks}</span></div>
+     <div class="scoreBreakdown"><span>Location ${c.location}</span><span>Walking ${c.walkability}</span><span>Metro ${c.metro}</span><span>Price ${c.price}</span><span>Luxury ${c.luxury}</span><span>Condition ${c.condition}</span><span>Reviews ${c.reviews}</span><span>Family ${c.family}</span><span>Flex ${c.flexibility}</span><span>Loyalty ${c.loyalty}</span><span>Food/perks ${c.perks}</span></div>
      <div class="procon"><div class="pro"><b>Why it stays:</b> ${esc(w.pro)}</div><div class="con"><b>Why it loses:</b> ${esc(w.con)}</div></div>
      <div class="actions"><button class="btn small" onclick='focusHotel(${JSON.stringify(h.name)})'>View details</button><button class="btn small" onclick='toggleFav(${JSON.stringify(h.name)})'>${fav(h.name)?"★ Favorite":"☆ Favorite"}</button></div>
    </div>`
@@ -854,6 +852,15 @@ function renderSummary(hs){
 
 function breakfastText(h){return h.directHilton?.breakfast||h.breakfast||"Not recorded"}
 function wifiText(h){return h.directHilton?.wifi||h.wifi||"Not recorded"}
+function selfCaterText(h){
+ const txt=((h.kitchen||"")+" "+(h.kitchenette||"")+" "+(h.rentalNotes||"")+" "+(h.name||"")).toLowerCase();
+ if(/full kitchen|kitchen equipped|kitchenette/.test(txt))return "Strong · kitchen/kitchenette recorded";
+ if(isRental(h))return "Strong rental benefit · make breakfast / keep groceries (verify kitchen equipment)";
+ return "Room groceries useful · no self-catering kitchen recorded";
+}
+function grocerySearchUrl(h){
+ return gSearch("grocery store near "+(h.area||h.station||h.name)+", "+citySuffix());
+}
 
 
 function hotelSortValue(h,key){
