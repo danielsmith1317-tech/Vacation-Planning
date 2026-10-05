@@ -1,22 +1,88 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Sicily, Naples & Rome · 2029 · Vacation Planning</title>
-<style>
-:root{--ink:#173640;--muted:#667780;--line:#dce5e8;--bg:#f4f7f7;--card:#fff;--teal:#1f6d73;--green:#237a52;--gold:#946b14}
+<title>Sicily, Naples & Rome · 2029 · Vacation Planning</title><style>
+:root{--ink:#173640;--muted:#667780;--line:#dce5e8;--bg:#f4f7f7;--card:#fff;--teal:#1f6d73;--green:#237a52;--gold:#946b14;--navy:#0f2f38}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Arial;color:var(--ink);background:var(--bg)}
-a{color:var(--teal)}.sitebar{background:#0f2f38;color:#fff}.sitebarInner{max-width:1180px;margin:auto;padding:10px 18px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}.sitebar a{color:#fff;text-decoration:none;font-weight:900}
-.hero{background:linear-gradient(135deg,#163d46,#245d65);color:#fff}.wrap{max-width:1180px;margin:auto;padding:0 18px}.hero .wrap{padding-top:34px;padding-bottom:30px}.hero h1{margin:0;font-size:clamp(28px,5vw,48px);line-height:1.04}.hero p{max-width:800px;color:#d7e8eb;font-size:15px;line-height:1.6}
+a{color:var(--teal)}.sitebar{background:var(--navy);color:#fff}.sitebarInner{max-width:1180px;margin:auto;padding:10px 18px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}.sitebar a{color:#fff;text-decoration:none;font-weight:900}
+.hero{background:linear-gradient(135deg,#163d46,#245d65);color:#fff}.wrap{max-width:1180px;margin:auto;padding:0 18px}.hero .wrap{padding-top:34px;padding-bottom:30px}.hero h1{margin:0;font-size:clamp(28px,5vw,48px);line-height:1.04}.hero p{max-width:860px;color:#d7e8eb;font-size:15px;line-height:1.6}
 .badge{display:inline-block;padding:6px 9px;border-radius:999px;background:#e8f5ee;color:#236c4b;font-size:11px;font-weight:900;margin-bottom:10px}.badge.plan{background:#fff2d7;color:#7c5a11}.badge.archive{background:#edf1f3;color:#54646b}
 .tripnav{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.96);border-bottom:1px solid var(--line);backdrop-filter:blur(8px)}.tripnav .wrap{display:flex;gap:7px;overflow:auto;padding-top:8px;padding-bottom:8px}.tripnav a{white-space:nowrap;text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:7px 10px;background:#fff;font-size:11px;font-weight:900;color:#24434d}
-main.wrap{padding-top:18px;padding-bottom:50px}.panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:14px;box-shadow:0 7px 24px rgba(25,49,58,.05)}.panel h2{margin:0 0 8px;font-size:20px}.muted{color:var(--muted);line-height:1.55}
-.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.card{border:1px solid var(--line);border-radius:12px;padding:12px;background:#fbfdff}.card b{display:block;margin-bottom:4px}.card small{color:var(--muted);line-height:1.45}.timeline{display:grid;gap:8px}.stop{display:grid;grid-template-columns:115px 1fr;gap:12px;border-bottom:1px solid #edf1f2;padding:9px 0}.stop:last-child{border-bottom:0}.date{font-weight:900}.pill{display:inline-block;padding:4px 8px;border-radius:999px;background:#edf5f6;font-size:10px;font-weight:900;margin:2px 4px 2px 0}
-ul{margin:8px 0 0;padding-left:20px;line-height:1.6}.notice{border-left:4px solid #d6a42b;background:#fff8e8;padding:10px 12px;border-radius:8px;color:#6d551b}
-@media(max-width:760px){.grid{grid-template-columns:1fr}.stop{grid-template-columns:1fr;gap:2px}}
+main.wrap{padding-top:18px;padding-bottom:50px}.panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:14px;box-shadow:0 7px 24px rgba(25,49,58,.05)}.panel h2{margin:0 0 8px;font-size:20px}.panel h3{margin:4px 0 6px}.muted{color:var(--muted);line-height:1.55}.small{font-size:11px;color:var(--muted);line-height:1.45}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}.card{border:1px solid var(--line);border-radius:12px;padding:12px;background:#fbfdff}.card b{display:block;margin-bottom:4px}.card small{color:var(--muted);line-height:1.45}
+.timeline{display:grid;gap:8px}.stop{display:grid;grid-template-columns:125px 1fr;gap:12px;border-bottom:1px solid #edf1f2;padding:9px 0}.stop:last-child{border-bottom:0}.date{font-weight:900}
+.pill{display:inline-block;padding:4px 8px;border-radius:999px;background:#edf5f6;font-size:10px;font-weight:900;margin:2px 4px 2px 0}.confirmed{background:#e7f5ed;color:#237a52}.planned{background:#fff3d9;color:#8a6200}.unknown{background:#eef1f5;color:#667080}
+.btn{display:inline-block;text-decoration:none;border-radius:9px;padding:8px 10px;font-size:11px;font-weight:900;background:#fff;border:1px solid var(--line);color:#24434d;margin:2px}.btn.primary{background:var(--navy);color:#fff;border-color:var(--navy)}.btn.teal{background:#e8f4f5;color:#205e65}
+.actions{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}.notice{border-left:4px solid #d6a42b;background:#fff8e8;padding:10px 12px;border-radius:8px;color:#6d551b;line-height:1.5}.good{border-left-color:#3b9b69;background:#edf9f2;color:#286447}
+.mapWrap{height:420px;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#eef2f3}.mapLinks{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}.legend{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 10px}
+.weatherHead{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}.weatherTabs{display:flex;gap:6px;flex-wrap:wrap}.weatherTabs button{cursor:pointer}.weatherCurrent{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:12px 0}.weatherTemp{font-size:34px;font-weight:900}.weatherDesc{font-size:14px;font-weight:800}.weatherMeta{font-size:11px;color:var(--muted)}.weatherDays{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}.weatherDay{border:1px solid var(--line);border-radius:10px;padding:9px;background:#fbfdff}.weatherDay b{display:block;font-size:12px}.wxhi{font-size:15px;font-weight:900}.wxlo,.wxdesc{font-size:10px;color:var(--muted)}
+.linkList{display:grid;gap:8px}.linkRow{display:flex;justify-content:space-between;gap:12px;align-items:center;border-bottom:1px solid #edf1f2;padding:9px 0}.linkRow:last-child{border-bottom:0}.linkRow .left{min-width:0}.linkRow b{display:block}.statusTag{font-size:9px;font-weight:900;text-transform:uppercase;letter-spacing:.06em;padding:4px 7px;border-radius:999px}
+ul{margin:8px 0 0;padding-left:20px;line-height:1.6}
+@media(max-width:760px){.grid,.grid.two{grid-template-columns:1fr}.stop{grid-template-columns:1fr;gap:2px}.weatherDays{grid-template-columns:repeat(2,1fr)}.mapWrap{height:340px}.linkRow{align-items:flex-start;flex-direction:column}}
 </style></head><body>
 <div class="sitebar"><div class="sitebarInner"><a href="../../">← Vacation Planning</a><span>Future · Planning</span></div></div>
 <header class="hero"><div class="wrap"><span class="badge plan">Future · Planning</span><h1>Sicily, Naples & Rome · 2029</h1><p>Early-stage family trip concept built around Sicily's ancient history, Capo d'Orlando, Naples and a short Rome stop.</p></div></header>
-<div class="tripnav"><div class="wrap"><a href="#overview">Overview</a><a href="#route">Route Concept</a><a href="#musts">Must Do</a><a href="#group">Travel Group</a><a href="#constraints">Trip Rules</a></div></div>
-<main class="wrap"><section id="overview" class="panel"><div class="sectionHead"><div><h2>Overview</h2></div></div><div class="grid"><div class="card"><b>Main focus</b><small>Sicily island circuit with ancient-history stops.</small></div><div class="card"><b>Family connection</b><small>Capo d'Orlando · Carmelo's mother's hometown · about 2 nights.</small></div><div class="card"><b>Finish</b><small>Naples, with 1–2 days in Rome likely included.</small></div></div></section>
-<section id="route" class="panel"><div class="sectionHead"><div><h2>Route Concept</h2></div></div><div class="timeline"><div class="stop"><div class="date">Sicily</div><div><b>Island circuit</b><div class="muted">Build around the major ancient-history regions while keeping the pace realistic for a family group.</div></div></div><div class="stop"><div class="date">2 nights</div><div><b>Capo d'Orlando</b><div class="muted">Required family-history stop.</div></div></div><div class="stop"><div class="date">Finish</div><div><b>Naples → Rome</b><div class="muted">Naples at the end; likely 1–2 Rome days before flying home.</div></div></div></div></section>
-<section id="musts" class="panel"><div class="sectionHead"><div><h2>Must Do</h2></div></div><span class="pill">Ancient history</span><span class="pill">Capo d'Orlando</span><span class="pill">Sicily circuit</span><span class="pill">Naples</span><span class="pill">Rome 1–2 days</span></section>
-<section id="group" class="panel"><div class="sectionHead"><div><h2>Travel Group</h2></div></div><p class="muted">Core: Daniel, Mariana and Luciano. Possible additions: Carmelo and Yanette if travel-ready, Nicole, Gemma, Jasper, and possibly Abraham.</p></section>
-<section id="constraints" class="panel"><div class="sectionHead"><div><h2>Trip Rules</h2></div></div><div class="notice"><b>Time-off limit:</b> keep the trip within roughly 5–7 working days off. The route should be designed around that constraint rather than a long 15-night itinerary.</div></section></main></body></html>
+<div class="tripnav"><div class="wrap"><a href="#overview">Overview</a><a href="#route">Route Concept</a><a href="#musts">Must Do</a><a href="#group">Travel Group</a><a href="#constraints">Trip Rules</a><a href="#mapweather">Map & Weather</a><a href="#links">Plans & Links</a></div></div>
+<main class="wrap">
+<section id="overview" class="panel"><h2>Overview</h2><div class="grid"><div class="card"><b>Main focus</b><small>Sicily island circuit with ancient-history emphasis.</small></div><div class="card"><b>Required family stop</b><small>Capo d'Orlando · approximately 2 nights.</small></div><div class="card"><b>Finish</b><small>Naples, with 1–2 days in Rome likely.</small></div></div></section>
+<section id="route" class="panel"><h2>Route Concept</h2><div class="timeline"><div class="stop"><div class="date">Sicily</div><div><b>Island circuit</b><div class="muted">Ancient-history focus. Exact arrival airport, cities and clockwise/counter-clockwise routing are not selected yet.</div></div></div><div class="stop"><div class="date">Required</div><div><b>Capo d'Orlando · about 2 nights</b><div class="muted">Family connection: Carmelo's mother's hometown.</div></div></div><div class="stop"><div class="date">Finish</div><div><b>Naples → Rome</b><div class="muted">Naples expected near the end; Rome likely 1–2 days before flying home.</div></div></div></div></section>
+<section id="musts" class="panel"><h2>Must Do / Priorities</h2><span class="pill confirmed">Capo d'Orlando</span><span class="pill planned">Ancient history</span><span class="pill planned">Sicily circuit</span><span class="pill planned">Naples</span><span class="pill planned">Rome 1–2 days</span></section>
+<section id="group" class="panel"><h2>Travel Group</h2><p class="muted">Core under consideration: Daniel, Mariana and Luciano. Possible additions: Carmelo and Yanette if travel-ready, Nicole, Gemma, Jasper, and possibly Abraham. Room assignments and costs should wait until the group is confirmed.</p></section>
+<section id="constraints" class="panel"><h2>Trip Rules</h2><div class="notice"><b>Time-off limit:</b> design the trip around roughly 5–7 working days off. Do not build a 15-night itinerary. Keep hotel changes reasonable for the family and preserve the required Capo d'Orlando stop.</div></section>
+<section id="mapweather" class="panel"><h2>Map & Weather</h2><p class="muted">Use the map for confirmed/planned trip locations. Open any place in Google Maps for directions, nearby restaurants, groceries and transit.</p>
+<div class="mapWrap" id="tripMap"><div style="height:100%;display:flex;align-items:center;justify-content:center;text-align:center;padding:28px;color:#667780">Loading Google Map…</div></div>
+<div class="mapLinks"><a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Capo%20d'Orlando%20Sicily%20Italy">Capo d'Orlando ↗</a><a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Naples%20Italy">Naples ↗</a><a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Rome%20Italy">Rome ↗</a></div>
+<hr style="border:0;border-top:1px solid var(--line);margin:18px 0">
+<div class="weatherHead"><div><h3>Weather</h3><div class="small" id="weatherNote">Live current conditions and 5-day forecast for planning. This is not the trip forecast until the travel dates are within range.</div></div><div class="weatherTabs"><button class="btn primary" type="button" data-wx="0">Capo d'Orlando</button><button class="btn " type="button" data-wx="1">Naples</button><button class="btn " type="button" data-wx="2">Rome</button></div></div>
+<div id="weatherCurrent" class="weatherCurrent"><span class="muted">Loading weather…</span></div>
+<div id="weatherDays" class="weatherDays"></div>
+<div class="actions"><a class="btn" target="_blank" rel="noopener" href="https://www.google.com/search?q=Capo%20d'Orlando%20weather">Capo d'Orlando weather ↗</a><a class="btn" target="_blank" rel="noopener" href="https://www.google.com/search?q=Naples%20weather">Naples weather ↗</a><a class="btn" target="_blank" rel="noopener" href="https://www.google.com/search?q=Rome%20weather">Rome weather ↗</a></div>
+</section>
+<section id="links" class="panel"><h2>Confirmed / Planned Links</h2><div class="linkList"><div class="linkRow"><div class="left"><span class="statusTag unknown">Required</span><b>Capo d'Orlando</b><div class="small">Family-history stop · target around 2 nights</div></div><a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Capo%20d'Orlando%20Sicily%20Italy">Map ↗</a></div><div class="linkRow"><div class="left"><span class="statusTag planned">Planned</span><b>Naples</b><div class="small">Expected finishing region</div></div><a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Naples%20Italy">Map ↗</a></div><div class="linkRow"><div class="left"><span class="statusTag planned">Planned</span><b>Rome</b><div class="small">Likely 1–2 day stop</div></div><a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Rome%20Italy">Map ↗</a></div></div></section>
+</main>
+<script>
+const GOOGLE_KEY="AIzaSyBEJvqRr9U1w1W-amyUAK_P2grJJZSwyXE";
+const MAP_POINTS=[{"name":"Capo d'Orlando","query":"Capo d'Orlando Sicily Italy","lat":38.1434,"lng":14.7319},{"name":"Naples","query":"Naples Italy","lat":40.8518,"lng":14.2681},{"name":"Rome","query":"Rome Italy","lat":41.9028,"lng":12.4964}];
+const WEATHER_POINTS=[{"name":"Capo d'Orlando","lat":38.1434,"lng":14.7319},{"name":"Naples","lat":40.8518,"lng":14.2681},{"name":"Rome","lat":41.9028,"lng":12.4964}];
+function gSearch(q){return "https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(q)}
+function initTripMap(){
+ const el=document.getElementById("tripMap"); if(!el||!window.google?.maps)return;
+ const center={"lat":39.4,"lng":14};
+ const map=new google.maps.Map(el,{center,zoom:5,mapTypeControl:false,streetViewControl:false});
+ const bounds=new google.maps.LatLngBounds(); let count=0;
+ MAP_POINTS.forEach(p=>{
+   if(p.lat==null||p.lng==null)return;
+   const m=new google.maps.Marker({map,position:{lat:p.lat,lng:p.lng},title:p.name});
+   const info=new google.maps.InfoWindow({content:'<b>'+p.name.replace(/</g,"&lt;")+'</b><br><a target="_blank" rel="noopener" href="'+gSearch(p.query||p.name)+'">Open in Google Maps ↗</a>'});
+   m.addListener("click",()=>info.open({map,anchor:m}));
+   bounds.extend(m.getPosition()); count++;
+ });
+ if(count>1)map.fitBounds(bounds,70); else if(count===1){map.setCenter(bounds.getCenter());map.setZoom(13)}
+}
+function loadMapScript(){
+ if(!MAP_POINTS.length){document.getElementById("tripMap").innerHTML='<div style="height:100%;display:flex;align-items:center;justify-content:center;text-align:center;padding:28px;color:#667780">Trip locations are not detailed enough yet for individual map pins.</div>';return}
+ const s=document.createElement("script"); s.async=true; s.defer=true; s.src="https://maps.googleapis.com/maps/api/js?key="+encodeURIComponent(GOOGLE_KEY)+"&callback=initTripMap"; s.onerror=()=>{document.getElementById("tripMap").innerHTML='<div style="height:100%;display:flex;align-items:center;justify-content:center;text-align:center;padding:28px;color:#667780">Interactive map could not load. Use the Google Maps links below.</div>'}; document.head.appendChild(s);
+}
+function condText(o){return o?.description?.text||o?.type||"Conditions unavailable"}
+function temp(o){return o?.degrees!=null?Math.round(o.degrees):null}
+function dateLabel(iso){try{return new Date(iso).toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric",timeZone:"UTC"})}catch(e){return "Forecast"}}
+async function loadWeather(idx=0){
+ const cur=document.getElementById("weatherCurrent"),daysEl=document.getElementById("weatherDays");
+ if(!WEATHER_POINTS.length||!cur||!daysEl)return;
+ document.querySelectorAll("[data-wx]").forEach((b,i)=>b.classList.toggle("primary",i===idx));
+ const p=WEATHER_POINTS[idx]; cur.innerHTML='<span class="muted">Loading '+p.name+' weather…</span>'; daysEl.innerHTML="";
+ try{
+  const base="https://weather.googleapis.com/v1";
+  const [cr,fr]=await Promise.all([
+    fetch(base+"/currentConditions:lookup?key="+encodeURIComponent(GOOGLE_KEY)+"&location.latitude="+p.lat+"&location.longitude="+p.lng+"&unitsSystem=IMPERIAL"),
+    fetch(base+"/forecast/days:lookup?key="+encodeURIComponent(GOOGLE_KEY)+"&location.latitude="+p.lat+"&location.longitude="+p.lng+"&days=5&unitsSystem=IMPERIAL")
+  ]);
+  if(!cr.ok||!fr.ok)throw new Error("Weather API");
+  const c=await cr.json(),d=await fr.json(),t=temp(c.temperature),feel=temp(c.feelsLikeTemperature);
+  cur.innerHTML='<div class="weatherTemp">'+(t!=null?t+"°F":"—")+'</div><div><div class="weatherDesc">'+condText(c.weatherCondition)+'</div><div class="weatherMeta">'+(feel!=null?"Feels like "+feel+"°F · ":"")+(c.relativeHumidity!=null?"Humidity "+c.relativeHumidity+"%":"")+'</div></div>';
+  daysEl.innerHTML=(d.forecastDays||[]).slice(0,5).map(x=>{const hi=temp(x.maxTemperature),lo=temp(x.minTemperature),desc=condText(x.daytimeForecast?.weatherCondition||x.nighttimeForecast?.weatherCondition),st=x.interval?.startTime;return '<div class="weatherDay"><b>'+dateLabel(st)+'</b><span class="wxhi">'+(hi!=null?hi+"°":"—")+'</span> <span class="wxlo">/ '+(lo!=null?lo+"°":"—")+'</span><div class="wxdesc">'+desc+'</div></div>'}).join("");
+ }catch(e){
+  cur.innerHTML='<div class="notice"><b>Live weather could not load.</b> Use the weather links below.</div>'; daysEl.innerHTML="";
+ }
+}
+document.addEventListener("click",e=>{const b=e.target.closest("[data-wx]");if(b)loadWeather(Number(b.dataset.wx))});
+loadMapScript(); if(WEATHER_POINTS.length)loadWeather(0);
+</script></body></html>
