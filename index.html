@@ -998,6 +998,7 @@ function renderFocus(){
        <div class="row"><span>AC</span><b>${esc(h.ac||"Not stated")}</b></div>
        <div class="row"><span>Washer / dryer</span><b>${esc(h.washer||"Not stated")}</b></div>
        <div class="row"><span>Crib / baby gear</span><b>${esc(h.crib||"Not stated")}</b></div>
+       <div class="row"><span>Grocery / self-catering</span><b>${esc(selfCaterText(h))}</b></div>
        <div class="row"><span>Rating</span><b>${h.rating!=null?esc(h.rating)+(h.reviewCount!=null?` · ${Number(h.reviewCount).toLocaleString()} reviews`:""):"—"}</b></div>
        <div class="row"><span>Cancellation</span><b>${esc(h.cancelTerms||"Not recorded")}</b></div>
        <div class="row"><span>Location confidence</span><b>${esc(h.locationConfidence||"Approximate")}</b></div>
@@ -1020,9 +1021,9 @@ function renderFocus(){
    <div class="row"><span>Estimated full-group cash</span><b>${fmt(fg)}</b></div>
    <div class="row"><span>Full-group basis</span><b>${esc(fullGroupSource(h))}</b></div>
    ${rentalDetails}
-   ${!rental?`<div class="row"><span>Direct points / stay</span><b>${p!=null?pts(p)+" pts":"—"}</b></div><div class="row"><span>Breakfast</span><b>${esc(breakfastText(h))}</b></div><div class="row"><span>Wi-Fi</span><b>${esc(wifiText(h))}</b></div>`:""}
+   ${!rental?`<div class="row"><span>Direct points / stay</span><b>${p!=null?pts(p)+" pts":"—"}</b></div><div class="row"><span>Breakfast</span><b>${esc(breakfastText(h))}</b></div><div class="row"><span>Grocery / self-catering</span><b>${esc(selfCaterText(h))}</b></div><div class="row"><span>Wi-Fi</span><b>${esc(wifiText(h))}</b></div>`:""}
    ${quote}
-   <div class="actions"><a class="btn small" target="_blank" rel="noopener" href="${gSearch((h.area||h.name)+", "+citySuffix())}">Google Maps ↗</a>${officialUrl(h)?`<a class="btn small" target="_blank" rel="noopener" href="${officialUrl(h)}">${rental?"Open listing / photos ↗":"Official site ↗"}</a>`:""}<button class="btn small" onclick='toggleFav(${JSON.stringify(h.name)})'>${fav(h.name)?"Remove favorite":"★ Favorite"}</button><button class="btn small danger" onclick='toggleHidden(${JSON.stringify(h.name)})'>${hidden(h.name)?"Unhide":"Hide lodging"}</button></div>
+   <div class="actions"><a class="btn small" target="_blank" rel="noopener" href="${gSearch((h.area||h.name)+", "+citySuffix())}">Google Maps ↗</a><a class="btn small" target="_blank" rel="noopener" href="${grocerySearchUrl(h)}">Nearby groceries ↗</a>${officialUrl(h)?`<a class="btn small" target="_blank" rel="noopener" href="${officialUrl(h)}">${rental?"Open listing / photos ↗":"Official site ↗"}</a>`:""}<button class="btn small" onclick='toggleFav(${JSON.stringify(h.name)})'>${fav(h.name)?"Remove favorite":"★ Favorite"}</button><button class="btn small danger" onclick='toggleHidden(${JSON.stringify(h.name)})'>${hidden(h.name)?"Unhide":"Hide lodging"}</button></div>
    ${routeControls(origin)}
    <div class="notesbox"><label>My notes</label><textarea oninput='saveNote(${JSON.stringify(h.name)},this.value)' placeholder="Add notes for this lodging...">${esc(localState.notes[h.name]||"")}</textarea></div>
    </div>`;
