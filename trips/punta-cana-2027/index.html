@@ -8,9 +8,9 @@ main.wrap{padding-top:18px;padding-bottom:50px}.panel{background:#fff;border:1px
 .timeline{display:grid}.stop{display:grid;grid-template-columns:125px 1fr;gap:12px;border-bottom:1px solid #edf1f2;padding:10px 0}.stop:last-child{border-bottom:0}.date{font-weight:900}.notice{border-left:4px solid #d6a42b;background:#fff8e8;padding:10px 12px;border-radius:8px;color:#6d551b;line-height:1.5}.notice.good{border-left-color:#3b9b69;background:#edf9f2;color:#286447}
 .pill,.status{display:inline-block;padding:4px 8px;border-radius:999px;font-size:10px;font-weight:900;margin:2px 4px 2px 0}.pill{background:#edf5f6}.status{text-transform:uppercase;letter-spacing:.05em}.status.confirmed{background:#e7f5ed;color:#237a52}.status.planned{background:#fff3d9;color:#8a6200}.status.known{background:#eef1f5;color:#667080}
 .actions,.mapLinks,.weatherLinks{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}.btn{display:inline-block;text-decoration:none;border:1px solid var(--line);border-radius:9px;padding:8px 10px;background:#fff;color:#24434d;font-size:11px;font-weight:900}.btn.primary{background:var(--navy);color:#fff;border-color:var(--navy)}
-.mapFrame{width:100%;height:410px;border:1px solid var(--line);border-radius:14px;background:#eef2f3}.weatherGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.weatherCard{border:1px solid var(--line);border-radius:11px;padding:12px;background:#fbfdff}.weatherCard b{display:block;margin-bottom:5px}
+.mapFrame{width:100%;height:410px;border:1px solid var(--line);border-radius:14px;background:#eef2f3}.weatherHead{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap}.weatherCurrent{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:10px 0}.weatherTemp{font-size:34px;font-weight:900}.weatherDesc{font-size:14px;font-weight:800}.weatherMeta{font-size:11px;color:var(--muted);line-height:1.5}.weatherDays{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:10px}.weatherDay{border:1px solid var(--line);border-radius:10px;padding:9px;background:#fbfdff;min-width:0}.weatherDay b{display:block;font-size:12px;margin-bottom:4px}.weatherDay .wxhi{font-size:15px;font-weight:900}.weatherDay .wxlo{font-size:11px;color:var(--muted)}.weatherDay .wxdesc{font-size:10px;color:var(--muted);margin-top:4px;line-height:1.25}
 .linkList{display:grid}.linkRow{display:flex;justify-content:space-between;gap:12px;align-items:center;border-bottom:1px solid #edf1f2;padding:10px 0}.linkRow:last-child{border-bottom:0}.linkRow b{display:block;margin-top:4px}ul{line-height:1.6}
-@media(max-width:760px){.grid,.weatherGrid{grid-template-columns:1fr}.stop{grid-template-columns:1fr;gap:3px}.linkRow{flex-direction:column;align-items:flex-start}.mapFrame{height:330px}}</style></head><body>
+@media(max-width:760px){.grid{grid-template-columns:1fr}.weatherDays{grid-template-columns:repeat(2,1fr)}.stop{grid-template-columns:1fr;gap:3px}.linkRow{flex-direction:column;align-items:flex-start}.mapFrame{height:330px}}</style></head><body>
 <div class="sitebar"><div class="sitebarInner"><a href="../../">← Vacation Planning</a><span>Upcoming · Confirmed core trip</span></div></div>
 <header class="hero"><div class="wrap"><span class="badge ">Upcoming · Confirmed core trip</span><h1>Punta Cana · 40th Birthday 2027</h1><p>Royalton Bávaro family birthday trip · March 6–10, 2027.</p></div></header>
 <div class="tripnav"><div class="wrap"><a href="#overview">Overview</a><a href="#flights">Flights</a><a href="#stay">Resort</a><a href="#benefits">Diamond Club</a><a href="#bookings">Bookings</a><a href="#mapweather">Map & Weather</a><a href="#links">Plans & Links</a></div></div>
@@ -22,6 +22,48 @@ main.wrap{padding-top:18px;padding-bottom:50px}.panel{background:#fff;border:1px
 <section id="mapweather" class="panel"><h2>Map & Weather</h2><p class="muted">Destination map centers on Royalton Bávaro. Use the airport and resort buttons for the confirmed travel points.</p>
 <iframe class="mapFrame" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=Royalton%20Bavaro%20Punta%20Cana&output=embed" title="Punta Cana · 40th Birthday 2027 Google Map"></iframe>
 <div class="mapLinks"><a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Royalton%20Bavaro%20Punta%20Cana">Royalton Bávaro ↗</a><a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Punta%20Cana%20International%20Airport">Punta Cana Airport ↗</a></div>
-<h2 style="margin-top:20px">Weather</h2><div class="weatherGrid"><div class="weatherCard"><b>Punta Cana</b><div class="small">Current conditions and forecast now; use as planning context until the trip is close enough for a true forecast.</div><a class="btn" target="_blank" rel="noopener" href="https://www.google.com/search?q=Punta%20Cana%20Dominican%20Republic%20weather">Open weather ↗</a></div></div></section>
+<div class="weatherHead" style="margin-top:20px"><div><h2 style="margin:0">Weather</h2><div class="small" id="weatherNote">Live Punta Cana conditions and 5-day forecast. March 2027 trip weather will become useful closer to departure.</div></div><button class="btn" id="refreshWeather" type="button">Refresh weather</button></div>
+<div id="weatherCurrent" class="weatherCurrent"><span class="muted">Loading weather…</span></div>
+<div id="weatherDays" class="weatherDays"></div></section>
 <section id="links" class="panel"><h2>Confirmed / Planned Links</h2><div class="linkList"><div class="linkRow"><div><span class="status confirmed">Confirmed</span><b>Royalton Bávaro</b><div class="small">Mar 6–10, 2027 · all-inclusive resort</div></div><a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Royalton%20Bavaro%20Punta%20Cana">Map ↗</a></div><div class="linkRow"><div><span class="status confirmed">Confirmed</span><b>MX 110 · TPA → PUJ</b><div class="small">Mar 6 · 10:40 AM → 2:30 PM AST</div></div><a class="btn" target="_blank" rel="noopener" href="https://www.flybreeze.com/">Airline ↗</a></div><div class="linkRow"><div><span class="status confirmed">Confirmed</span><b>MX 112 · PUJ → TPA</b><div class="small">Mar 10 · 3:30 PM → 5:40 PM EST</div></div><a class="btn" target="_blank" rel="noopener" href="https://www.flybreeze.com/">Airline ↗</a></div></div></section>
-</main></body></html>
+</main><script>
+const WEATHER_API_KEY="AIzaSyBEJvqRr9U1w1W-amyUAK_P2grJJZSwyXE";
+function wxDateLabel(iso){
+  try{return new Date(iso).toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric",timeZone:"UTC"})}
+  catch(e){return "Forecast"}
+}
+function weatherConditionText(obj){return obj?.description?.text||obj?.type||"Conditions unavailable"}
+function tempVal(obj){return obj?.degrees!=null?Math.round(obj.degrees):null}
+async function loadWeather(){
+  const currentEl=document.getElementById("weatherCurrent"),daysEl=document.getElementById("weatherDays"),note=document.getElementById("weatherNote");
+  if(!currentEl||!daysEl)return;
+  currentEl.innerHTML='<span class="muted">Loading Punta Cana weather…</span>'; daysEl.innerHTML="";
+  const lat=18.5601,lon=-68.3725,base="https://weather.googleapis.com/v1";
+  try{
+    const [cr,fr]=await Promise.all([
+      fetch(base+`/currentConditions:lookup?key=${encodeURIComponent(WEATHER_API_KEY)}&location.latitude=${lat}&location.longitude=${lon}&unitsSystem=IMPERIAL`),
+      fetch(base+`/forecast/days:lookup?key=${encodeURIComponent(WEATHER_API_KEY)}&location.latitude=${lat}&location.longitude=${lon}&days=5&unitsSystem=IMPERIAL`)
+    ]);
+    if(!cr.ok)throw new Error("Current weather "+cr.status);
+    if(!fr.ok)throw new Error("Forecast "+fr.status);
+    const c=await cr.json(),d=await fr.json();
+    const t=tempVal(c.temperature),feels=tempVal(c.feelsLikeTemperature),precip=c.precipitation?.probability?.percent,humidity=c.relativeHumidity,wind=c.wind?.speed?.value;
+    currentEl.innerHTML=`<div class="weatherTemp">${t!=null?t+"°F":"—"}</div><div><div class="weatherDesc">${weatherConditionText(c.weatherCondition)}</div><div class="weatherMeta">${feels!=null?"Feels like "+feels+"°F · ":""}${humidity!=null?"Humidity "+humidity+"% · ":""}${precip!=null?"Precipitation "+precip+"% · ":""}${wind!=null?"Wind "+Math.round(wind)+" mph":""}</div></div>`;
+    const days=(d.forecastDays||[]).slice(0,5);
+    daysEl.innerHTML=days.map(x=>{
+      const hi=tempVal(x.maxTemperature),lo=tempVal(x.minTemperature);
+      const desc=weatherConditionText(x.daytimeForecast?.weatherCondition||x.nighttimeForecast?.weatherCondition);
+      const pop=x.daytimeForecast?.precipitation?.probability?.percent ?? x.nighttimeForecast?.precipitation?.probability?.percent;
+      const date=x.interval?.startTime||(x.displayDate?.year?`${x.displayDate.year}-${String(x.displayDate.month).padStart(2,"0")}-${String(x.displayDate.day).padStart(2,"0")}T00:00:00Z`:null);
+      return `<div class="weatherDay"><b>${wxDateLabel(date)}</b><div><span class="wxhi">${hi!=null?hi+"°":"—"}</span> <span class="wxlo">/ ${lo!=null?lo+"°":"—"}</span></div><div class="wxdesc">${desc}${pop!=null?" · "+pop+"% precip":""}</div></div>`;
+    }).join("");
+    note.textContent="Live Punta Cana conditions + 5-day forecast from Google Weather. March 2027 trip weather will become useful closer to departure.";
+  }catch(e){
+    currentEl.innerHTML='<div class="notice"><b>Weather could not load.</b><br>The page will keep trying when refreshed; the Google Weather API connection may need attention.</div>';
+    daysEl.innerHTML="";
+    note.textContent="Weather API connection needs attention.";
+  }
+}
+document.getElementById("refreshWeather")?.addEventListener("click",loadWeather);
+window.addEventListener("DOMContentLoaded",loadWeather);
+</script></body></html>
