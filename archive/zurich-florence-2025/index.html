@@ -1,86 +1,25 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Zurich & Florence · 2025 · Vacation Planning</title><style>
-:root{--ink:#173640;--muted:#667780;--line:#dce5e8;--bg:#f4f7f7;--card:#fff;--teal:#1f6d73;--green:#237a52;--gold:#946b14;--navy:#0f2f38}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Arial;color:var(--ink);background:var(--bg)}
-a{color:var(--teal)}.sitebar{background:var(--navy);color:#fff}.sitebarInner{max-width:1180px;margin:auto;padding:10px 18px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}.sitebar a{color:#fff;text-decoration:none;font-weight:900}
-.hero{background:linear-gradient(135deg,#163d46,#245d65);color:#fff}.wrap{max-width:1180px;margin:auto;padding:0 18px}.hero .wrap{padding-top:34px;padding-bottom:30px}.hero h1{margin:0;font-size:clamp(28px,5vw,48px);line-height:1.04}.hero p{max-width:860px;color:#d7e8eb;font-size:15px;line-height:1.6}
-.badge{display:inline-block;padding:6px 9px;border-radius:999px;background:#e8f5ee;color:#236c4b;font-size:11px;font-weight:900;margin-bottom:10px}.badge.plan{background:#fff2d7;color:#7c5a11}.badge.archive{background:#edf1f3;color:#54646b}
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Zurich & Florence · 2025 · Vacation Planning</title><style>:root{--ink:#173640;--muted:#667780;--line:#dce5e8;--bg:#f4f7f7;--card:#fff;--teal:#1f6d73;--navy:#0f2f38}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Arial;color:var(--ink);background:var(--bg)}a{color:var(--teal)}
+.sitebar{background:var(--navy);color:#fff}.sitebarInner{max-width:1180px;margin:auto;padding:10px 18px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}.sitebar a{color:#fff;text-decoration:none;font-weight:900}
+.hero{background:linear-gradient(135deg,#163d46,#245d65);color:#fff}.wrap{max-width:1180px;margin:auto;padding:0 18px}.hero .wrap{padding-top:34px;padding-bottom:30px}.hero h1{margin:0;font-size:clamp(28px,5vw,48px)}.hero p{max-width:860px;color:#d7e8eb;line-height:1.6}.badge{display:inline-block;padding:6px 9px;border-radius:999px;background:#fff2d7;color:#7c5a11;font-size:11px;font-weight:900;margin-bottom:10px}.badge.archive{background:#edf1f3;color:#54646b}
 .tripnav{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.96);border-bottom:1px solid var(--line);backdrop-filter:blur(8px)}.tripnav .wrap{display:flex;gap:7px;overflow:auto;padding-top:8px;padding-bottom:8px}.tripnav a{white-space:nowrap;text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:7px 10px;background:#fff;font-size:11px;font-weight:900;color:#24434d}
-main.wrap{padding-top:18px;padding-bottom:50px}.panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:14px;box-shadow:0 7px 24px rgba(25,49,58,.05)}.panel h2{margin:0 0 8px;font-size:20px}.panel h3{margin:4px 0 6px}.muted{color:var(--muted);line-height:1.55}.small{font-size:11px;color:var(--muted);line-height:1.45}
-.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}.card{border:1px solid var(--line);border-radius:12px;padding:12px;background:#fbfdff}.card b{display:block;margin-bottom:4px}.card small{color:var(--muted);line-height:1.45}
-.timeline{display:grid;gap:8px}.stop{display:grid;grid-template-columns:125px 1fr;gap:12px;border-bottom:1px solid #edf1f2;padding:9px 0}.stop:last-child{border-bottom:0}.date{font-weight:900}
-.pill{display:inline-block;padding:4px 8px;border-radius:999px;background:#edf5f6;font-size:10px;font-weight:900;margin:2px 4px 2px 0}.confirmed{background:#e7f5ed;color:#237a52}.planned{background:#fff3d9;color:#8a6200}.unknown{background:#eef1f5;color:#667080}
-.btn{display:inline-block;text-decoration:none;border-radius:9px;padding:8px 10px;font-size:11px;font-weight:900;background:#fff;border:1px solid var(--line);color:#24434d;margin:2px}.btn.primary{background:var(--navy);color:#fff;border-color:var(--navy)}.btn.teal{background:#e8f4f5;color:#205e65}
-.actions{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}.notice{border-left:4px solid #d6a42b;background:#fff8e8;padding:10px 12px;border-radius:8px;color:#6d551b;line-height:1.5}.good{border-left-color:#3b9b69;background:#edf9f2;color:#286447}
-.mapWrap{height:420px;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#eef2f3}.mapLinks{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}.legend{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 10px}
-.weatherHead{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}.weatherTabs{display:flex;gap:6px;flex-wrap:wrap}.weatherTabs button{cursor:pointer}.weatherCurrent{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:12px 0}.weatherTemp{font-size:34px;font-weight:900}.weatherDesc{font-size:14px;font-weight:800}.weatherMeta{font-size:11px;color:var(--muted)}.weatherDays{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}.weatherDay{border:1px solid var(--line);border-radius:10px;padding:9px;background:#fbfdff}.weatherDay b{display:block;font-size:12px}.wxhi{font-size:15px;font-weight:900}.wxlo,.wxdesc{font-size:10px;color:var(--muted)}
-.linkList{display:grid;gap:8px}.linkRow{display:flex;justify-content:space-between;gap:12px;align-items:center;border-bottom:1px solid #edf1f2;padding:9px 0}.linkRow:last-child{border-bottom:0}.linkRow .left{min-width:0}.linkRow b{display:block}.statusTag{font-size:9px;font-weight:900;text-transform:uppercase;letter-spacing:.06em;padding:4px 7px;border-radius:999px}
-ul{margin:8px 0 0;padding-left:20px;line-height:1.6}
-@media(max-width:760px){.grid,.grid.two{grid-template-columns:1fr}.stop{grid-template-columns:1fr;gap:2px}.weatherDays{grid-template-columns:repeat(2,1fr)}.mapWrap{height:340px}.linkRow{align-items:flex-start;flex-direction:column}}
-</style></head><body>
+main.wrap{padding-top:18px;padding-bottom:50px}.panel{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:14px;box-shadow:0 7px 24px rgba(25,49,58,.05)}.panel h2{margin:0 0 8px;font-size:20px}.muted{color:var(--muted);line-height:1.55}.small{font-size:11px;color:var(--muted);line-height:1.45}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.card{border:1px solid var(--line);border-radius:12px;padding:12px;background:#fbfdff}.card b{display:block;margin-bottom:4px}.card small{color:var(--muted);line-height:1.45}
+.timeline{display:grid}.stop{display:grid;grid-template-columns:125px 1fr;gap:12px;border-bottom:1px solid #edf1f2;padding:10px 0}.stop:last-child{border-bottom:0}.date{font-weight:900}.notice{border-left:4px solid #d6a42b;background:#fff8e8;padding:10px 12px;border-radius:8px;color:#6d551b;line-height:1.5}.notice.good{border-left-color:#3b9b69;background:#edf9f2;color:#286447}
+.pill,.status{display:inline-block;padding:4px 8px;border-radius:999px;font-size:10px;font-weight:900;margin:2px 4px 2px 0}.pill{background:#edf5f6}.status{text-transform:uppercase;letter-spacing:.05em}.status.confirmed{background:#e7f5ed;color:#237a52}.status.planned{background:#fff3d9;color:#8a6200}.status.known{background:#eef1f5;color:#667080}
+.actions,.mapLinks,.weatherLinks{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}.btn{display:inline-block;text-decoration:none;border:1px solid var(--line);border-radius:9px;padding:8px 10px;background:#fff;color:#24434d;font-size:11px;font-weight:900}.btn.primary{background:var(--navy);color:#fff;border-color:var(--navy)}
+.mapFrame{width:100%;height:410px;border:1px solid var(--line);border-radius:14px;background:#eef2f3}.weatherGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.weatherCard{border:1px solid var(--line);border-radius:11px;padding:12px;background:#fbfdff}.weatherCard b{display:block;margin-bottom:5px}
+.linkList{display:grid}.linkRow{display:flex;justify-content:space-between;gap:12px;align-items:center;border-bottom:1px solid #edf1f2;padding:10px 0}.linkRow:last-child{border-bottom:0}.linkRow b{display:block;margin-top:4px}ul{line-height:1.6}
+@media(max-width:760px){.grid,.weatherGrid{grid-template-columns:1fr}.stop{grid-template-columns:1fr;gap:3px}.linkRow{flex-direction:column;align-items:flex-start}.mapFrame{height:330px}}</style></head><body>
 <div class="sitebar"><div class="sitebarInner"><a href="../../">← Vacation Planning</a><span>Past Trip · Completed</span></div></div>
 <header class="hero"><div class="wrap"><span class="badge archive">Past Trip · Completed</span><h1>Zurich & Florence · 2025</h1><p>Completed Europe trip archive with the confirmed Florence/Chianti experience preserved.</p></div></header>
 <div class="tripnav"><div class="wrap"><a href="#overview">Overview</a><a href="#confirmed">Confirmed Detail</a><a href="#archive">Archive Notes</a><a href="#mapweather">Map & Weather</a><a href="#links">Plans & Links</a></div></div>
-<main class="wrap">
-<section id="overview" class="panel"><h2>Overview</h2><div class="grid"><div class="card"><b>Year</b><small>2025 · exact full trip dates not yet imported</small></div><div class="card"><b>Destinations</b><small>Zurich + Florence</small></div><div class="card"><b>Status</b><small>Completed</small></div></div></section>
-<section id="confirmed" class="panel"><h2>Confirmed Detail Preserved</h2><div class="timeline"><div class="stop"><div class="date">Sep 27, 2025</div><div><b>Chianti Full Immersive Wine & Olive Oil Experience</b><div class="muted">Approx. 7 hours · 3 adults + 1 infant · meeting 8:45 AM at Via dei Vagellai 22 Red, corner with Piazza Mentana, Florence.</div><div class="small">Included luxury minibus/minivan transportation, olive-oil mill visit and tasting, 3 winery visits with tastings, an iconic Tuscan village stop, food tastings and a typical Tuscan lunch.</div></div></div></div></section>
-<section id="archive" class="panel"><h2>Archive Notes</h2><div class="notice">Only details supported by the existing trip history are shown. Flights, hotels and the rest of the day-by-day itinerary have not yet been imported, so this page does not invent them.</div></section>
-<section id="mapweather" class="panel"><h2>Map & Weather</h2><p class="muted">Use the map for confirmed/planned trip locations. Open any place in Google Maps for directions, nearby restaurants, groceries and transit.</p>
-<div class="mapWrap" id="tripMap"><div style="height:100%;display:flex;align-items:center;justify-content:center;text-align:center;padding:28px;color:#667780">Loading Google Map…</div></div>
-<div class="mapLinks"><a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Zurich%20Switzerland">Zurich ↗</a><a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Florence%20Italy">Florence ↗</a><a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Via%20dei%20Vagellai%2022%20Red%20Florence%20Italy">Chianti tour meeting point ↗</a></div>
-<hr style="border:0;border-top:1px solid var(--line);margin:18px 0">
-<div class="weatherHead"><div><h3>Weather</h3><div class="small" id="weatherNote">Live conditions are current reference only — they are not the historical weather from this completed trip.</div></div><div class="weatherTabs"><button class="btn primary" type="button" data-wx="0">Zurich</button><button class="btn " type="button" data-wx="1">Florence</button></div></div>
-<div id="weatherCurrent" class="weatherCurrent"><span class="muted">Loading weather…</span></div>
-<div id="weatherDays" class="weatherDays"></div>
-<div class="actions"><a class="btn" target="_blank" rel="noopener" href="https://www.google.com/search?q=Zurich%20weather">Zurich weather ↗</a><a class="btn" target="_blank" rel="noopener" href="https://www.google.com/search?q=Florence%20weather">Florence weather ↗</a></div>
-</section>
-<section id="links" class="panel"><h2>Known Plans & Links</h2><div class="linkList"><div class="linkRow"><div class="left"><span class="statusTag unknown">Known</span><b>Zurich</b><div class="small">Completed-trip destination</div></div><a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Zurich%20Switzerland">Map ↗</a></div><div class="linkRow"><div class="left"><span class="statusTag confirmed">Confirmed</span><b>Chianti Full Immersive Wine & Olive Oil Experience</b><div class="small">Sep 27 · Florence meeting point</div></div><a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Via%20dei%20Vagellai%2022%20Red%20Florence%20Italy">Meeting point ↗</a></div><div class="linkRow"><div class="left"><span class="statusTag unknown">Known</span><b>Florence</b><div class="small">Completed-trip destination</div></div><a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Florence%20Italy">Map ↗</a></div></div></section>
-</main>
-<script>
-const GOOGLE_KEY="AIzaSyBEJvqRr9U1w1W-amyUAK_P2grJJZSwyXE";
-const MAP_POINTS=[{"name":"Zurich","query":"Zurich Switzerland","lat":47.3769,"lng":8.5417},{"name":"Florence","query":"Florence Italy","lat":43.7696,"lng":11.2558},{"name":"Chianti tour meeting point","query":"Via dei Vagellai 22 Red Florence Italy","lat":43.7684,"lng":11.2577}];
-const WEATHER_POINTS=[{"name":"Zurich","lat":47.3769,"lng":8.5417},{"name":"Florence","lat":43.7696,"lng":11.2558}];
-function gSearch(q){return "https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(q)}
-function initTripMap(){
- const el=document.getElementById("tripMap"); if(!el||!window.google?.maps)return;
- const center={"lat":46.4,"lng":9.9};
- const map=new google.maps.Map(el,{center,zoom:5,mapTypeControl:false,streetViewControl:false});
- const bounds=new google.maps.LatLngBounds(); let count=0;
- MAP_POINTS.forEach(p=>{
-   if(p.lat==null||p.lng==null)return;
-   const m=new google.maps.Marker({map,position:{lat:p.lat,lng:p.lng},title:p.name});
-   const info=new google.maps.InfoWindow({content:'<b>'+p.name.replace(/</g,"&lt;")+'</b><br><a target="_blank" rel="noopener" href="'+gSearch(p.query||p.name)+'">Open in Google Maps ↗</a>'});
-   m.addListener("click",()=>info.open({map,anchor:m}));
-   bounds.extend(m.getPosition()); count++;
- });
- if(count>1)map.fitBounds(bounds,70); else if(count===1){map.setCenter(bounds.getCenter());map.setZoom(13)}
-}
-function loadMapScript(){
- if(!MAP_POINTS.length){document.getElementById("tripMap").innerHTML='<div style="height:100%;display:flex;align-items:center;justify-content:center;text-align:center;padding:28px;color:#667780">Trip locations are not detailed enough yet for individual map pins.</div>';return}
- const s=document.createElement("script"); s.async=true; s.defer=true; s.src="https://maps.googleapis.com/maps/api/js?key="+encodeURIComponent(GOOGLE_KEY)+"&callback=initTripMap"; s.onerror=()=>{document.getElementById("tripMap").innerHTML='<div style="height:100%;display:flex;align-items:center;justify-content:center;text-align:center;padding:28px;color:#667780">Interactive map could not load. Use the Google Maps links below.</div>'}; document.head.appendChild(s);
-}
-function condText(o){return o?.description?.text||o?.type||"Conditions unavailable"}
-function temp(o){return o?.degrees!=null?Math.round(o.degrees):null}
-function dateLabel(iso){try{return new Date(iso).toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric",timeZone:"UTC"})}catch(e){return "Forecast"}}
-async function loadWeather(idx=0){
- const cur=document.getElementById("weatherCurrent"),daysEl=document.getElementById("weatherDays");
- if(!WEATHER_POINTS.length||!cur||!daysEl)return;
- document.querySelectorAll("[data-wx]").forEach((b,i)=>b.classList.toggle("primary",i===idx));
- const p=WEATHER_POINTS[idx]; cur.innerHTML='<span class="muted">Loading '+p.name+' weather…</span>'; daysEl.innerHTML="";
- try{
-  const base="https://weather.googleapis.com/v1";
-  const [cr,fr]=await Promise.all([
-    fetch(base+"/currentConditions:lookup?key="+encodeURIComponent(GOOGLE_KEY)+"&location.latitude="+p.lat+"&location.longitude="+p.lng+"&unitsSystem=IMPERIAL"),
-    fetch(base+"/forecast/days:lookup?key="+encodeURIComponent(GOOGLE_KEY)+"&location.latitude="+p.lat+"&location.longitude="+p.lng+"&days=5&unitsSystem=IMPERIAL")
-  ]);
-  if(!cr.ok||!fr.ok)throw new Error("Weather API");
-  const c=await cr.json(),d=await fr.json(),t=temp(c.temperature),feel=temp(c.feelsLikeTemperature);
-  cur.innerHTML='<div class="weatherTemp">'+(t!=null?t+"°F":"—")+'</div><div><div class="weatherDesc">'+condText(c.weatherCondition)+'</div><div class="weatherMeta">'+(feel!=null?"Feels like "+feel+"°F · ":"")+(c.relativeHumidity!=null?"Humidity "+c.relativeHumidity+"%":"")+'</div></div>';
-  daysEl.innerHTML=(d.forecastDays||[]).slice(0,5).map(x=>{const hi=temp(x.maxTemperature),lo=temp(x.minTemperature),desc=condText(x.daytimeForecast?.weatherCondition||x.nighttimeForecast?.weatherCondition),st=x.interval?.startTime;return '<div class="weatherDay"><b>'+dateLabel(st)+'</b><span class="wxhi">'+(hi!=null?hi+"°":"—")+'</span> <span class="wxlo">/ '+(lo!=null?lo+"°":"—")+'</span><div class="wxdesc">'+desc+'</div></div>'}).join("");
- }catch(e){
-  cur.innerHTML='<div class="notice"><b>Live weather could not load.</b> Use the weather links below.</div>'; daysEl.innerHTML="";
- }
-}
-document.addEventListener("click",e=>{const b=e.target.closest("[data-wx]");if(b)loadWeather(Number(b.dataset.wx))});
-loadMapScript(); if(WEATHER_POINTS.length)loadWeather(0);
-</script></body></html>
+<main class="wrap"><section id="overview" class="panel"><h2>Overview</h2><div class="grid"><div class="card"><b>Year</b><small>2025 · exact full trip dates not yet imported</small></div><div class="card"><b>Destinations</b><small>Zurich + Florence</small></div><div class="card"><b>Status</b><small>Completed</small></div></div></section>
+<section id="confirmed" class="panel"><h2>Confirmed Detail Preserved</h2><div class="timeline"><div class="stop"><div class="date">Sep 27, 2025</div><div><b>Chianti Full Immersive Wine & Olive Oil Experience</b><div class="muted">Approx. 7 hours · 3 adults + 1 infant · meeting at 8:45 AM at Via dei Vagellai 22 Red, corner with Piazza Mentana, Florence.</div><div class="small">Included luxury minibus/minivan transportation, an olive-oil mill visit and tasting, 3 winery visits with tastings, an iconic Tuscan village stop, food tastings and a typical Tuscan lunch.</div></div></div></div></section>
+<section id="archive" class="panel"><h2>Archive Notes</h2><div class="notice">Flights, hotels and the rest of the day-by-day itinerary have not yet been imported, so this archive does not invent them.</div></section>
+<section id="mapweather" class="panel"><h2>Map & Weather</h2><p class="muted">The map includes the two known destination cities and the confirmed Florence meeting point.</p>
+<iframe class="mapFrame" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=Florence%20Italy&output=embed" title="Zurich & Florence · 2025 Google Map"></iframe>
+<div class="mapLinks"><a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Zurich%20Switzerland">Zurich ↗</a><a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Florence%20Italy">Florence ↗</a><a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Via%20dei%20Vagellai%2022%20Red%20Florence%20Italy">Chianti tour meeting ↗</a></div>
+<h2 style="margin-top:20px">Weather</h2><div class="weatherGrid"><div class="weatherCard"><b>Zurich</b><div class="small">Current weather reference — not historical trip weather.</div><a class="btn" target="_blank" rel="noopener" href="https://www.google.com/search?q=Zurich%20Switzerland%20weather">Open weather ↗</a></div><div class="weatherCard"><b>Florence</b><div class="small">Current weather reference — not historical trip weather.</div><a class="btn" target="_blank" rel="noopener" href="https://www.google.com/search?q=Florence%20Italy%20weather">Open weather ↗</a></div></div></section>
+<section id="links" class="panel"><h2>Known Plans & Links</h2><div class="linkList"><div class="linkRow"><div><span class="status known">Known</span><b>Zurich</b><div class="small">Completed-trip destination</div></div><a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Zurich%20Switzerland">Map ↗</a></div><div class="linkRow"><div><span class="status confirmed">Confirmed</span><b>Chianti Full Immersive Experience</b><div class="small">Sep 27 · Florence meeting point</div></div><a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Via%20dei%20Vagellai%2022%20Red%20Florence%20Italy">Meeting point ↗</a></div><div class="linkRow"><div><span class="status known">Known</span><b>Florence</b><div class="small">Completed-trip destination</div></div><a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Florence%20Italy">Map ↗</a></div></div></section>
+</main></body></html>
