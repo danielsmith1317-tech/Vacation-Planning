@@ -27,3 +27,16 @@ Use the existing authorized Google Maps / Weather setup when available and keep 
 - Each trip may use its own accent/theme color so trips are visually distinct; keep the overall hub cohesive.
 - Maps, weather, transportation endpoints, lodging links, and confirmed/planned status should be one tap away.
 - Do not invent missing historical details. Add only known facts or clearly labeled research.
+
+## Active-trip usability standard
+
+Every active/future trip should also include, when the information exists:
+
+- **Trip at a Glance** near the top with dates, travelers, lodging, transportation and the next open decisions.
+- A visible **status strip** distinguishing confirmed items from TBD/research items.
+- A **day-by-day itinerary** that becomes the operational center of the trip.
+- A **Food & Groceries** area appropriate to the trip style. Rentals should highlight kitchen/self-catering value; all-inclusive trips should not over-prioritize off-site dining.
+- A **Budget / Bookings dashboard** with confirmed vs TBD items, paid/remaining amounts and cancellation deadlines as those become known.
+- Transportation cards should link every known airport and train station to Google Maps.
+- Confirmed lodging should always have a direct official/listing link and a map link.
+- Keep the site mobile-first and make the information needed during travel reachable in one or two taps.
