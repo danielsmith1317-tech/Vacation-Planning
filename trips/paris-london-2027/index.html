@@ -110,6 +110,7 @@ main{padding:18px 14px 42px}.card,.toolbar,.summary,.panel{background:#fff;borde
 @media(max-width:900px){.bookingGrid{grid-template-columns:1fr 1fr}}
 @media(max-width:600px){.bookingGrid{grid-template-columns:1fr}}
 .glanceGrid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}.glanceCard{border:1px solid var(--line);border-radius:11px;padding:10px;background:#fbfdff}.glanceCard b{display:block;font-size:12px;margin-bottom:3px}.glanceCard small{font-size:10px;color:var(--muted);line-height:1.4}.statusStrip{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}.foodGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}.foodCard{border:1px solid var(--line);border-radius:11px;padding:11px;background:#fbfdff}.foodCard b{display:block;margin-bottom:4px}.foodCard small{color:var(--muted);line-height:1.4}@media(max-width:900px){.glanceGrid{grid-template-columns:repeat(2,1fr)}.foodGrid{grid-template-columns:repeat(2,1fr)}}@media(max-width:600px){.glanceGrid,.foodGrid{grid-template-columns:1fr}}
+.nearbyGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}.nearbyCard{border:1px solid var(--line);border-radius:11px;padding:11px;background:#fbfdff}.nearbyCard b{display:block;margin-bottom:4px}.nearbyCard small{display:block;color:var(--muted);line-height:1.45}.travelGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin-top:10px}.travelCard{border:1px solid var(--line);border-radius:11px;padding:11px;background:#fbfdff}.travelCard b{display:block;margin-bottom:4px}.travelTime{font-size:17px;font-weight:950;color:#1f5f94;margin:3px 0}.bookedOnly{}@media(max-width:900px){.nearbyGrid,.travelGrid{grid-template-columns:repeat(2,1fr)}}@media(max-width:600px){.nearbyGrid,.travelGrid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -118,7 +119,7 @@ main{padding:18px 14px 42px}.card,.toolbar,.summary,.panel{background:#fff;borde
 <a href="#tripOverview">Overview</a>
 <a href="#flightPanel">Flights & Train</a>
 <a href="#weatherPanel">Weather</a>
-<a href="#decisionSection">Hotels</a>
+<a href="#lodgingAnchor">Lodging</a>
 <a href="#itinerarySection">Itinerary</a>
 <a href="#thingsToDoSection">Things to Do</a>
 <a href="#foodSection">Food & Groceries</a>
@@ -206,7 +207,8 @@ main{padding:18px 14px 42px}.card,.toolbar,.summary,.panel{background:#fff;borde
   <div id="weatherDays" class="weatherDays"></div>
 </section>
 
-<div class="toolbar">
+<div id="lodgingAnchor"></div>
+<div class="toolbar" id="hotelResearchToolbar">
 <div><label>Focus lodging</label><select id="hotelFocus"><option value="">Show all lodgings</option></select></div>
 <div><label>Type / brand</label><select id="brand"><option value="">All lodging</option><option>Marriott</option><option>Hilton</option><option>IHG</option><option>Booking.com</option><option>Independent</option><option>Accor</option><option>Premier Inn</option><option>Airbnb</option><option>Vrbo</option></select></div>
 <div><label>Max avg nightly</label><select id="cap"><option value="9999" selected>No cap</option><option value="800">$800</option><option value="700">$700</option><option value="600">$600</option><option value="500">$500</option><option value="400">$400</option><option value="300">$300</option></select></div>
@@ -215,7 +217,7 @@ main{padding:18px 14px 42px}.card,.toolbar,.summary,.panel{background:#fff;borde
 <div><label>Lodging visibility</label><select id="visibility"><option value="all">All</option><option value="favorites">Favorites only</option><option value="visible">Exclude hidden</option></select></div><div><label>Access</label><select id="accessFilter"><option value="all">All access</option><option value="easy">Easy/verified only</option><option value="excludeAvoid">Exclude avoid</option></select></div>
 </div>
 
-<div class="summary">
+<div class="summary" id="hotelResearchSummary">
 <div class="metric"><div class="small">Lodgings shown</div><div class="big" id="count">—</div></div>
 <div class="metric"><div class="small">Lowest combined stay</div><div class="big" id="lowest">—</div></div>
 <div class="metric"><div class="small">Reference</div><div class="big" id="refName" style="font-size:14px">—</div></div>
@@ -225,6 +227,29 @@ main{padding:18px 14px 42px}.card,.toolbar,.summary,.panel{background:#fff;borde
 
 
 <section class="panel" id="confirmedParisStay"><div class="weatherHead"><div><h2 style="margin:0">Paris Stay · Confirmed</h2><div class="note">Le Méridien Paris Arc De Triomphe · Jun 2–5, 2027 · 3 nights · booked through Marriott. Confirmation numbers are intentionally kept off this public site.</div></div><span class="statusPill status-booked">CONFIRMED</span></div><div class="bookingGrid" style="margin-top:12px"><div class="bookingCard"><b>Room 1</b><small>Superior Guest Room · King · Sofa bed<br>€856.50 base + €50.70 estimated taxes/fees = <b>€907.20</b></small></div><div class="bookingCard"><b>Room 2</b><small>Superior Guest Room · King · Sofa bed<br>€856.50 base + €50.70 estimated taxes/fees = <b>€907.20</b></small></div><div class="bookingCard"><b>Total stay</b><small><b>€1,814.40</b> for both rooms · 3 nights<br>Marriott confirmation records 2 adults + 1 child per room.</small></div><div class="bookingCard"><b>Hotel details</b><small>81 Boulevard Gouvion Saint-Cyr · check-in 4:00 PM · checkout 12:00 PM · fully renovated in 2026. Breakfast is available for a fee; no verified elite lounge.</small></div></div><div class="actions" style="margin-top:10px"><a class="btn small primary" target="_blank" rel="noopener" href="https://www.marriott.com/en-us/hotels/parmd-le-meridien-paris-arc-de-triomphe/overview/">Official hotel ↗</a><a class="btn small" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Le%20Meridien%20Paris%20Arc%20De%20Triomphe">Hotel map ↗</a><a class="btn small" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=grocery%20store%20near%2081%20Boulevard%20Gouvion%20Saint-Cyr%20Paris">Nearby groceries ↗</a></div><div class="note" style="margin-top:10px"><b>Still verify:</b> the supplied confirmation does not show the rate code or cancellation deadline, so the planner does not label this booking MMP/MMA or assume it is flexible.</div></section>
+
+<section class="panel bookedOnly" id="parisOperational">
+ <div class="weatherHead"><div><h2 style="margin:0">Around the Hotel</h2><div class="note">Now that Paris lodging is booked, this replaces hotel-comparison research with the practical information you will actually use.</div></div></div>
+ <div class="nearbyGrid" style="margin-top:10px">
+  <div class="nearbyCard"><b>Closest transit · Porte Maillot</b><div class="travelTime">~3–6 min walk</div><small>Metro Line 1 · RER C · RER E · Tram T3b. This is the main transit hub for the stay.</small><div class="actions"><a class="btn small" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&origin=81%20Boulevard%20Gouvion%20Saint-Cyr%2C%20Paris&destination=Porte%20Maillot%20Station%2C%20Paris&travelmode=walking">Walking directions ↗</a></div></div>
+  <div class="nearbyCard"><b>Closest food hall · Les Galeries Gourmandes</b><div class="travelTime">Palais des Congrès</div><small>Level -1 · 2 Place de la Porte Maillot · daily 8:30 AM–9:00 PM. Best immediate option for groceries, prepared foods and room snacks.</small><div class="actions"><a class="btn small" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&origin=81%20Boulevard%20Gouvion%20Saint-Cyr%2C%20Paris&destination=Les%20Galeries%20Gourmandes%20Palais%20des%20Congres%20Paris&travelmode=walking">Directions ↗</a></div></div>
+  <div class="nearbyCard"><b>Neighborhood supermarket · Carrefour City</b><div class="travelTime">41 rue Saint-Ferdinand</div><small>Useful everyday supermarket option roughly 400 m from Porte Maillot.</small><div class="actions"><a class="btn small" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&origin=81%20Boulevard%20Gouvion%20Saint-Cyr%2C%20Paris&destination=Carrefour%20City%2041%20Rue%20Saint-Ferdinand%2075017%20Paris&travelmode=walking">Directions ↗</a></div></div>
+  <div class="nearbyCard"><b>Local market · Marché Maillot-Malakoff</b><div class="travelTime">Wed + Sat mornings</div><small>Avenue de Malakoff near Porte Maillot. Wednesday 7:00 AM–1:30 PM; Saturday 7:00 AM–2:30 PM — both days overlap this stay.</small><div class="actions"><a class="btn small" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&origin=81%20Boulevard%20Gouvion%20Saint-Cyr%2C%20Paris&destination=Marche%20Maillot-Malakoff%20Paris&travelmode=walking">Directions ↗</a></div></div>
+  <div class="nearbyCard"><b>Covered market · Marché des Ternes</b><div class="travelTime">Tue–Sun</div><small>8 bis rue Lebon · produce/specialty-food market with butcher, fishmonger and cheese vendors. Good optional neighborhood-market stop.</small><div class="actions"><a class="btn small" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&origin=81%20Boulevard%20Gouvion%20Saint-Cyr%2C%20Paris&destination=Marche%20couvert%20des%20Ternes%20Paris&travelmode=walking">Directions ↗</a></div></div>
+  <div class="nearbyCard"><b>Bakery option · PAUL</b><div class="travelTime">Palais des Congrès</div><small>Level -1 · typically 7:30 AM–8:30 PM. Convenient quick breakfast/pastry option near the hotel.</small><div class="actions"><a class="btn small" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&origin=81%20Boulevard%20Gouvion%20Saint-Cyr%2C%20Paris&destination=PAUL%20Palais%20des%20Congres%20Paris&travelmode=walking">Directions ↗</a></div></div>
+ </div>
+
+ <h2 style="margin-top:18px">Travel Times from Le Méridien</h2>
+ <div class="note">Planning estimates based on the current network. Use the direction buttons for live routing during the trip; June 2027 service can change.</div>
+ <div class="travelGrid">
+  <div class="travelCard"><b>Arc de Triomphe / Champs-Élysées</b><div class="travelTime">~10–16 min walk</div><small>Walkable from the hotel; no Metro needed.</small><a class="btn small" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&origin=81%20Boulevard%20Gouvion%20Saint-Cyr%2C%20Paris&destination=Arc%20de%20Triomphe%20Paris&travelmode=walking">Directions ↗</a></div>
+  <div class="travelCard"><b>Eiffel Tower</b><div class="travelTime">~20 min total</div><small>Walk to Neuilly–Porte Maillot, then direct RER C; current train portion is about 11 min.</small><a class="btn small" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&origin=81%20Boulevard%20Gouvion%20Saint-Cyr%2C%20Paris&destination=Eiffel%20Tower%20Paris&travelmode=transit">Transit ↗</a></div>
+  <div class="travelCard"><b>Notre-Dame / Île de la Cité</b><div class="travelTime">~25–30 min</div><small>Line 1 toward Châtelet, then walk to Notre-Dame.</small><a class="btn small" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&origin=81%20Boulevard%20Gouvion%20Saint-Cyr%2C%20Paris&destination=Notre-Dame%20de%20Paris&travelmode=transit">Transit ↗</a></div>
+  <div class="travelCard"><b>Gare du Nord · Eurostar day</b><div class="travelTime">~15–20 min</div><small>Walk to Neuilly–Porte Maillot + RER E to Magenta/Gare du Nord. Marriott lists about 10 min on RER E.</small><a class="btn small" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&origin=81%20Boulevard%20Gouvion%20Saint-Cyr%2C%20Paris&destination=Paris%20Gare%20du%20Nord&travelmode=transit">Transit ↗</a></div>
+  <div class="travelCard"><b>Versailles</b><div class="travelTime">~55–65 min</div><small>Current rail routing from Neuilly–Porte Maillot is roughly 50 min to Versailles Château Rive Gauche, plus hotel/station walking.</small><a class="btn small" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&origin=81%20Boulevard%20Gouvion%20Saint-Cyr%2C%20Paris&destination=Palace%20of%20Versailles&travelmode=transit">Transit ↗</a></div>
+  <div class="travelCard"><b>CDG → hotel · arrival</b><div class="travelTime">~50–60 min transit</div><small>Current public-transit routing to Porte Maillot is about 44–48 min, plus the short walk to the hotel. Taxi time varies heavily with traffic.</small><a class="btn small" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&origin=Paris%20Charles%20de%20Gaulle%20Airport&destination=81%20Boulevard%20Gouvion%20Saint-Cyr%2C%20Paris&travelmode=transit">Transit ↗</a></div>
+ </div>
+</section>
 
 <section class="panel decisionPanel" id="decisionSection">
   <div class="decisionHead">
@@ -290,7 +315,7 @@ main{padding:18px 14px 42px}.card,.toolbar,.summary,.panel{background:#fff;borde
 <div class="note" style="margin-top:8px">Viator buttons use your preferred Viator booking link. Prices and availability can change, so the planner treats them as book/check links rather than fixed quotes.</div>
 </section>
 
-<section class="panel" style="margin-top:14px" id="foodSection"><div class="weatherHead"><div><h2 style="margin:0">Food & Groceries</h2><div class="note">Local food, bakeries/sweets and grocery access near the final lodging. Mariana especially values shopping locally and keeping food in the room.</div></div></div><div class="foodGrid" style="margin-top:10px"><div class="foodCard"><b>Paris groceries</b><small>Find the closest useful store once lodging is selected.</small><a class="btn small" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=grocery%20store%20Paris%20France">Browse ↗</a></div><div class="foodCard"><b>Paris bakeries</b><small>Easy breakfast/snack option.</small><a class="btn small" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=bakery%20Paris%20France">Browse ↗</a></div><div class="foodCard"><b>London groceries</b><small>Prioritize walkability from the final hotel.</small><a class="btn small" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=grocery%20store%20central%20London">Browse ↗</a></div><div class="foodCard"><b>Rental advantage</b><small>Usable kitchens add real value when breakfast can be made in the unit.</small></div></div></section>
+<section class="panel" style="margin-top:14px" id="foodSection"><div class="weatherHead"><div><h2 style="margin:0">Food & Groceries</h2><div class="note">Local food, bakeries/sweets and grocery access near the final lodging. Mariana especially values shopping locally and keeping food in the room.</div></div></div><div class="foodGrid" style="margin-top:10px"><div class="foodCard"><b>Paris · closest groceries</b><small>Les Galeries Gourmandes at Palais des Congrès is the immediate food-shopping option; Carrefour City on rue Saint-Ferdinand is the nearby everyday supermarket.</small><a class="btn small" href="#parisOperational">See exact options ↑</a></div><div class="foodCard"><b>Paris · local markets</b><small>Marché Maillot-Malakoff runs Wednesday and Saturday mornings during your stay; Marché des Ternes is the covered-market alternative.</small><a class="btn small" href="#parisOperational">See market details ↑</a></div><div class="foodCard"><b>London groceries</b><small>Prioritize walkability from the final hotel.</small><a class="btn small" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=grocery%20store%20central%20London">Browse ↗</a></div><div class="foodCard"><b>Rental advantage</b><small>Usable kitchens add real value when breakfast can be made in the unit.</small></div></div></section>
 
 <section class="panel" style="margin-top:14px" id="budgetBookings">
 <div style="display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap">
@@ -331,14 +356,14 @@ main{padding:18px 14px 42px}.card,.toolbar,.summary,.panel{background:#fff;borde
 </div>
 </section>
 
-<section class="panel" style="margin-top:14px">
+<section class="panel" style="margin-top:14px" id="compareSection">
 <h2>Compare Two Lodgings</h2>
 <div class="twoCols"><div><label>Hotel A</label><select id="compareA"></select></div><div><label>Hotel B</label><select id="compareB"></select></div></div>
 <div class="compareGrid" id="compareGrid" style="margin-top:12px"></div>
 </section>
 
-<section class="panel" style="margin-top:14px">
-<h2>Lodging-to-Sight Travel Matrix</h2>
+<section class="panel" style="margin-top:14px" id="travelMatrixSection">
+<h2 id="travelMatrixTitle">Lodging-to-Sight Travel Matrix</h2>
 <p class="note">Select a lodging above, then load the matrix. Walking and transit times are live/current-network estimates, not a June 2027 timetable. Google only supports transit schedule queries within a limited future window.</p>
 <button class="btn teal" id="loadMatrix">Load walking & transit times</button>
 <div class="matrix" id="matrix"></div>
@@ -1319,8 +1344,18 @@ async function loadWeather(){
   }
 }
 
+function applyBookedCityMode(){
+ const paris=city==="Paris";
+ ["hotelResearchToolbar","hotelResearchSummary","decisionSection","researchSection","compareSection"].forEach(id=>{const el=$(id);if(el)el.style.display=paris?"none":""});
+ const confirmed=$("confirmedParisStay"),operational=$("parisOperational");
+ if(confirmed)confirmed.style.display=paris?"":"none";
+ if(operational)operational.style.display=paris?"":"none";
+ if($("travelMatrixTitle"))$("travelMatrixTitle").textContent=paris?"Live Travel-Time Matrix from Le Méridien":"Lodging-to-Sight Travel Matrix";
+ if(paris&&$("hotelFocus"))$("hotelFocus").value="Le Méridien Paris Arc De Triomphe";
+}
 function renderAll(refresh=true){
  if(refresh){refreshHotelSelect();refreshDest();refreshRouteTo();refreshCompare()}
+ applyBookedCityMode();
  const hs=visibleHotels();renderSummary(hs);renderDecision();renderHotelTable(hs);renderFocus();renderPlaces();renderActivities();renderCompare();renderMap()
 }
 
