@@ -141,50 +141,20 @@ main{padding:18px 14px 42px}.card,.toolbar,.summary,.panel{background:#fff;borde
 
 
 
-<section class="panel flightPanel" id="flightPanel">
-  <div class="weatherHead">
-    <div>
-      <h2 style="margin:0">Flights</h2>
-      <div class="note">Confirmed trip flight details · June 1–9, 2027 · Courtesy of TripIt</div>
+<section class="panel flightPanel confirmedPanel" id="flightPanel">
+  <div class="weatherHead"><div><h2 style="margin:0">Confirmed Transportation</h2><div class="note">Flights verified from Delta ticket receipts in Gmail. Private ticket and confirmation numbers stay off the public site.</div></div><span class="statusPill status-booked">CONFIRMED</span></div>
+  <div class="flightGrid" style="margin-top:12px">
+    <div class="flightCard"><h3>Outbound · Tampa → Paris</h3>
+      <div class="flightLeg"><div class="flightTime">Tue, Jun 1<br>2:20 PM EDT</div><div><div class="flightRoute">TPA → ATL · Delta 1525</div><div class="flightMeta">Delta Main Extra (U) · arrives Atlanta 3:57 PM EDT</div><div class="actions"><a class="btn small" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Tampa%20International%20Airport">TPA map ↗</a><a class="btn small" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Hartsfield-Jackson%20Atlanta%20International%20Airport">ATL map ↗</a></div></div></div>
+      <div class="flightLayover">Atlanta connection · 1 hr 38 min</div>
+      <div class="flightLeg"><div class="flightTime">Tue, Jun 1<br>5:35 PM EDT</div><div><div class="flightRoute">ATL → CDG · Delta 90</div><div class="flightMeta">Delta Main Extra (U) · overnight · arrives Wed, Jun 2 at 8:15 AM CEST</div><div class="actions"><a class="btn small" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Hartsfield-Jackson%20Atlanta%20International%20Airport">ATL map ↗</a><a class="btn small" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Paris%20Charles%20de%20Gaulle%20Airport">CDG map ↗</a></div></div></div>
+      <div class="flightMeta" style="margin-top:8px"><b>Verified travelers on this Delta booking:</b> Daniel, Mariana and Luciano. Luciano is ticketed as a lap infant.</div>
+    </div>
+    <div class="flightCard"><h3>Return · London → Tampa</h3>
+      <div class="flightLeg"><div class="flightTime">Wed, Jun 9<br>12:40 PM BST</div><div><div class="flightRoute">LHR → TPA · Delta 5920 · operated by Virgin Atlantic</div><div class="flightMeta">Economy Delight Refundable (W) · nonstop · arrives Tampa 5:05 PM EDT</div><div class="priceSub">Daniel Seat 46C · Mariana Seat 46B · Luciano lap infant</div><div class="actions"><a class="btn small" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=London%20Heathrow%20Airport">LHR map ↗</a><a class="btn small" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Tampa%20International%20Airport">TPA map ↗</a></div></div></div>
     </div>
   </div>
-  <div class="flightGrid">
-    <div class="flightCard">
-      <h3>Outbound · Tampa → Paris</h3>
-      <div class="flightLeg">
-        <div class="flightTime">Tue, Jun 1<br>2:20 PM EDT</div>
-        <div><div class="flightRoute">TPA → ATL · DL 1525</div><div class="flightMeta">Delta Air Lines · arrives Atlanta 3:57 PM EDT</div><div class="actions"><a class="btn small" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Tampa%20International%20Airport">TPA map ↗</a><a class="btn small" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Hartsfield-Jackson%20Atlanta%20International%20Airport">ATL map ↗</a></div></div>
-      </div>
-      <div class="flightLayover">Atlanta layover · 1 hr 38 min</div>
-      <div class="flightLeg">
-        <div class="flightTime">Tue, Jun 1<br>5:35 PM EDT</div>
-        <div><div class="flightRoute">ATL → CDG · DL 90</div><div class="flightMeta">Delta Air Lines · overnight transatlantic flight</div><div class="actions"><a class="btn small" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Hartsfield-Jackson%20Atlanta%20International%20Airport">ATL map ↗</a><a class="btn small" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Paris%20Charles%20de%20Gaulle%20Airport">CDG map ↗</a></div></div>
-      </div>
-      <div class="flightLeg">
-        <div class="flightTime">Wed, Jun 2<br>8:15 AM GMT+2</div>
-        <div><div class="flightRoute">Arrive Paris · CDG</div><div class="flightMeta">Paris hotel stay begins Jun 2</div></div>
-      </div>
-    </div>
-    <div class="flightCard">
-      <h3>Return · London → Tampa</h3>
-      <div class="flightLeg">
-        <div class="flightTime">Wed, Jun 9<br>12:40 PM GMT+1</div>
-        <div><div class="flightRoute">LHR → TPA · VS 129</div><div class="flightMeta">Virgin Atlantic · nonstop to Tampa</div><div class="actions"><a class="btn small" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=London%20Heathrow%20Airport">LHR map ↗</a><a class="btn small" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Tampa%20International%20Airport">TPA map ↗</a></div></div>
-      </div>
-      <div class="flightLeg">
-        <div class="flightTime">Wed, Jun 9<br>5:05 PM EDT</div>
-        <div><div class="flightRoute">Arrive Tampa · TPA</div><div class="flightMeta">Trip ends Jun 9</div></div>
-      </div>
-    </div>
-  </div>
-  <div class="trainCard confirmedPanel">
-    <h3>Paris → London · Eurostar Plus · Confirmed</h3>
-    <div class="trainStatus"><b>Saturday, Jun 5, 2027 · 09:02 → 10:30</b> · Direct · 2 hr 28 min · $507 total paid</div>
-    <div class="flightLeg">
-      <div class="flightTime">09:02<br>Paris</div>
-      <div><div class="flightRoute">Gare du Nord → London St Pancras International</div><div class="flightMeta">Eurostar Plus · confirmed booking</div><div class="priceSub">Coach 14: Daniel Seat 27 · Mariana Seat 28 · Nicole Seat 24 · Gemma Seat 23. Luciano and Jasper travel as lap infants.</div><div class="priceSub">Changes without a change fee until 1 hour before departure; fare difference applies. Refund available for a fee until 7 days before departure.</div><div class="priceSub"><b>Still required:</b> complete Advance Passenger Information (API) and verify UK ETA/document requirements.</div><div class="actions"><a class="btn small" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Paris%20Gare%20du%20Nord">Gare du Nord map ↗</a><a class="btn small" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=London%20St%20Pancras%20International">St Pancras map ↗</a><a class="btn small" target="_blank" rel="noopener" href="https://www.eurostar.com/">Eurostar ↗</a></div></div>
-    </div>
-  </div>
+  <div class="trainCard confirmedPanel" style="margin-top:12px"><h3>Paris → London · Eurostar Plus</h3><div class="trainStatus"><b>Saturday, Jun 5 · 09:02 → 10:30</b> · Direct · 2 hr 28 min</div><div class="flightLeg"><div class="flightTime">09:02<br>Paris</div><div><div class="flightRoute">Gare du Nord → London St Pancras International</div><div class="flightMeta">Eurostar Plus · confirmed</div><div class="priceSub">Coach 14: Daniel Seat 27 · Mariana Seat 28 · Nicole Seat 24 · Gemma Seat 23. Luciano and Jasper travel as lap infants.</div><div class="priceSub"><b>Still required:</b> complete Advance Passenger Information (API) and verify UK ETA/document requirements.</div><div class="actions"><a class="btn small" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Paris%20Gare%20du%20Nord">Gare du Nord map ↗</a><a class="btn small" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=London%20St%20Pancras%20International">St Pancras map ↗</a><a class="btn small" target="_blank" rel="noopener" href="https://www.eurostar.com/">Eurostar ↗</a></div></div></div></div>
 </section>
 
 <section class="panel weatherPanel" id="weatherPanel">
@@ -218,7 +188,7 @@ main{padding:18px 14px 42px}.card,.toolbar,.summary,.panel{background:#fff;borde
 </div>
 
 
-<section class="panel confirmedPanel" id="confirmedParisStay"><div class="weatherHead"><div><h2 style="margin:0">Paris Stay · Confirmed</h2><div class="note">Le Méridien Paris Arc De Triomphe · Jun 2–5, 2027 · 3 nights · booked through Marriott. Confirmation numbers are intentionally kept off this public site.</div></div><span class="statusPill status-booked">CONFIRMED</span></div><div class="bookingGrid" style="margin-top:12px"><div class="bookingCard"><b>Room 1</b><small>Superior Guest Room · King · Sofa bed<br>€856.50 base + €50.70 estimated taxes/fees = <b>€907.20</b></small></div><div class="bookingCard"><b>Room 2</b><small>Superior Guest Room · King · Sofa bed<br>€856.50 base + €50.70 estimated taxes/fees = <b>€907.20</b></small></div><div class="bookingCard"><b>Total stay</b><small><b>€1,814.40</b> for both rooms · 3 nights<br>Marriott confirmation records 2 adults + 1 child per room.</small></div><div class="bookingCard"><b>Hotel details</b><small>81 Boulevard Gouvion Saint-Cyr · check-in 4:00 PM · checkout 12:00 PM · fully renovated in 2026. Breakfast is available for a fee; no verified elite lounge.</small></div></div><div class="actions" style="margin-top:10px"><a class="btn small primary" target="_blank" rel="noopener" href="https://www.marriott.com/en-us/hotels/parmd-le-meridien-paris-arc-de-triomphe/overview/">Official hotel ↗</a><a class="btn small" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Le%20Meridien%20Paris%20Arc%20De%20Triomphe">Hotel map ↗</a><a class="btn small" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=grocery%20store%20near%2081%20Boulevard%20Gouvion%20Saint-Cyr%20Paris">Nearby groceries ↗</a></div><div class="note" style="margin-top:10px"><b>Still verify:</b> the supplied confirmation does not show the rate code or cancellation deadline, so the planner does not label this booking MMP/MMA or assume it is flexible.</div></section>
+<section class="panel confirmedPanel" id="confirmedParisStay"><div class="weatherHead"><div><h2 style="margin:0">Paris Stay · Confirmed</h2><div class="note">Le Méridien Paris Arc De Triomphe · Jun 2–5, 2027 · 3 nights · booked through Marriott. Confirmation numbers are intentionally kept off this public site.</div></div><span class="statusPill status-booked">CONFIRMED</span></div><div class="bookingGrid" style="margin-top:12px"><div class="bookingCard"><b>Room 1</b><small>Superior Guest Room · King · Sofa bed</small></div><div class="bookingCard"><b>Room 2</b><small>Superior Guest Room · King · Sofa bed</small></div><div class="bookingCard"><b>Stay</b><small>2 rooms · 3 nights<br>Marriott confirmation records 2 adults + 1 child per room.</small></div><div class="bookingCard"><b>Hotel details</b><small>81 Boulevard Gouvion Saint-Cyr · check-in 4:00 PM · checkout 12:00 PM · fully renovated in 2026. Breakfast is available for a fee; no verified elite lounge.</small></div></div><div class="actions" style="margin-top:10px"><a class="btn small primary" target="_blank" rel="noopener" href="https://www.marriott.com/en-us/hotels/parmd-le-meridien-paris-arc-de-triomphe/overview/">Official hotel ↗</a><a class="btn small" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Le%20Meridien%20Paris%20Arc%20De%20Triomphe">Hotel map ↗</a><a class="btn small" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=grocery%20store%20near%2081%20Boulevard%20Gouvion%20Saint-Cyr%20Paris">Nearby groceries ↗</a></div><div class="note" style="margin-top:10px"><b>Still verify:</b> the supplied confirmation does not show the rate code or cancellation deadline, so the planner does not label this booking MMP/MMA or assume it is flexible.</div></section>
 
 <section class="panel bookedOnly" id="parisOperational">
  <div class="weatherHead"><div><h2 style="margin:0">Around the Hotel</h2><div class="note">Now that Paris lodging is booked, this replaces hotel-comparison research with the practical information you will actually use.</div></div></div>
