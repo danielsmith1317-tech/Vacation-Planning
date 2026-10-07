@@ -1,5 +1,7 @@
 # Vacation Planning
 
+**Permanent lifecycle standard:** See [TRIP_LIFECYCLE.md](TRIP_LIFECYCLE.md). Apply Researching → Planning → Booked/Confirmed → Completed/Archived to every trip and every independently booked component.
+
 Permanent multi-trip vacation hub for the Smith family.
 
 ## Trip-page standard
