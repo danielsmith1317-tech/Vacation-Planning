@@ -111,6 +111,7 @@ main{padding:18px 14px 42px}.card,.toolbar,.summary,.panel{background:#fff;borde
 @media(max-width:600px){.bookingGrid{grid-template-columns:1fr}}
 .glanceGrid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}.glanceCard{border:1px solid var(--line);border-radius:11px;padding:10px;background:#fbfdff}.glanceCard b{display:block;font-size:12px;margin-bottom:3px}.glanceCard small{font-size:10px;color:var(--muted);line-height:1.4}.statusStrip{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}.foodGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}.foodCard{border:1px solid var(--line);border-radius:11px;padding:11px;background:#fbfdff}.foodCard b{display:block;margin-bottom:4px}.foodCard small{color:var(--muted);line-height:1.4}@media(max-width:900px){.glanceGrid{grid-template-columns:repeat(2,1fr)}.foodGrid{grid-template-columns:repeat(2,1fr)}}@media(max-width:600px){.glanceGrid,.foodGrid{grid-template-columns:1fr}}
 .nearbyGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}.nearbyCard{border:1px solid var(--line);border-radius:11px;padding:11px;background:#fbfdff}.nearbyCard b{display:block;margin-bottom:4px}.nearbyCard small{display:block;color:var(--muted);line-height:1.45}.travelGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin-top:10px}.travelCard{border:1px solid var(--line);border-radius:11px;padding:11px;background:#fbfdff}.travelCard b{display:block;margin-bottom:4px}.travelTime{font-size:17px;font-weight:950;color:#1f5f94;margin:3px 0}.bookedOnly{}@media(max-width:900px){.nearbyGrid,.travelGrid{grid-template-columns:repeat(2,1fr)}}@media(max-width:600px){.nearbyGrid,.travelGrid{grid-template-columns:1fr}}
+.activityHighlights{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-top:10px}.activityHighlight{border:1px solid var(--line);border-radius:11px;padding:11px;background:#fbfdff}.activityHighlight b{display:block;margin:4px 0}.activityHighlight small{display:block;color:var(--muted);line-height:1.4}.activityDetails{margin-top:10px}.activityDetails summary{cursor:pointer;font-weight:900;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:#f7fafc}.activityDetails[open] summary{margin-bottom:10px}@media(max-width:800px){.activityHighlights{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -213,14 +214,12 @@ main{padding:18px 14px 42px}.card,.toolbar,.summary,.panel{background:#fff;borde
  </div>
 </section>
 
-<section class="panel" id="confirmedLondonStay"><div class="weatherHead"><div><h2 style="margin:0">London Stay · Confirmed</h2><div class="note">London Marriott Hotel Marble Arch · Jun 5–9, 2027 · 4 nights. Daniel's reservation is verified from the Marriott confirmation in Gmail; private confirmation numbers are intentionally not published.</div></div><span class="statusPill status-booked">CONFIRMED</span></div>
+<section class="panel confirmedPanel" id="confirmedLondonStay"><div class="weatherHead"><div><h2 style="margin:0">London Stay · Confirmed</h2><div class="note">London Marriott Hotel Marble Arch · Jun 5–9, 2027 · 4 nights. Daniel's reservation details are verified from Gmail; private confirmation information stays off the public site.</div></div><span class="statusPill status-booked">CONFIRMED</span></div>
  <div class="bookingGrid" style="margin-top:12px">
-  <div class="bookingCard"><b>Daniel's room</b><small>Superior Room – Renovated, Larger Guest Room<br><b>1 King + sofa bed</b><br>2 adults + 1 child</small></div>
-  <div class="bookingCard"><b>Points + cash</b><small><b>239,200 Marriott points + £240.00</b><br>PointSaver Redemption Rate · taxes/fees included in the confirmation.</small></div>
+  <div class="bookingCard"><b>Room</b><small>Superior Room – Renovated, Larger Guest Room<br><b>1 King + sofa bed</b><br>2 adults + 1 child</small></div>
   <div class="bookingCard"><b>Check-in / out</b><small>Check-in Sat, Jun 5 at <b>3:00 PM</b><br>Checkout Wed, Jun 9 at <b>12:00 PM</b></small></div>
-  <div class="bookingCard"><b>Cancellation</b><small>Free cancellation before <b>11:59 PM local hotel time on Jun 4, 2027</b>. A fee applies after that deadline.</small></div>
-  <div class="bookingCard"><b>Titanium benefits shown</b><small>Confirmation lists lounge access, 1,000 points or F&B welcome offering, and upgrade to a premium room/suite based on availability.</small></div>
-  <div class="bookingCard"><b>Nicole's room</b><small>The hotel is selected, but a separate Nicole-room confirmation was not found in Daniel's Gmail. Keep its exact points/cash and cancellation terms pending verification.</small></div>
+  <div class="bookingCard"><b>Cancellation</b><small>Free cancellation before <b>11:59 PM local hotel time on Jun 4, 2027</b>.</small></div>
+  <div class="bookingCard"><b>Marriott benefits shown</b><small>Titanium confirmation lists lounge access, welcome offering and space-available upgrade benefits.</small></div>
  </div>
  <div class="actions" style="margin-top:10px"><a class="btn small primary" target="_blank" rel="noopener" href="https://www.marriott.com/en-us/hotels/lonma-london-marriott-hotel-marble-arch/overview/">Official hotel ↗</a><a class="btn small" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=London%20Marriott%20Hotel%20Marble%20Arch">Hotel map ↗</a><a class="btn small" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=grocery%20store%20near%20London%20Marriott%20Hotel%20Marble%20Arch">Nearby groceries ↗</a></div>
 </section>
@@ -270,27 +269,36 @@ main{padding:18px 14px 42px}.card,.toolbar,.summary,.panel{background:#fff;borde
 
 <section class="panel" style="margin-top:14px" id="thingsToDoSection">
 <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
-  <h2>Things to Do</h2>
-  <span class="note">Built around landmarks, views, historic sites, cruises, neighborhoods and family-friendly experiences — museums are de-emphasized.</span>
+  <div><h2 style="margin:0">Things to Do</h2><div class="note">Top priorities first. Open the full explorer only when you want to compare every saved option.</div></div>
 </div>
-<div class="activityToolbar">
+<div class="activityHighlights" id="activityHighlights"></div>
+<details class="activityDetails" id="activityDetails">
+ <summary>Browse all activities, filters & booking links</summary>
+ <div class="activityToolbar">
   <div><label>Priority</label><select id="activityPriority"><option value="">All priorities</option><option>Must Do</option><option>Strong Option</option><option>Good If Nearby</option><option>Optional</option><option>Low Priority</option><option>Watch / If Extended</option></select></div>
   <div><label>Museum-heavy</label><select id="activityMuseum"><option value="">All</option><option value="No">No</option><option value="Yes">Yes</option></select></div>
   <div><label>Reservation</label><select id="activityReserve"><option value="">All</option><option value="Yes">Yes</option><option value="Recommended">Recommended</option><option value="No">No</option></select></div>
-</div>
-<div class="tableWrap">
-<table class="activityTable">
-<thead><tr>
-<th>Priority</th><th>Activity / Sight</th><th>Area</th><th>Kid-friendly</th><th>Museum-heavy?</th>
-<th>Typical time</th><th>Cost</th><th>Reservation</th><th>Planned day</th><th>Map</th><th>Official / Tour</th>
-</tr></thead>
-<tbody id="activityBody"></tbody>
-</table>
-</div>
-<div class="note" style="margin-top:8px">Viator buttons use your preferred Viator booking link. Prices and availability can change, so the planner treats them as book/check links rather than fixed quotes.</div>
+ </div>
+ <div class="tableWrap"><table class="activityTable"><thead><tr><th>Priority</th><th>Activity / Sight</th><th>Area</th><th>Kid-friendly</th><th>Museum-heavy?</th><th>Typical time</th><th>Cost</th><th>Reservation</th><th>Planned day</th><th>Map</th><th>Official / Tour</th></tr></thead><tbody id="activityBody"></tbody></table></div>
+ <div class="note" style="margin-top:8px">Viator buttons use your preferred booking link. Prices and availability can change, so research stays separate from confirmed bookings.</div>
+</details>
 </section>
 
-<section class="panel" style="margin-top:14px" id="foodSection"><div class="weatherHead"><div><h2 style="margin:0">Food & Groceries</h2><div class="note">Local food, bakeries/sweets and grocery access near the final lodging. Mariana especially values shopping locally and keeping food in the room.</div></div></div><div class="foodGrid" style="margin-top:10px"><div class="foodCard"><b>Paris · closest groceries</b><small>Les Galeries Gourmandes at Palais des Congrès is the immediate food-shopping option; Carrefour City on rue Saint-Ferdinand is the nearby everyday supermarket.</small><a class="btn small" href="#parisOperational">See exact options ↑</a></div><div class="foodCard"><b>Paris · local markets</b><small>Marché Maillot-Malakoff runs Wednesday and Saturday mornings during your stay; Marché des Ternes is the covered-market alternative.</small><a class="btn small" href="#parisOperational">See market details ↑</a></div><div class="foodCard"><b>London must-eat · The Mayfair Chippy</b><small><b>Best fish & chips fit for Mariana and Nicole.</b> Original Mayfair location · 14 North Audley Street. Award-winning fish & chips, extensive seafood menu, kids menu, and reservations. Official site says Marble Arch Tube is about a 6-minute walk from the restaurant, making it a natural meal from the Marriott Marble Arch base.</small><div class="actions"><a class="btn small primary" target="_blank" rel="noopener" href="https://www.mayfairchippy.com/mayfair">Official site ↗</a><a class="btn small" target="_blank" rel="noopener" href="https://www.mayfairchippy.com/mayfair-reservations">Reserve ↗</a><a class="btn small" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&origin=London%20Marriott%20Hotel%20Marble%20Arch&destination=The%20Mayfair%20Chippy%2C%2014%20North%20Audley%20Street%2C%20London&travelmode=walking">Walk from hotel ↗</a></div></div><div class="foodCard"><b>London groceries</b><small>Prioritize walkability from the final hotel.</small><a class="btn small" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=grocery%20store%20central%20London">Browse ↗</a></div><div class="foodCard"><b>Rental advantage</b><small>Usable kitchens add real value when breakfast can be made in the unit.</small></div></div></section>
+<section class="panel" style="margin-top:14px" id="foodSection">
+ <div class="weatherHead"><div><h2 style="margin:0">Food & Groceries</h2><div class="note" id="foodSectionNote"></div></div></div>
+ <div class="foodGrid" id="foodParis" style="margin-top:10px">
+   <div class="foodCard"><b>Closest food hall · Les Galeries Gourmandes</b><small>Palais des Congrès, Level -1. Best immediate option for groceries, prepared foods and room snacks from Le Méridien.</small><a class="btn small" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&origin=81%20Boulevard%20Gouvion%20Saint-Cyr%2C%20Paris&destination=Les%20Galeries%20Gourmandes%20Palais%20des%20Congres%20Paris&travelmode=walking">Walk from hotel ↗</a></div>
+   <div class="foodCard"><b>Everyday supermarket · Carrefour City</b><small>41 rue Saint-Ferdinand. Practical supermarket option near Porte Maillot for drinks, snacks and room food.</small><a class="btn small" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&origin=81%20Boulevard%20Gouvion%20Saint-Cyr%2C%20Paris&destination=Carrefour%20City%2041%20Rue%20Saint-Ferdinand%2075017%20Paris&travelmode=walking">Walk from hotel ↗</a></div>
+   <div class="foodCard"><b>Local market · Marché Maillot-Malakoff</b><small>Wednesday and Saturday mornings during your stay. Good local-market option near Porte Maillot.</small><a class="btn small" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&origin=81%20Boulevard%20Gouvion%20Saint-Cyr%2C%20Paris&destination=Marche%20Maillot-Malakoff%20Paris&travelmode=walking">Walk from hotel ↗</a></div>
+   <div class="foodCard"><b>Bakery · PAUL</b><small>Palais des Congrès. Easy pastry/breakfast option close to Le Méridien.</small><a class="btn small" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&origin=81%20Boulevard%20Gouvion%20Saint-Cyr%2C%20Paris&destination=PAUL%20Palais%20des%20Congres%20Paris&travelmode=walking">Walk from hotel ↗</a></div>
+ </div>
+ <div class="foodGrid" id="foodLondon" style="margin-top:10px">
+   <div class="foodCard"><b>Closest practical supermarket · Aldi Local</b><small>90–100 Edgware Road. One of the nearest full grocery options to London Marriott Marble Arch.</small><a class="btn small" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&origin=London%20Marriott%20Hotel%20Marble%20Arch&destination=Aldi%2090-100%20Edgware%20Road%20London&travelmode=walking">Walk from hotel ↗</a></div>
+   <div class="foodCard"><b>Quick groceries · Tesco Express</b><small>40 Marble Arch, Edgware Road. Convenient for drinks, snacks and last-minute room items.</small><a class="btn small" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&origin=London%20Marriott%20Hotel%20Marble%20Arch&destination=Tesco%20Express%2040%20Marble%20Arch%20Edgware%20Road%20London&travelmode=walking">Walk from hotel ↗</a></div>
+   <div class="foodCard"><b>Food market / deli · Green Valley</b><small>36–37 Upper Berkeley Street. Lebanese and Middle Eastern food market/deli very close to the Marble Arch area.</small><a class="btn small" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&origin=London%20Marriott%20Hotel%20Marble%20Arch&destination=Green%20Valley%2036-37%20Upper%20Berkeley%20Street%20London&travelmode=walking">Walk from hotel ↗</a></div>
+   <div class="foodCard"><b>Must-eat · The Mayfair Chippy</b><small>14 North Audley Street. Strong fish-and-chips fit and walkable from the hotel.</small><div class="actions"><a class="btn small primary" target="_blank" rel="noopener" href="https://www.mayfairchippy.com/mayfair">Official ↗</a><a class="btn small" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&origin=London%20Marriott%20Hotel%20Marble%20Arch&destination=The%20Mayfair%20Chippy%2C%2014%20North%20Audley%20Street%2C%20London&travelmode=walking">Walk from hotel ↗</a></div></div>
+ </div>
+</section>
 
 <section class="panel" style="margin-top:14px" id="budgetBookings">
 <div style="display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap">
@@ -299,9 +307,9 @@ main{padding:18px 14px 42px}.card,.toolbar,.summary,.panel{background:#fff;borde
 </div>
 <div class="bookingGrid" style="margin-top:12px">
   <div class="bookingCard"><b>Flights · Confirmed</b><small>Jun 1 TPA → ATL → CDG on Delta. Jun 9 LHR → TPA nonstop on Virgin Atlantic.</small></div>
-  <div class="bookingCard"><b>Eurostar · To book</b><small>Jun 5 Paris Gare du Nord → London St Pancras. Eurostar Plus · preferred class; departure time still TBD.</small></div>
+  <div class="bookingCard"><b>Eurostar · Confirmed</b><small>Jun 5 · 09:02 Paris Gare du Nord → 10:30 London St Pancras · Eurostar Plus · <b>$507 total paid</b>.</small></div>
   <div class="bookingCard"><b>Paris stay · Confirmed</b><small>Le Méridien Paris Arc De Triomphe · Jun 2–5 · 3 nights · 2 Superior King + sofa-bed rooms · €907.20 each · €1,814.40 total including estimated government taxes/fees. Check-in 4:00 PM · checkout 12:00 PM. Cancellation terms were not visible in the supplied confirmation.</small><div class="actions"><a class="btn small" target="_blank" rel="noopener" href="https://www.marriott.com/en-us/hotels/parmd-le-meridien-paris-arc-de-triomphe/overview/">Hotel site ↗</a><a class="btn small" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Le%20Meridien%20Paris%20Arc%20De%20Triomphe">Map ↗</a></div></div>
-  <div class="bookingCard"><b>London stay · Confirmed hotel</b><small>London Marriott Hotel Marble Arch · Jun 5–9 · 4 nights. Daniel room verified: 239,200 points + £240, King + sofa bed, free cancellation until Jun 4 at 11:59 PM local. Nicole-room details still need separate confirmation.</small></div>
+  <div class="bookingCard"><b>London stay · Confirmed</b><small>London Marriott Hotel Marble Arch · Jun 5–9 · 4 nights. Daniel room: <b>239,200 points + £240</b>. PointSaver Redemption Rate. Free cancellation until Jun 4 at 11:59 PM local hotel time.</small></div>
 </div>
 <div class="note" style="margin-top:10px"><b>Current hotel priorities:</b> location first; nearby Metro/Tube; family practicality; value; breakfast/lounge/self-catering benefits; Marriott/Hilton status value; flexible rates. Rentals receive credit for grocery and breakfast flexibility when a kitchen is available.</div>
 </section>
@@ -1240,8 +1248,12 @@ function priorityClass(p){
  return"priority-optional";
 }
 function renderActivities(){
+ const all=ACTIVITIES[city]||[];
+ const rank={"Must Do":0,"Strong Option":1,"Good If Nearby":2,"Optional":3,"Low Priority":4,"Watch / If Extended":5};
+ const highlights=[...all].sort((a,b)=>(rank[a.priority]??9)-(rank[b.priority]??9)).slice(0,6);
+ if($("activityHighlights"))$("activityHighlights").innerHTML=highlights.map(a=>`<div class="activityHighlight"><span class="priorityTag ${priorityClass(a.priority)}">${esc(a.priority)}</span><b>${esc(a.name)}</b><small>${esc(a.area)} · ${esc(a.time)} · ${esc(a.day)}</small><div class="actions" style="margin-top:7px"><a class="btn small" target="_blank" rel="noopener" href="${gSearch(a.map+", "+citySuffix())}">Map ↗</a>${a.officialUrl?`<a class="btn small teal" target="_blank" rel="noopener" href="${a.officialUrl}">Official ↗</a>`:`<a class="btn small teal" target="_blank" rel="noopener" href="${a.viatorUrl||VIATOR_BASE}">Check ↗</a>`}</div></div>`).join("");
  const p=$("activityPriority")?.value||"",m=$("activityMuseum")?.value||"",r=$("activityReserve")?.value||"";
- const rows=(ACTIVITIES[city]||[]).filter(a=>(!p||a.priority===p)&&(!m||a.museum===m)&&(!r||a.reserve===r));
+ const rows=all.filter(a=>(!p||a.priority===p)&&(!m||a.museum===m)&&(!r||a.reserve===r));
  $("activityBody").innerHTML=rows.map(a=>`<tr>
  <td><span class="priorityTag ${priorityClass(a.priority)}">${esc(a.priority)}</span></td>
  <td><b>${esc(a.name)}</b><div class="priceSub">${esc(a.note||"")}</div></td>
@@ -1334,6 +1346,10 @@ function applyBookedCityMode(){
  if(confirmedParis)confirmedParis.style.display=city==="Paris"?"":"none";
  if(operational)operational.style.display=city==="Paris"?"":"none";
  if(confirmedLondon)confirmedLondon.style.display=city==="London"?"":"none";
+ const fp=$("foodParis"),fl=$("foodLondon"),fn=$("foodSectionNote");
+ if(fp)fp.style.display=city==="Paris"?"grid":"none";
+ if(fl)fl.style.display=city==="London"?"grid":"none";
+ if(fn)fn.textContent=city==="Paris"?"Closest useful food and grocery options from Le Méridien Paris Arc de Triomphe.":"Closest useful food and grocery options from London Marriott Hotel Marble Arch.";
  if($("travelMatrixTitle"))$("travelMatrixTitle").textContent=city==="Paris"?"Live Travel-Time Matrix from Le Méridien":city==="London"?"Live Travel-Time Matrix from Marriott Marble Arch":"Lodging-to-Sight Travel Matrix";
  if(city==="Paris"&&$("hotelFocus"))$("hotelFocus").value="Le Méridien Paris Arc De Triomphe";
  if(city==="London"&&$("hotelFocus"))$("hotelFocus").value="London Marriott Hotel Marble Arch";
