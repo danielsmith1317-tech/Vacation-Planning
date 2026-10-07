@@ -174,7 +174,7 @@ main{padding:18px 14px 42px}.card,.toolbar,.summary,.panel{background:#fff;borde
 <div class="toolbar" id="hotelResearchToolbar">
 <div><label>Focus lodging</label><select id="hotelFocus"><option value="">Show all lodgings</option></select></div>
 <div><label>Type / brand</label><select id="brand"><option value="">All lodging</option><option>Marriott</option><option>Hilton</option><option>IHG</option><option>Booking.com</option><option>Independent</option><option>Accor</option><option>Premier Inn</option><option>Airbnb</option><option>Vrbo</option></select></div>
-<div><label>Max avg nightly</label><select id="cap"><option value="9999" selected>No cap</option><option value="800">$800</option><option value="700">$700</option><option value="600">$600</option><option value="500">$500</option><option value="400">$400</option><option value="300">$300</option></select></div>
+<div><label>Max avg nightly</label><select id="cap"><option value="9999" selected>No cap</option><option value="800"></option><option value="700"></option><option value="600"></option><option value="500"></option><option value="400"></option><option value="300"></option></select></div>
 <div><label>Focus sightseeing / saved place</label><select id="destination"><option value="">No place selected</option></select></div>
 <div><label>Route to</label><select id="routeTo"><option value="">Choose route destination</option></select></div>
 <div><label>Lodging visibility</label><select id="visibility"><option value="all">All</option><option value="favorites">Favorites only</option><option value="visible">Exclude hidden</option></select></div><div><label>Access</label><select id="accessFilter"><option value="all">All access</option><option value="easy">Easy/verified only</option><option value="excludeAvoid">Exclude avoid</option></select></div>
@@ -184,7 +184,7 @@ main{padding:18px 14px 42px}.card,.toolbar,.summary,.panel{background:#fff;borde
 <div class="metric"><div class="small">Lodgings shown</div><div class="big" id="count">—</div></div>
 <div class="metric"><div class="small">Lowest combined stay</div><div class="big" id="lowest">—</div></div>
 <div class="metric"><div class="small">Reference</div><div class="big" id="refName" style="font-size:14px">—</div></div>
-<div class="metric"><div class="small">Hotel room plan</div><div class="big" style="font-size:14px">2 rooms · max $1,500 each</div></div>
+<div class="metric"><div class="small">Hotel room plan</div><div class="big" style="font-size:14px">2 rooms · max  each</div></div>
 <div class="metric"><div class="small">Hilton pricing method</div><div class="big" style="font-size:14px">2-adult room baseline*</div></div>
 </div>
 
@@ -243,7 +243,7 @@ main{padding:18px 14px 42px}.card,.toolbar,.summary,.panel{background:#fff;borde
   </div>
   <div class="decisionGrid" id="decisionGrid"></div>
   <div class="notice" id="marbleArchUpdate" style="margin-bottom:10px"><b>New verified London room option:</b> Nicole's Marriott search confirms Marble Arch offers a <b>renovated larger Superior Room with 1 King + sofa bed</b> for 1 room / 3 guests. Bed setup now passes the family-fit rule. Points/rate total and cancellation terms still need the next booking screen.</div>
-<div class="note"><b>Bed rule:</b> Nicole / Gemma / Jasper must have a true multi-bed setup; one queen or one double for all three is no longer acceptable. A candidate with a known inadequate bed setup is removed, and rates tied to an unverified room type are flagged for confirmation.<br><br><b>Budget rule:</b> Hotels over <b>$1,500 per room for the full stay</b> are removed from the active hotel list. If only a combined 2-room quote is available, anything over $3,000 is removed because at least one room must exceed the cap.<br><br><b>Scoring:</b> Location 50% · Price/value 16% · Family practicality 7% · Newness/renovation/condition 7% · Reviews 5% · Luxury/caliber 5% · Food & member perks 5% · Loyalty 3% · Flexibility 2%. <b>Location is the strongest factor.</b> Within Location, walking/sight proximity counts 65% and Metro/transit access counts 35%. Food & member perks favor included breakfast first, then verified elite/member lounge access and self-catering value. Rentals receive a grocery/self-catering benefit because the family can keep food in the unit and make breakfast; Wi-Fi is displayed but does not add ranking points. Marriott receives the strongest loyalty benefit because Daniel and Nicole can both use Marriott benefits; Hilton receives a smaller loyalty benefit for Daniel. Other brands receive no loyalty boost.</div>
+<div class="note"><b>Bed rule:</b> Nicole / Gemma / Jasper must have a true multi-bed setup; one queen or one double for all three is no longer acceptable. A candidate with a known inadequate bed setup is removed, and rates tied to an unverified room type are flagged for confirmation.<br><br><b>Budget rule:</b> Hotels over <b> per room for the full stay</b> are removed from the active hotel list. If only a combined 2-room quote is available, anything over  is removed because at least one room must exceed the cap.<br><br><b>Scoring:</b> Location 50% · Price/value 16% · Family practicality 7% · Newness/renovation/condition 7% · Reviews 5% · Luxury/caliber 5% · Food & member perks 5% · Loyalty 3% · Flexibility 2%. <b>Location is the strongest factor.</b> Within Location, walking/sight proximity counts 65% and Metro/transit access counts 35%. Food & member perks favor included breakfast first, then verified elite/member lounge access and self-catering value. Rentals receive a grocery/self-catering benefit because the family can keep food in the unit and make breakfast; Wi-Fi is displayed but does not add ranking points. Marriott receives the strongest loyalty benefit because Daniel and Nicole can both use Marriott benefits; Hilton receives a smaller loyalty benefit for Daniel. Other brands receive no loyalty boost.</div>
 </section>
 
 <div class="grid">
@@ -279,7 +279,7 @@ main{padding:18px 14px 42px}.card,.toolbar,.summary,.panel{background:#fff;borde
   <div><label>Museum-heavy</label><select id="activityMuseum"><option value="">All</option><option value="No">No</option><option value="Yes">Yes</option></select></div>
   <div><label>Reservation</label><select id="activityReserve"><option value="">All</option><option value="Yes">Yes</option><option value="Recommended">Recommended</option><option value="No">No</option></select></div>
  </div>
- <div class="tableWrap"><table class="activityTable"><thead><tr><th>Priority</th><th>Activity / Sight</th><th>Area</th><th>Kid-friendly</th><th>Museum-heavy?</th><th>Typical time</th><th>Cost</th><th>Reservation</th><th>Planned day</th><th>Map</th><th>Official / Tour</th></tr></thead><tbody id="activityBody"></tbody></table></div>
+ <div class="tableWrap"><table class="activityTable"><thead><tr><th>Priority</th><th>Activity / Sight</th><th>Area</th><th>Kid-friendly</th><th>Museum-heavy?</th><th>Typical time</th><th>Reservation</th><th>Planned day</th><th>Map</th><th>Official / Tour</th></tr></thead><tbody id="activityBody"></tbody></table></div>
  <div class="note" style="margin-top:8px">Viator buttons use your preferred booking link. Prices and availability can change, so research stays separate from confirmed bookings.</div>
 </details>
 </section>
@@ -1250,7 +1250,7 @@ function priorityClass(p){
 function renderActivities(){
  const all=ACTIVITIES[city]||[];
  const rank={"Must Do":0,"Strong Option":1,"Good If Nearby":2,"Optional":3,"Low Priority":4,"Watch / If Extended":5};
- const highlights=[...all].sort((a,b)=>(rank[a.priority]??9)-(rank[b.priority]??9)).slice(0,6);
+ const highlights=[...all].sort((a,b)=>(rank[a.priority]??9)-(rank[b.priority]??9)).slice(0,3);
  if($("activityHighlights"))$("activityHighlights").innerHTML=highlights.map(a=>`<div class="activityHighlight"><span class="priorityTag ${priorityClass(a.priority)}">${esc(a.priority)}</span><b>${esc(a.name)}</b><small>${esc(a.area)} · ${esc(a.time)} · ${esc(a.day)}</small><div class="actions" style="margin-top:7px"><a class="btn small" target="_blank" rel="noopener" href="${gSearch(a.map+", "+citySuffix())}">Map ↗</a>${a.officialUrl?`<a class="btn small teal" target="_blank" rel="noopener" href="${a.officialUrl}">Official ↗</a>`:`<a class="btn small teal" target="_blank" rel="noopener" href="${a.viatorUrl||VIATOR_BASE}">Check ↗</a>`}</div></div>`).join("");
  const p=$("activityPriority")?.value||"",m=$("activityMuseum")?.value||"",r=$("activityReserve")?.value||"";
  const rows=all.filter(a=>(!p||a.priority===p)&&(!m||a.museum===m)&&(!r||a.reserve===r));
@@ -1261,7 +1261,7 @@ function renderActivities(){
  <td>${esc(a.kid)}</td>
  <td>${esc(a.museum)}</td>
  <td>${esc(a.time)}</td>
- <td>${esc(a.cost)}</td>
+ 
  <td>${esc(a.reserve)}</td>
  <td>${esc(a.day)}</td>
  <td><a class="btn small" target="_blank" rel="noopener" href="${gSearch(a.map+", "+citySuffix())}">Map ↗</a></td>
