@@ -24,3 +24,11 @@ This document governs every active, future and archived trip page. Follow it whe
 - **Not an unattended automatic sync:** simply receiving a provider email, changes at Marriott, or time passing does NOT by itself publish the website. Do not claim live synchronization unless a specific authenticated ingestion + publishing automation has been implemented, authorized and tested.
 - Only use verified source facts. Never automatically infer a booking from a search result, a selection screenshot or a deep link. Confirm before displaying as booked.
 - Archived trips retain the same page shell, map links, auto-weather reference and verified history, even if incomplete.
+
+## Consistency audit — October 7, 2026
+
+- Paris/London is the reference for confirmed-versus-research transitions, city-specific grocery panels, compact activity browsing, and separating costs from travel cards.
+- All active and archived pages retain their existing content and navigation, automatic Google Weather, maps, and stage indicators. Common section names were aligned where equivalent content exists; missing historic bookings must not be fabricated to fill a template.
+- Punta Cana optional tours are collapsed by default, matching the compact Paris activity pattern.
+- Recheck any new booking against the exact travelers, dates, fare class, beds and cancellation rules. Each component may move to Confirmed independently. A whole trip should not be called fully booked while significant items remain TBD.
+- Before publishing any new trip, check navigation, responsive layout, map/weather load, links, confirmation coloring, city-specific food, research collapse, and no public booking secrets.
