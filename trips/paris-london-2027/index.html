@@ -1067,61 +1067,34 @@ function routeControls(origin){
 function renderFocus(){
  const hn=$("hotelFocus").value,pn=$("destination").value;
  if(hn){
-   const h=hotelByName(hn),d=h.directHilton,p=directPoints(h),cash=directCashStay(h),bk=bestKnown(h),fg=fullGroupCash(h);
-   const rental=isRental(h);
-   let quote="";
-   if(d){
-     const dates=city==="Paris"?["Jun 2","Jun 3","Jun 4"]:["Jun 5","Jun 6","Jun 7","Jun 8"];
-     const nightly=(d.nightly||[]).map((n,i)=>{
-       const local=typeof n==="object"?n.eur:n;
-       return `<div class="row"><span>${dates[i]}</span><b>${d.currencySymbol}${Number(local).toFixed(2)} ≈ ${fmt(d.nightlyUSD[i])}${d.pointsNightly?` · ${pts(d.pointsNightly[i])} pts`:""}</b></div>`
-     }).join("");
-     quote=`<div class="warning"><b>Hilton Direct quote</b><br>${esc(d.roomType)} · ${esc(d.occupancy)} · ${esc(d.ratePlan)}<br>${esc(d.cancelTerms)}</div>${nightly}
-     <div class="row"><span>Total direct stay</span><b>${fmt(d.stayTotalUSD)}</b></div>
-     <div class="row"><span>Points / stay</span><b>${p!=null?pts(p)+" pts":esc(d.pointsStatus||"Not offered")}</b></div>
-     ${d.familyExperience?`<div class="warning">${esc(d.familyExperience)}</div>`:""}${d.occupancyNote?`<div class="warning">${esc(d.occupancyNote)}</div>`:""}${d.pointsNote?`<div class="warning">${esc(d.pointsNote)}</div>`:""}`;
-   }
-   const rentalDetails=rental?`
-     <div class="rentalBox">
-       <div class="row"><span>Bedrooms / bathrooms</span><b>${h.bedrooms??"—"} / ${h.bathrooms??"—"}</b></div>
-       <div class="row"><span>Sleeps</span><b>${h.sleeps??"—"}</b></div>
-       <div class="row"><span>Access</span><b>${accessBadge(h)} ${esc(accessText(h))}</b></div>
-       <div class="row"><span>Floor</span><b>${esc(h.floor||"Unknown")}</b></div>
-       <div class="row"><span>Elevator</span><b>${esc(h.elevator||"Unknown")}</b></div>
-       <div class="row"><span>Stairs</span><b>${esc(h.stairs||"Unknown")}</b></div>
-       <div class="row"><span>AC</span><b>${esc(h.ac||"Not stated")}</b></div>
-       <div class="row"><span>Washer / dryer</span><b>${esc(h.washer||"Not stated")}</b></div>
-       <div class="row"><span>Crib / baby gear</span><b>${esc(h.crib||"Not stated")}</b></div>
-       <div class="row"><span>Grocery / self-catering</span><b>${esc(selfCaterText(h))}</b></div>
-       <div class="row"><span>Rating</span><b>${h.rating!=null?esc(h.rating)+(h.reviewCount!=null?` · ${Number(h.reviewCount).toLocaleString()} reviews`:""):"—"}</b></div>
-       <div class="row"><span>Cancellation</span><b>${esc(h.cancelTerms||"Not recorded")}</b></div>
-       <div class="row"><span>Location confidence</span><b>${esc(h.locationConfidence||"Approximate")}</b></div>
-       ${h.hostNote?`<div class="warning">${esc(h.hostNote)}</div>`:""}
-       ${h.rentalNotes?`<div class="warning">${esc(h.rentalNotes)}</div>`:""}
-     </div>`:"";
+   const h=hotelByName(hn);
+   if(!h){$("focusPanel").textContent="Hotel not found";return;}
+   const booked=!!h.booked;
    const origin={kind:"hotel",name:h.name,lat:h.lat,lon:h.lon};
-   $("focusPanel").innerHTML=`<div class="focus"><h3>${esc(h.name)} ${fav(h.name)?"★":""}</h3>
-   <div class="actions"><button class="btn small" onclick="clearFocusOnly()">✕ Unselect lodging</button></div>
-   <div class="row"><span>Type / brand</span><b>${esc(h.brand)} · ${rental?"Vacation rental":"Hotel"}</b></div>
-   ${!rental?`<div class="row"><span>Room 1 · full stay</span><b>${roomCashLabel(h,1)}</b></div>
-   <div class="row"><span>Room 2 · full stay</span><b>${roomCashLabel(h,2)}</b></div>
-   <div class="row"><span>Combined hotel total</span><b>${fmt(fullGroupCash(h))}</b></div>
-   <div class="row"><span>Book with</span><b>${esc(fullGroupSource(h))}</b></div>`:""}
-   <div class="row"><span>Group fit</span><b>${esc(familyFit(h))}</b></div>
-   <div class="row"><span>Distance from ${esc(REFS[city].name)}</span><b>${h.distance!=null?h.distance.toFixed(1)+" mi":"—"}</b></div>
-   <div class="row"><span>Station / area</span><b>${esc(h.station||h.area||"—")}</b></div>
-   <div class="row"><span>Average cash / night</span><b>${fmt(bk.v)} · ${esc(bk.src)}</b></div>
-   <div class="row"><span>${rental?"Whole rental":"One room"} / stay</span><b>${fmt(cash)}</b></div>
-   <div class="row"><span>Estimated full-group cash</span><b>${fmt(fg)}</b></div>
-   <div class="row"><span>Full-group basis</span><b>${esc(fullGroupSource(h))}</b></div>
-   ${rentalDetails}
-   ${!rental?`<div class="row"><span>Direct points / stay</span><b>${p!=null?pts(p)+" pts":"—"}</b></div><div class="row"><span>Breakfast</span><b>${esc(breakfastText(h))}</b></div><div class="row"><span>Grocery / self-catering</span><b>${esc(selfCaterText(h))}</b></div><div class="row"><span>Wi-Fi</span><b>${esc(wifiText(h))}</b></div>`:""}
-   ${quote}
-   <div class="actions"><a class="btn small" target="_blank" rel="noopener" href="${gSearch((h.area||h.name)+", "+citySuffix())}">Google Maps ↗</a><a class="btn small" target="_blank" rel="noopener" href="${grocerySearchUrl(h)}">Nearby groceries ↗</a>${officialUrl(h)?`<a class="btn small" target="_blank" rel="noopener" href="${officialUrl(h)}">${rental?"Open listing / photos ↗":"Official site ↗"}</a>`:""}<button class="btn small" onclick='toggleFav(${JSON.stringify(h.name)})'>${fav(h.name)?"Remove favorite":"★ Favorite"}</button><button class="btn small danger" onclick='toggleHidden(${JSON.stringify(h.name)})'>${hidden(h.name)?"Unhide":"Hide lodging"}</button></div>
-   ${routeControls(origin)}
-   <div class="notesbox"><label>My notes</label><textarea oninput='saveNote(${JSON.stringify(h.name)},this.value)' placeholder="Add notes for this lodging...">${esc(localState.notes[h.name]||"")}</textarea></div>
+   const dates=city==="Paris"?"Jun 2–5, 2027 · 3 nights":"Jun 5–9, 2027 · 4 nights";
+   const room=h.bookingRoomType||h.roomType||h.bedSetup||"";
+   const station=h.station||h.area||"";
+   $("focusPanel").innerHTML=`<div class="focus">
+      <h3>${esc(h.name)}</h3>
+      <div class="actions"><span class="statusPill ${booked?"status-booked":"status-consider"}">${booked?"Confirmed hotel":"Hotel option"}</span></div>
+      ${booked?`<div class="row"><span>Stay</span><b>${dates}</b></div>`:""}
+      ${station?`<div class="row"><span>Area / transit</span><b>${esc(station)}</b></div>`:""}
+      ${booked&&room?`<div class="row"><span>Room</span><b>${esc(room)}</b></div>`:""}
+      ${h.address?`<div class="row"><span>Address</span><b>${esc(h.address)}</b></div>`:""}
+      <div class="actions">
+        <a class="btn small primary" target="_blank" rel="noopener" href="${gSearch(h.name+", "+citySuffix())}">Hotel map ↗</a>
+        <a class="btn small" target="_blank" rel="noopener" href="${grocerySearchUrl(h)}">Groceries nearby ↗</a>
+        ${officialUrl(h)?`<a class="btn small" target="_blank" rel="noopener" href="${officialUrl(h)}">Hotel website ↗</a>`:""}
+        <a class="btn small" href="#budgetBookings">Budget / Bookings ↓</a>
+      </div>
+      ${routeControls(origin)}
+      <details class="activityDetails"><summary>Personal notes & options</summary>
+       <div class="actions"><button class="btn small" onclick='toggleFav(${JSON.stringify(h.name)})'>${fav(h.name)?"Remove favorite":"★ Favorite"}</button><button class="btn small danger" onclick='toggleHidden(${JSON.stringify(h.name)})'>${hidden(h.name)?"Unhide":"Hide lodging"}</button><button class="btn small" onclick="clearFocusOnly()">Unselect</button></div>
+       <div class="notesbox"><label>My notes</label><textarea oninput='saveNote(${JSON.stringify(h.name)},this.value)' placeholder="Add notes for this lodging...">${esc(localState.notes[h.name]||"")}</textarea></div>
+      </details>
    </div>`;
-   showLodgingPhoto(h);
+   const desiredQuery=(h.photoQuery||h.name)+", "+citySuffix();
+   if(photoState.focusHero?.query!==desiredQuery)showLodgingPhoto(h);
    return;
  }
  if(pn){
@@ -1135,7 +1108,7 @@ function renderFocus(){
    </div>`;
    showPhoto(s.name+", "+citySuffix());return;
  }
- $("focusPanel").innerHTML='<div class="focus"><h3>Select a lodging or place</h3><div class="note">Photos/listing links, pricing, family fit, access, directions and notes appear here.</div></div>';
+ $("focusPanel").innerHTML='<div class="focus"><h3>Select a lodging or place</h3><div class="note">Choose a hotel or place to view maps, directions and essential details.</div></div>';
  $("focusHero").innerHTML="<span>Select a lodging or place to load a photo.</span>";
 }
 function renderPlaces(){
