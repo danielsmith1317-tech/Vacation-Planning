@@ -1385,8 +1385,8 @@ function renderSharedGoogleSaves(){
  const holder=$("sharedSavedPlaceRows");if(!holder)return;
  const items=SHARED_GOOGLE_SAVES[city]||[];
  holder.innerHTML=items.map(([name,category])=>{
-   const ambiguous=/\\(saved location/.test(name);
-   const lookup=ambiguous?name.replace(/ \\(saved location [12]\\)/,""):name;
+   const ambiguous=name.includes("(saved location");
+   const lookup=ambiguous?name.split(" (saved location")[0]:name;
    return `<div class="sharedSaveItem"><div><b>${esc(name)}</b><small>${esc(category)}${ambiguous?" · Exact branch to confirm":""}</small></div><a class="btn small" href="${gSearch(lookup+", "+citySuffix())}" target="_blank" rel="noopener">Maps ↗</a></div>`;
  }).join("");
  $("sharedSaveNote").textContent=city==="London"?"The shared list contains two Poundland and two Hamleys saves. Exact branches are not identified in the supplied text; map searches are provided until confirmed.":"These saves are planning ideas. Louvre Museum remains an exterior/photo option in the itinerary unless you choose to visit inside.";
