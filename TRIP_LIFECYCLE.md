@@ -32,3 +32,11 @@ This document governs every active, future and archived trip page. Follow it whe
 - Punta Cana optional tours are collapsed by default, matching the compact Paris activity pattern.
 - Recheck any new booking against the exact travelers, dates, fare class, beds and cancellation rules. Each component may move to Confirmed independently. A whole trip should not be called fully booked while significant items remain TBD.
 - Before publishing any new trip, check navigation, responsive layout, map/weather load, links, confirmation coloring, city-specific food, research collapse, and no public booking secrets.
+
+## Travel Essentials — upcoming-trip standard
+- Add a compact, expandable **Travel Essentials** section to active/future trips, with a trip-specific packing checklist, a destination-and-season clothing guide, and a predeparture checklist. Prioritize practical comfort and cultural appropriateness over stereotypes about how locals dress.
+- Tailor clothing advice to weather, activities, restaurant/resort dress codes, and religious-site requirements. Do not present short-range forecasts as predictions for distant travel dates.
+- Separate personal packing by traveler and shared family gear; use age on travel dates for child items. Respect actual traveler lists and avoid assuming tentative companions are confirmed.
+- Track user-checked packing items in trip-specific local browser storage, preserving existing saved favorites and notes. Clearly label checklist progress as saved on this device, not synchronized to GitHub.
+- Predeparture items may include passports/entry requirements, transportation, travel insurance where applicable, medications, child supplies, offline maps, chargers/adapters, and booking confirmations; verify current jurisdiction-specific requirements before declaring any item mandatory.
+- Keep the default view short with expandable categories and an optional pack-by-person view, especially on phones.
