@@ -590,13 +590,17 @@ function visibleHotels(){
 function refreshHotelSelect(){
  const current=$("hotelFocus").value,b=$("brand").value,cap=+$("cap").value,vis=$("visibility").value;
  const af=$("accessFilter")?.value||"all";
+ const bookedName=city==="Paris"?"Le Méridien Paris Arc De Triomphe":"London Marriott Hotel Marble Arch";
+ const booked=DATA[city].find(h=>h.name===bookedName);
  let a=DATA[city].filter(h=>withinHotelRoomCap(h)&&(!b||h.brand===b)&&(bestKnown(h).v??999999)<=cap);
- if(af==="easy")a=a.filter(h=>accessLevel(h)==="good");
+ if(booked&&!a.some(h=>h.name===bookedName))a.unshift(booked);
+ if(af==="easy")a=a.filter(h=>h.name===bookedName||accessLevel(h)==="good");
  if(af==="excludeAvoid")a=a.filter(h=>h.name===bookedName||accessLevel(h)!=="avoid");
  if(vis==="favorites")a=a.filter(h=>h.name===bookedName||fav(h.name));
  if(vis==="visible")a=a.filter(h=>h.name===bookedName||!hidden(h.name));
  $("hotelFocus").innerHTML='<option value="">Show all lodgings</option>'+a.map(h=>`<option value="${esc(h.name)}">${esc(h.name)}</option>`).join("");
- if(a.some(h=>h.name===current))$("hotelFocus").value=current; else $("hotelFocus").value=a.some(h=>h.name===bookedName)?bookedName:"";
+ $("hotelFocus").value=a.some(h=>h.name===current)?current:(booked?"": "");
+ if(!a.some(h=>h.name===current) && booked)$("hotelFocus").value=bookedName;
 }
 function refreshDest(){
  const current=$("destination").value;
