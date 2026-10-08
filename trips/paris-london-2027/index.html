@@ -570,7 +570,11 @@ function visibleHotels(){
  const b=$("brand").value,cap=+$("cap").value,vis=$("visibility").value,focus=$("hotelFocus").value;
  const af=$("accessFilter")?.value||"all";
  let a=DATA[city].filter(h=>withinHotelRoomCap(h)&&(!b||h.brand===b)&&(bestKnown(h).v??999999)<=cap);
- if(af==="easy")a=a.filter(h=>accessLevel(h)==="good");
+ // A booked hotel must remain selectable even when its confirmed rate exceeds research price filters.
+ const bookedName=city==="Paris"?"Le Méridien Paris Arc De Triomphe":"London Marriott Hotel Marble Arch";
+ const booked=DATA[city].find(h=>h.name===bookedName);
+ if(booked&&!a.some(h=>h.name===bookedName))a.unshift(booked);
+ if(af==="easy")a=a.filter(h=>h.name===bookedName||accessLevel(h)==="good");
  if(af==="excludeAvoid")a=a.filter(h=>accessLevel(h)!=="avoid");
  if(vis==="favorites")a=a.filter(h=>fav(h.name));
  if(vis==="visible")a=a.filter(h=>!hidden(h.name));
@@ -582,11 +586,11 @@ function refreshHotelSelect(){
  const af=$("accessFilter")?.value||"all";
  let a=DATA[city].filter(h=>withinHotelRoomCap(h)&&(!b||h.brand===b)&&(bestKnown(h).v??999999)<=cap);
  if(af==="easy")a=a.filter(h=>accessLevel(h)==="good");
- if(af==="excludeAvoid")a=a.filter(h=>accessLevel(h)!=="avoid");
- if(vis==="favorites")a=a.filter(h=>fav(h.name));
- if(vis==="visible")a=a.filter(h=>!hidden(h.name));
+ if(af==="excludeAvoid")a=a.filter(h=>h.name===bookedName||accessLevel(h)!=="avoid");
+ if(vis==="favorites")a=a.filter(h=>h.name===bookedName||fav(h.name));
+ if(vis==="visible")a=a.filter(h=>h.name===bookedName||!hidden(h.name));
  $("hotelFocus").innerHTML='<option value="">Show all lodgings</option>'+a.map(h=>`<option value="${esc(h.name)}">${esc(h.name)}</option>`).join("");
- if(a.some(h=>h.name===current))$("hotelFocus").value=current; else $("hotelFocus").value="";
+ if(a.some(h=>h.name===current))$("hotelFocus").value=current; else $("hotelFocus").value=a.some(h=>h.name===bookedName)?bookedName:"";
 }
 function refreshDest(){
  const current=$("destination").value;
@@ -1207,7 +1211,7 @@ async function showLodgingPhoto(h,targetId="focusHero"){
 async function showPhoto(query,targetId="focusHero"){
  const target=$(targetId);if(!target)return;
  target.innerHTML='<span><span class="spinner"></span> Loading photos…</span>';
- if(!mapReady){target.innerHTML="<span>Google features are still loading.</span>";return}
+ if(!mapReady){target.innerHTML="<span>Google features are still loading. The selected hotel will load automatically when Maps is ready.</span>";return}
  try{
    const {Place}=await google.maps.importLibrary("places");
    placesReady=true;$("placesStatus").className="pill ok";$("placesStatus").textContent="Photos: ready";
