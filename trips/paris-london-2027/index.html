@@ -1273,7 +1273,7 @@ function priorityClass(p){
 function renderActivities(){
  const all=ACTIVITIES[city]||[];
  const rank={"Must Do":0,"Strong Option":1,"Good If Nearby":2,"Optional":3,"Low Priority":4,"Watch / If Extended":5};
- const highlights=[...all].sort((a,b)=>(rank[a.priority]??9)-(rank[b.priority]??9)).slice(0,3);
+ const highlights=city==="Paris"?["Eiffel Tower + Trocadéro","Chapel of Our Lady of the Miraculous Medal","Notre-Dame Cathedral"].map(n=>all.find(a=>a.name===n)).filter(Boolean):[...all].sort((a,b)=>(rank[a.priority]??9)-(rank[b.priority]??9)).slice(0,3);
  if($("activityHighlights"))$("activityHighlights").innerHTML=highlights.map(a=>`<div class="activityHighlight"><span class="priorityTag ${priorityClass(a.priority)}">${esc(a.priority)}</span><b>${esc(a.name)}</b><small>${esc(a.area)} · ${esc(a.time)} · ${esc(a.day)}</small><div class="actions" style="margin-top:7px"><a class="btn small" target="_blank" rel="noopener" href="${gSearch(a.map+", "+citySuffix())}">Map ↗</a>${a.officialUrl?`<a class="btn small teal" target="_blank" rel="noopener" href="${a.officialUrl}">Official ↗</a>`:`<a class="btn small teal" target="_blank" rel="noopener" href="${a.viatorUrl||VIATOR_BASE}">Check ↗</a>`}</div></div>`).join("");
  const p=$("activityPriority")?.value||"",m=$("activityMuseum")?.value||"",r=$("activityReserve")?.value||"";
  const rows=all.filter(a=>(!p||a.priority===p)&&(!m||a.museum===m)&&(!r||a.reserve===r));
@@ -1366,6 +1366,7 @@ function applyBookedCityMode(){
  const bookedCity=city==="Paris"||city==="London";
  ["hotelResearchToolbar","hotelResearchSummary","decisionSection","researchSection","compareSection"].forEach(id=>{const el=$(id);if(el)el.style.display=bookedCity?"none":""});
  const confirmedParis=$("confirmedParisStay"),operational=$("parisOperational"),confirmedLondon=$("confirmedLondonStay");
+ if($("parisRevisedPlan"))$("parisRevisedPlan").style.display=city==="Paris"?"":"none";
  if(confirmedParis)confirmedParis.style.display=city==="Paris"?"":"none";
  if(operational)operational.style.display=city==="Paris"?"":"none";
  if(confirmedLondon)confirmedLondon.style.display=city==="London"?"":"none";
