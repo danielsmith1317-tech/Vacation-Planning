@@ -10,7 +10,40 @@ main.wrap{padding-top:18px;padding-bottom:50px}.panel{background:#fff;border:1px
 .actions,.mapLinks,.weatherLinks{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}.btn{display:inline-block;text-decoration:none;border:1px solid var(--line);border-radius:9px;padding:8px 10px;background:#fff;color:#24434d;font-size:11px;font-weight:900}.btn.primary{background:var(--navy);color:#fff;border-color:var(--navy)}
 .mapFrame{width:100%;height:410px;border:1px solid var(--line);border-radius:14px;background:#eef2f3}.weatherLiveGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:10px}.weatherLiveCard{border:1px solid var(--line);border-radius:12px;padding:12px;background:#fbfdff}.weatherLiveCard h3{margin:0 0 4px;font-size:15px}.weatherCurrent{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:9px 0}.weatherTemp{font-size:30px;font-weight:900}.weatherDesc{font-size:13px;font-weight:800}.weatherMeta{font-size:10px;color:var(--muted);line-height:1.45}.weatherDays{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:9px}.weatherDay{border:1px solid var(--line);border-radius:9px;padding:7px;background:#fff;min-width:0}.weatherDay b{display:block;font-size:10px;margin-bottom:3px}.weatherDay .wxhi{font-size:13px;font-weight:900}.weatherDay .wxlo,.weatherDay .wxdesc{font-size:9px;color:var(--muted)}.weatherGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.weatherCard{border:1px solid var(--line);border-radius:11px;padding:12px;background:#fbfdff}.weatherCard b{display:block;margin-bottom:5px}
 .linkList{display:grid}.linkRow{display:flex;justify-content:space-between;gap:12px;align-items:center;border-bottom:1px solid #edf1f2;padding:10px 0}.linkRow:last-child{border-bottom:0}.linkRow b{display:block;margin-top:4px}ul{line-height:1.6}
-@media(max-width:760px){.weatherLiveGrid{grid-template-columns:1fr}.weatherDays{grid-template-columns:repeat(2,1fr)}.grid,.weatherGrid{grid-template-columns:1fr}.stop{grid-template-columns:1fr;gap:3px}.linkRow{flex-direction:column;align-items:flex-start}.mapFrame{height:330px}}.lifecyclePanel{background:#fff;border:1px solid var(--line);border-radius:15px;padding:14px 16px;margin-bottom:14px}.lifecycleTitle{font-size:13px;font-weight:900;margin-bottom:8px}.lifecycleStages{display:flex;gap:6px;flex-wrap:wrap}.lifecycleStep{border:1px solid #dce3eb;background:#f1f3f6;color:#596879;border-radius:999px;padding:6px 10px;font-size:11px;font-weight:800}.lifecycleStep.current{background:#e3f5e9;color:#17693f;border-color:#addabf}.lifecycleStep.pending{background:#fff4dd;color:#886013;border-color:#eedaa6}.lifecycleNote{color:var(--muted);font-size:12px;line-height:1.5;margin-top:9px}</style></head><body>
+@media(max-width:760px){.weatherLiveGrid{grid-template-columns:1fr}.weatherDays{grid-template-columns:repeat(2,1fr)}.grid,.weatherGrid{grid-template-columns:1fr}.stop{grid-template-columns:1fr;gap:3px}.linkRow{flex-direction:column;align-items:flex-start}.mapFrame{height:330px}}.lifecyclePanel{background:#fff;border:1px solid var(--line);border-radius:15px;padding:14px 16px;margin-bottom:14px}.lifecycleTitle{font-size:13px;font-weight:900;margin-bottom:8px}.lifecycleStages{display:flex;gap:6px;flex-wrap:wrap}.lifecycleStep{border:1px solid #dce3eb;background:#f1f3f6;color:#596879;border-radius:999px;padding:6px 10px;font-size:11px;font-weight:800}.lifecycleStep.current{background:#e3f5e9;color:#17693f;border-color:#addabf}.lifecycleStep.pending{background:#fff4dd;color:#886013;border-color:#eedaa6}.lifecycleNote{color:var(--muted);font-size:12px;line-height:1.5;margin-top:9px}</style><style id="smith-responsive-2026">
+/* Reversible mobile layout layer. Desktop rules intentionally unchanged. */
+@media(max-width:700px){
+html{scroll-padding-top:68px;-webkit-text-size-adjust:100%}
+body{max-width:100%;overflow-x:hidden}
+main,.wrap,.container{max-width:100%;min-width:0}
+header,.hero{overflow-wrap:break-word}
+h1{font-size:clamp(23px,6vw,31px);line-height:1.18}
+h2{line-height:1.3}
+p,li,small{overflow-wrap:break-word}
+.sitebarInner{flex-wrap:wrap;gap:7px}
+.tripnav .wrap,.tripSectionNav .inner{overflow-x:auto;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch}
+.tripnav a,.tripSectionNav a{flex-shrink:0}
+.grid,.archiveGrid,.facts,.next,.columns,.twoCols,.glanceGrid,.bookingGrid,.flightGrid,.dayGrid,.cards,.cardGrid,.lifecycleGrid,.weatherGrid,.placesGrid,.foodGrid,.activitiesGrid{grid-template-columns:minmax(0,1fr)}
+.grid>*,.archiveGrid>*,.facts>*,.next>*,.cards>*,.glanceGrid>*,.bookingGrid>*,.flightGrid>*,.dayGrid>*,.weatherGrid>*{min-width:0}
+.panel,.card,.trip,.archive,.glanceCard,.dayCard,.flightCard,.stop,.item{overflow-wrap:break-word}
+table{max-width:100%}
+.tableWrap,.table-wrapper,.tableScroll{max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+img,video,iframe{max-width:100%}
+input,select,textarea{max-width:100%;min-width:0}
+button,.btn{max-width:100%;white-space:normal}
+.actions,.linkRow{flex-wrap:wrap;gap:8px}
+.actions a,.linkRow a{max-width:100%;overflow-wrap:anywhere}
+label{line-height:1.45}
+details{max-width:100%}
+details label{overflow-wrap:break-word}
+details input[type="checkbox"]{accent-color:#237a52}
+}
+@media(max-width:380px){
+h1{font-size:23px}
+.actions a,.linkRow a{font-size:12px}
+}
+</style>
+</head><body>
 <div class="sitebar"><div class="sitebarInner"><a href="../../">← Vacation Planning</a><span>Past Trip · Completed</span></div></div>
 <header class="hero"><div class="wrap"><span class="badge archive">Past Trip · Completed</span><h1>Zurich & Florence · 2025</h1><p>Completed Europe trip archive with the confirmed Florence/Chianti experience preserved.</p></div></header>
 <div class="tripnav"><div class="wrap"><a href="#overview">Overview</a><a href="#confirmed">Confirmed Detail</a><a href="#archive">Archive Notes</a><a href="#mapweather">Maps & Weather</a><a href="#links">Trip Links</a></div></div>
