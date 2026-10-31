@@ -127,7 +127,36 @@ main{padding:18px 14px 42px}.card,.toolbar,.summary,.panel{background:#fff;borde
 #travelEssentials details{padding:13px}
 #travelEssentials summary{font-size:14px;line-height:1.45}
 @media(max-width:680px){#travelEssentials .essList{grid-template-columns:1fr}}
-</style></style></head>
+</style></style><style id="mobile-layout-2026">
+/* Phone-only overrides. Remove this style block to restore the preceding version. */
+@media(max-width:700px){
+html{scroll-padding-top:65px}body{overflow-x:hidden}
+header{padding:18px 14px}header h1{font-size:clamp(23px,6.5vw,29px);line-height:1.15}header .sub{font-size:12px;line-height:1.5}
+main.wrap{padding:12px 10px 36px;max-width:100%}
+.sitebarInner{padding:10px 12px;flex-wrap:wrap}
+.tripSectionNav .inner{padding:8px 10px;gap:6px;overscroll-behavior-x:contain}
+.tripSectionNav a{padding:9px 11px;font-size:12px;flex-shrink:0;min-height:36px}
+.tabs{gap:7px;margin-top:12px}.tab{padding:9px 12px;font-size:12px;min-height:40px}
+.panel,.flightPanel,.toolbar,.setup{padding:12px;border-radius:12px}.panel h2{font-size:17px;line-height:1.3}
+.panel,.flightCard,.bookingCard,.glanceCard,.foodCard,.place,.activityHighlight{min-width:0;overflow-wrap:break-word}
+.glanceGrid,.bookingGrid,.flightGrid,.foodGrid,.nearbyGrid,.travelGrid,.activityHighlights,.sharedSaveGrid,.compareGrid,.twoCols,.grid,.places,.decisionGrid,.toolbar{grid-template-columns:minmax(0,1fr)}
+.summary{grid-template-columns:repeat(2,minmax(0,1fr))}.metric{border-bottom:1px solid #e7ebf0}
+.flightLeg{grid-template-columns:82px minmax(0,1fr);gap:8px}.flightCard{padding:11px}.flightRoute,.flightMeta{overflow-wrap:anywhere}
+.actions{gap:7px}.btn,.actions a{max-width:100%;white-space:normal;line-height:1.35;min-height:36px}
+.activityToolbar>div{min-width:0;width:100%}.decisionControls{width:100%;flex-wrap:wrap}.decisionControls>*{max-width:100%}
+.tableWrap{width:100%;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}.tableWrap table{width:max-content;min-width:100%}
+#map{height:min(54vh,480px);min-height:300px}.focusHero{height:230px}
+.row{align-items:flex-start;flex-wrap:wrap}.row b{max-width:100%;overflow-wrap:anywhere}
+.weatherDays,.trainOptions{grid-template-columns:repeat(2,minmax(0,1fr))}
+#travelEssentials .essList{display:grid;grid-template-columns:minmax(0,1fr);gap:10px}
+#travelEssentials .essList label{display:flex;align-items:flex-start;gap:12px;padding:12px;font-size:14px;line-height:1.45;min-height:48px;white-space:normal}
+#travelEssentials .essList input[type="checkbox"]{flex:0 0 20px;width:20px!important;height:20px!important;min-width:20px;max-width:20px;margin:1px 0 0}
+#travelEssentials .essList label span{flex:1;min-width:0;white-space:normal;overflow-wrap:break-word}
+.sharedSaveItem{flex-wrap:wrap}.sharedSaveItem a{max-width:100%}
+}
+@media(max-width:380px){.summary{grid-template-columns:minmax(0,1fr)}.flightLeg{grid-template-columns:76px minmax(0,1fr)}}
+</style>
+</head>
 <body>
 <div class="sitebar"><div class="sitebarInner"><a href="../../">← Vacation Planning</a><div class="crumb">Trip planner · Paris & London 2027</div></div></div>
 <div class="tripSectionNav"><div class="inner">
